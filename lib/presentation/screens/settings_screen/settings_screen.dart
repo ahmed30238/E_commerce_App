@@ -1,0 +1,248 @@
+import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
+import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
+import 'package:e_commerce_app/presentation/controller/logout_cubit/cubit.dart';
+import 'package:e_commerce_app/presentation/screens/content_screen/content_screen.dart';
+import 'package:e_commerce_app/presentation/screens/login_screen/login_screen.dart';
+import 'package:e_commerce_app/sizes.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../change_password_screen/change_password_screen.dart';
+
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            25.ph,
+            Row(
+              children: [
+                const Icon(
+                  Icons.person,
+                  color: Colors.blue,
+                ),
+                5.pw,
+                Text(
+                  AppStrings.account,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                )
+              ],
+            ),
+            6.ph,
+            const Divider(color: Colors.grey, height: 2),
+            20.ph,
+            SizedBox(
+              height: 200,
+              child: ListView.separated(
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) =>
+                    accountSettingsItem(settingsList[index], context),
+                separatorBuilder: (context, index) => 15.ph,
+                itemCount: settingsList.length,
+              ),
+            ),
+            Row(
+              children: [
+                const Icon(
+                  Icons.person,
+                  color: Colors.blue,
+                ),
+                5.pw,
+                Text(
+                  AppStrings.notification,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                )
+              ],
+            ),
+            6.ph,
+            const Divider(color: Colors.grey, height: 5),
+            20.ph,
+            SizedBox(
+              height: 180,
+              child: ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) =>
+                    notificationSettingsItem(notificationsList[index]),
+                separatorBuilder: (context, index) => 15.ph,
+                itemCount: notificationsList.length,
+              ),
+            ),
+            10.ph,
+            InkWell(
+              onTap: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                // ignore: use_build_context_synchronously
+                LogoutCubit.get(context)
+                    .postLogout(prefs.getString('token') ?? '')
+                    .then((value) {
+                  prefs.remove('token').then((value) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(),
+                      ),
+                    );
+                  });
+                  showToast(
+                    msg: LogoutCubit.get(context).logoutEntity!.message,
+                    states: ToastStates.successState,
+                  );
+                });
+              },
+              child: Container(
+                width: 140,
+                height: 40,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: Text(
+                    AppStrings.signOut,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 20),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AccountSettingsListModel {
+  final String text;
+  final IconData icon;
+  final int pageId;
+
+  const AccountSettingsListModel(
+    this.text,
+    this.icon,
+    this.pageId,
+  );
+}
+
+List<AccountSettingsListModel> settingsList = [
+  AccountSettingsListModel(
+    AppStrings.changePassword,
+    Icons.arrow_forward_ios,
+    0,
+  ),
+  AccountSettingsListModel(
+    AppStrings.content,
+    Icons.arrow_forward_ios,
+    1,
+  ),
+  AccountSettingsListModel(
+    AppStrings.social,
+    Icons.arrow_forward_ios,
+    2,
+  ),
+  AccountSettingsListModel(
+    AppStrings.language,
+    Icons.arrow_forward_ios,
+    3,
+  ),
+  AccountSettingsListModel(
+    AppStrings.privacyAndSecurity,
+    Icons.arrow_forward_ios,
+    4,
+  ),
+];
+
+List<Widget> settingsScreen = [
+  ChangePasswordScreen(),
+  const ContentScreen(),
+];
+Widget accountSettingsItem(AccountSettingsListModel model, context) {
+  int index = model.pageId;
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    child: InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => settingsScreen[index],
+          ),
+        );
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            model.text,
+            style: TextStyle(
+                color: Colors.grey[500],
+                fontSize: 18,
+                fontWeight: FontWeight.bold),
+          ),
+          Icon(
+            model.icon,
+            color: Colors.grey[500],
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+class NotificationsSettingsListModel {
+  final String text;
+  final Widget widget;
+
+  const NotificationsSettingsListModel(
+    this.text,
+    this.widget,
+  );
+}
+
+List<NotificationsSettingsListModel> notificationsList = [
+  NotificationsSettingsListModel(
+    AppStrings.themeDark,
+    Switch(value: false, onChanged: (value) {}),
+  ),
+  NotificationsSettingsListModel(
+    AppStrings.accountActivate,
+    Switch(value: true, onChanged: (value) {}),
+  ),
+  NotificationsSettingsListModel(
+    AppStrings.opportunity,
+    Switch(value: true, onChanged: (value) {}),
+  ),
+];
+Widget notificationSettingsItem(NotificationsSettingsListModel model) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    child: InkWell(
+      onTap: () {},
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            model.text,
+            style: TextStyle(
+              color: Colors.grey[500],
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          model.widget,
+        ],
+      ),
+    ),
+  );
+}
