@@ -11,39 +11,53 @@ class ChangePasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          defaultTextFormField(
-            controller: nameController,
-            label: 'name',
-            onTap: () {},
-            suffixIcon: Icons.person,
-            validator: (String? value) {},
-          ),
-          defaultTextFormField(
-            controller: phoneController,
-            label: 'phone',
-            onTap: () {},
-            suffixIcon: Icons.phone,
-            validator: (String? value) {},
-          ),
-          defaultTextFormField(
-            controller: emailControler,
-            label: 'email',
-            onTap: () {},
-            suffixIcon: Icons.email,
-            validator: (String? value) {},
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              defaultButton(onTap: (){}, text: 'text', context: context,),
-              10.pw,
-              defaultButton(onTap: (){}, text: 'update', context: context,),
-            ],
-          )
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            defaultTextFormField(
+              controller: nameController,
+              label: 'name',
+              onTap: () {},
+              suffixIcon: Icons.person,
+              validator: (String? value) {},
+            ),
+            20.ph,
+            defaultTextFormField(
+              controller: phoneController,
+              label: 'phone',
+              onTap: () {},
+              suffixIcon: Icons.phone,
+              validator: (String? value) {},
+            ),
+            20.ph,
+            defaultTextFormField(
+              controller: emailControler,
+              label: 'email',
+              onTap: () {},
+              suffixIcon: Icons.email,
+              validator: (String? value) {},
+            ),
+            20.ph,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                defaultButton(
+                  onTap: () {},
+                  text: 'text',
+                  context: context,
+                ),
+                10.pw,
+                defaultButton(
+                  onTap: () {},
+                  text: 'update',
+                  context: context,
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

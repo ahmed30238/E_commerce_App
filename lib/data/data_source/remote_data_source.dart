@@ -59,7 +59,7 @@ class RemoteDataSource extends BaseRemoteDataSource {
           receiveDataWhenStatusError: true,
           headers: {
             'Authorization': prefs.getString('token'),
-            'lang':'en',
+            'lang': 'en',
           },
         ));
     if (response.statusCode == 200) {
@@ -70,8 +70,6 @@ class RemoteDataSource extends BaseRemoteDataSource {
       );
     }
   }
-
-
 
   @override
   Future<LoginModel> postLoginData(String email, String password) async {
@@ -90,8 +88,7 @@ class RemoteDataSource extends BaseRemoteDataSource {
   Future<CategoryModel> getCategories() async {
     final response = await Dio().get(
       AppConstances.categoriesPath,
-      options: Options(receiveTimeout: 2000,headers: {'lang':'en'}),
-      
+      options: Options(receiveTimeout: 2000, headers: {'lang': 'en'}),
     );
     if (response.statusCode == 200) {
       return CategoryModel.fromjson(response.data);
@@ -130,10 +127,7 @@ class RemoteDataSource extends BaseRemoteDataSource {
     final response = await Dio().get(
       AppConstances.addFavouritesPath,
       options: Options(
-        headers: {
-          'Authorization': token,
-          'lang':'en'
-        },
+        headers: {'Authorization': token, 'lang': 'en'},
       ),
     );
 
@@ -196,13 +190,15 @@ class RemoteDataSource extends BaseRemoteDataSource {
   @override
   Future<RegisterModel> postRegisterData(
       String name, String phone, String email, String password) async {
-    final response = await Dio().post(AppConstances.postRegisterDataPath,
-        data: {
-          'name': name,
-          'phone': phone,
-          'email': email,
-          'password': password
-        });
+    final response = await Dio().post(
+      AppConstances.postRegisterDataPath,
+      data: {
+        'name': name,
+        'phone': phone,
+        'email': email,
+        'password': password
+      },
+    );
     if (response.statusCode == 200) {
       return RegisterModel.fromjson(response.data);
     } else {
