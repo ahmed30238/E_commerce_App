@@ -3,6 +3,7 @@ import 'package:e_commerce_app/presentation/components/text_field.dart';
 import 'package:e_commerce_app/sizes.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class ChangePasswordScreen extends StatelessWidget {
   ChangePasswordScreen({super.key});
   TextEditingController nameController = TextEditingController();
@@ -21,7 +22,9 @@ class ChangePasswordScreen extends StatelessWidget {
               label: 'name',
               onTap: () {},
               suffixIcon: Icons.person,
-              validator: (String? value) {},
+              validator: (String? value) {
+                return null;
+              },
             ),
             20.ph,
             defaultTextFormField(
@@ -29,7 +32,9 @@ class ChangePasswordScreen extends StatelessWidget {
               label: 'phone',
               onTap: () {},
               suffixIcon: Icons.phone,
-              validator: (String? value) {},
+              validator: (String? value) {
+                return null;
+              },
             ),
             20.ph,
             defaultTextFormField(
@@ -37,7 +42,9 @@ class ChangePasswordScreen extends StatelessWidget {
               label: 'email',
               onTap: () {},
               suffixIcon: Icons.email,
-              validator: (String? value) {},
+              validator: (String? value) {
+                return null;
+              },
             ),
             20.ph,
             Row(

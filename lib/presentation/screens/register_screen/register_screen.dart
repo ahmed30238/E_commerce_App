@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
@@ -99,6 +100,7 @@ class RegisterScreen extends StatelessWidget {
                           if (value!.isEmpty) {
                             return AppStrings.phoneValidationMessage;
                           }
+                          return null;
                         },
                       ),
                       10.ph,
@@ -112,6 +114,7 @@ class RegisterScreen extends StatelessWidget {
                           if (value!.isEmpty) {
                             return AppStrings.emailValidationMessage;
                           }
+                          return null;
                         },
                       ),
                       10.ph,

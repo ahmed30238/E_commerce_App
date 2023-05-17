@@ -1,8 +1,7 @@
-import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
+import 'package:e_commerce_app/core/extensions/locale_context.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart';
-
 import 'package:e_commerce_app/presentation/screens/search_screen/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +42,7 @@ class _LayOutScreenState extends State<LayOutScreen> {
         return Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            title: Text(AppStrings.appName),
+            title: Text(context.loc!.hi),
             actions: [
               IconButton(
                 onPressed: () {

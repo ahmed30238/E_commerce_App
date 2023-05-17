@@ -11,6 +11,7 @@ import 'package:e_commerce_app/presentation/screens/splash_screen/splash_screen.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   // abdo salama
@@ -47,6 +48,9 @@ class MyApp extends StatelessWidget {
           var cubit = AppCubit.get(context);
           var darkMode = cubit.isDarkTheme;
           return MaterialApp(
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates ,
+            locale: const Locale('ar'),
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: lightTheme,
