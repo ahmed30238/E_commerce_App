@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart';
 import 'package:e_commerce_app/presentation/screens/categories/categories_screen.dart';
 import 'package:e_commerce_app/presentation/screens/favourites_screen.dart/favourites_screen.dart';
@@ -42,7 +44,6 @@ class AppCubit extends Cubit<AppStates> {
     BottomNavigationBarItem(
       label: 'Settings',
       icon: Icon(
-        // color: Colors.black,
         Icons.settings,
       ),
     ),
@@ -67,9 +68,23 @@ class AppCubit extends Cubit<AppStates> {
       });
     }
   }
-  // void changeThemeMode()async{
-  //   isDarkTheme = !isDarkTheme;
-  //   emit(ChangeThemeModeState());
-  //   print('in cubit $isDarkTheme');
-  // }
+
+  final String langKey = 'lang';
+  void storeLanguage({required String langCode}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(langKey, langCode);
+    getLanguage();
+    emit(AppChangeLanguage(locale: langCode));
+  }
+
+  String? localeCode = 'en';
+  void getLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    localeCode = prefs.getString(langKey) ?? 'en';
+    log('lang is $localeCode');
+    emit(AppChangeLanguage(locale: localeCode??'en'));
+  }
+
+  bool isEnglishLang({required BuildContext context}) =>
+      Localizations.localeOf(context).languageCode == 'en';
 }

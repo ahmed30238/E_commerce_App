@@ -19,11 +19,11 @@ void main() async {
   ServiceLocator().init();
   Bloc.observer = MyBlocObserver();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool? isDarkTheme = prefs.getBool('isDarkTheme');
+  bool? isDarkTheme = prefs.getBool('isDarkTheme') ?? false;
 
   runApp(
     MyApp(
-      isDarkTheme: isDarkTheme!,
+      isDarkTheme: isDarkTheme,
     ),
   );
 }
@@ -38,19 +38,23 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => HomeCubit()),
-        BlocProvider(create: (context) => AppCubit()..changeThemeMode(fromShared: isDarkTheme)),
+        BlocProvider(
+          create: (context) => AppCubit()
+            ..changeThemeMode(fromShared: isDarkTheme)
+            ..getLanguage(),
+        ),
         BlocProvider(create: (context) => SearchCubit()),
         BlocProvider(create: (context) => LogoutCubit()),
       ],
-      child: BlocConsumer<AppCubit, AppStates>(
-        listener: (context, state) {},
+      child: BlocBuilder<AppCubit, AppStates>(
+        // listener: (context, state) {},
         builder: (context, state) {
           var cubit = AppCubit.get(context);
           var darkMode = cubit.isDarkTheme;
           return MaterialApp(
             supportedLocales: AppLocalizations.supportedLocales,
-            localizationsDelegates: AppLocalizations.localizationsDelegates ,
-            locale: const Locale('ar'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            locale: Locale(cubit.localeCode?? 'en'),
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: lightTheme,

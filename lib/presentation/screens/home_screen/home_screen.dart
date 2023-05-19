@@ -165,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 1,
                     mainAxisSpacing: 1,
-                    childAspectRatio: .6,
+                    childAspectRatio: .59,
                     children: cubit.homeModel != null
                         ? List.generate(
                             cubit.homeModel!.data.products.length,
