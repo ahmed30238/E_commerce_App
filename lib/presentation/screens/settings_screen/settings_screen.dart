@@ -1,11 +1,12 @@
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
+import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart';
 import 'package:e_commerce_app/presentation/controller/logout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/screens/content_screen/content_screen.dart';
 import 'package:e_commerce_app/presentation/screens/login_screen/login_screen.dart';
-import 'package:e_commerce_app/sizes.dart';
+import 'package:e_commerce_app/core/extensions/sizes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,7 +85,9 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             10.ph,
-            InkWell(
+            CustomElevatedButton(
+              text: AppStrings.signOut,
+              textColor: Colors.black,
               onTap: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 // ignore: use_build_context_synchronously
@@ -105,24 +108,29 @@ class SettingsScreen extends StatelessWidget {
                   );
                 });
               },
-              child: Container(
-                width: 140,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey, width: 1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Center(
-                  child: Text(
-                    AppStrings.signOut,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(fontSize: 20),
-                  ),
-                ),
-              ),
-            ),
+            )
+            // InkWell(
+            //   onTap: () async {
+
+            //   },
+            //   child: Container(
+            //     width: 140,
+            //     height: 40,
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: Colors.grey, width: 1),
+            //       borderRadius: BorderRadius.circular(20),
+            //     ),
+            //     child: Center(
+            //       child: Text(
+            //         AppStrings.signOut,
+            //         style: Theme.of(context)
+            //             .textTheme
+            //             .bodyLarge!
+            //             .copyWith(fontSize: 20),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -6,9 +6,10 @@ import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/states.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
-import 'package:e_commerce_app/sizes.dart';
+import 'package:e_commerce_app/core/extensions/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -122,15 +123,15 @@ Widget productsCart(
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
-            child: defaultButton(
-              width: 100,
-              height: 35,
+            child: CustomElevatedButton(
+              width: 100.w,
+              height: 20.h,
               onTap: () {},
               text: AppStrings.addToCart,
+              textColor: Colors.black,
               borderColor: AppCubit.get(context).isDarkTheme
                   ? Colors.white
                   : Colors.black,
-              context: context,
             ),
           ),
         ],

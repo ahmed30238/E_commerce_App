@@ -1,6 +1,8 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/components/text_field.dart';
-import 'package:e_commerce_app/sizes.dart';
+import 'package:e_commerce_app/core/extensions/sizes.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -12,12 +14,14 @@ class ChangePasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            defaultTextFormField(
+            CustomFormField(
               controller: nameController,
               label: 'name',
               onTap: () {},
@@ -27,7 +31,7 @@ class ChangePasswordScreen extends StatelessWidget {
               },
             ),
             20.ph,
-            defaultTextFormField(
+            CustomFormField(
               controller: phoneController,
               label: 'phone',
               onTap: () {},
@@ -37,7 +41,7 @@ class ChangePasswordScreen extends StatelessWidget {
               },
             ),
             20.ph,
-            defaultTextFormField(
+            CustomFormField(
               controller: emailControler,
               label: 'email',
               onTap: () {},
@@ -48,19 +52,22 @@ class ChangePasswordScreen extends StatelessWidget {
             ),
             20.ph,
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                defaultButton(
+                CustomElevatedButton(
                   onTap: () {},
                   text: 'text',
-                  context: context,
                 ),
                 10.pw,
-                defaultButton(
-                  onTap: () {},
-                  text: 'update',
-                  context: context,
+                CustomElevatedButton(
+                  text: 'btn',
+                  onTap: () => log('pressed'),
                 ),
+                // defaultButton(
+                //   onTap: () {},
+                //   text: 'update',
+                //   context: context,
+                // ),
               ],
             )
           ],

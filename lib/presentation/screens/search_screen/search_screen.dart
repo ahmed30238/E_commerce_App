@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/favourite_item_cart.dart';
 import 'package:e_commerce_app/presentation/controller/search_controller/cubit.dart';
-import 'package:e_commerce_app/sizes.dart';
+import 'package:e_commerce_app/core/extensions/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,8 +19,9 @@ class SearchScreen extends StatelessWidget {
 
         var cubit = SearchCubit.get(context);
         return Scaffold(
+          appBar: AppBar(),
           body: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 4),
             child: Column(
               children: [
                 SafeArea(
@@ -40,15 +41,19 @@ class SearchScreen extends StatelessWidget {
                       searchController.clear();
                     },
                     decoration: InputDecoration(
-                        // contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                      // contentPadding: EdgeInsets.symmetric(horizontal: 10),
 
-                        // hintText: ,
-                        label: Text(AppStrings.search),
-                        suffix: const Icon(
-                          Icons.search,
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10))),
+                      // hintText: ,
+                      label: const Text(
+                        AppStrings.search,
+                      ),
+                      suffix: const Icon(
+                        Icons.search,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
                   ),
                 ),
                 10.ph,

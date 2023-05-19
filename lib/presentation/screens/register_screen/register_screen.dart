@@ -6,7 +6,7 @@ import 'package:e_commerce_app/presentation/controller/register_cubit/cubit.dart
 import 'package:e_commerce_app/presentation/controller/register_cubit/states.dart';
 import 'package:e_commerce_app/presentation/screens/layout/layout_screen.dart';
 import 'package:e_commerce_app/presentation/screens/login_screen/login_screen.dart';
-import 'package:e_commerce_app/sizes.dart';
+import 'package:e_commerce_app/core/extensions/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -90,9 +90,9 @@ class RegisterScreen extends StatelessWidget {
                         },
                       ),
                       10.ph,
-                      defaultTextFormField(
+                      CustomFormField(
                         onTap: () {},
-                        isPassword: false,
+                        // obscureText: false,
                         controller: phoneController,
                         label: AppStrings.phone,
                         suffixIcon: Icons.phone,
@@ -104,9 +104,9 @@ class RegisterScreen extends StatelessWidget {
                         },
                       ),
                       10.ph,
-                      defaultTextFormField(
+                      CustomFormField(
                         onTap: () {},
-                        isPassword: false,
+                        obscureText: false,
                         controller: emailController,
                         label: AppStrings.email,
                         suffixIcon: Icons.email,
@@ -118,11 +118,11 @@ class RegisterScreen extends StatelessWidget {
                         },
                       ),
                       10.ph,
-                      defaultTextFormField(
+                      CustomFormField(
                         onTap: () {
                           RegisterCubit.get(context).changeVisibility();
                         },
-                        isPassword:
+                        obscureText:
                             RegisterCubit.get(context).passwordVisibility,
                         controller: passwordController,
                         label: AppStrings.password,
@@ -135,8 +135,7 @@ class RegisterScreen extends StatelessWidget {
                         },
                       ),
                       20.ph,
-                      defaultButton(
-                        context: context,
+                      CustomElevatedButton(
                         onTap: () {
                           if (_formKey.currentState!.validate()) {
                             FocusManager.instance.primaryFocus?.unfocus;
@@ -197,7 +196,7 @@ class RegisterScreen extends StatelessWidget {
                         text: AppStrings.signUp,
                         textColor: Colors.white,
                         borderColor: Colors.deepOrange,
-                        containerColor: Colors.deepOrange,
+                        btnColor: Colors.deepOrange,
                       ),
                       10.ph,
                       Row(

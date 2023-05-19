@@ -1,5 +1,7 @@
 import 'package:e_commerce_app/core/global/dark_theme/dark_theme.dart';
 import 'package:e_commerce_app/core/global/light_theme/light_theme.dart';
+import 'package:e_commerce_app/core/routing/app_router.dart';
+import 'package:e_commerce_app/core/routing/routing_paths.dart';
 import 'package:e_commerce_app/core/service_locator/service_locator.dart';
 import 'package:e_commerce_app/observer.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
@@ -10,6 +12,7 @@ import 'package:e_commerce_app/presentation/controller/search_controller/cubit.d
 import 'package:e_commerce_app/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -54,12 +57,20 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
-            locale: Locale(cubit.localeCode?? 'en'),
+            locale: Locale(cubit.localeCode ?? 'en'),
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: lightTheme,
+            builder: (context, child) => ScreenUtilInit(
+              builder: (_, __) => child!,
+              useInheritedMediaQuery: true,
+              /// The [Size] of the device in the design draft,
+              designSize: const Size(430, 932),
+            ),
             darkTheme: darkTheme,
             themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
+            onGenerateRoute: AppRouter.onGenerateRoutes,
+            initialRoute: RoutePaths.splashPath,
             home: const SplashView(),
           );
         },

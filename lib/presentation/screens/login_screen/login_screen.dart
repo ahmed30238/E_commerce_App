@@ -1,11 +1,11 @@
+import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
+import 'package:e_commerce_app/core/routing/routing_paths.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
 import 'package:e_commerce_app/presentation/controller/login_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/login_cubit/states.dart';
-import 'package:e_commerce_app/presentation/screens/layout/layout_screen.dart';
-import 'package:e_commerce_app/presentation/screens/register_screen/register_screen.dart';
-import 'package:e_commerce_app/sizes.dart';
+import 'package:e_commerce_app/core/extensions/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,10 +57,10 @@ class LoginScreen extends StatelessWidget {
                         await SharedPreferences.getInstance();
                     prefs
                         .setString('token', cubit.loginModel!.loginData!.token)
-                        .then((value) => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LayOutScreen())));
+                        .then(
+                          (value) => navigateAndRemove(
+                              context: context, path: RoutePaths.layoutScreen),
+                        );
 
                     showToast(
                         msg: cubit.loginModel!.message,
@@ -186,16 +186,16 @@ class LoginScreen extends StatelessWidget {
                         },
                       ),
                       20.ph,
-                      defaultButton(
-                          onTap: tryToLogin,
-                          text: AppStrings.login,
-                          context: context,
-                          fontFamily: AppStrings.myFont1,
-                          containerColor: Colors.deepOrange,
-                          borderColor: Colors.transparent,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                  
+                      CustomElevatedButton(
+                        
+                        onTap: tryToLogin,
+                        text: AppStrings.login,
+                        fontFamily: AppStrings.myFont1,
+                        btnColor: Colors.deepOrange,
+                        borderColor: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                       10.ph,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -208,13 +208,9 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                           InkWell(
-                            onTap: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => RegisterScreen(),
-                                ),
-                              );
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, RoutePaths.registerScreen);
                             },
                             child: const Text(
                               AppStrings.registerNow,

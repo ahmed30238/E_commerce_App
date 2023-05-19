@@ -53,6 +53,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  flutter_screenutil: ^5.8.1
 
 
 dev_dependencies:
