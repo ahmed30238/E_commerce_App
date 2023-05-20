@@ -47,10 +47,12 @@ class CustomFormField extends StatelessWidget {
           borderSide: BorderSide.none,
         ),
         hintText: label,
-        suffixIcon: IconButton(
-          icon: Icon(suffixIcon),
-          onPressed: onTap!,
-        ),
+        suffixIcon: suffixIcon != null
+            ? IconButton(
+                icon: Icon(suffixIcon),
+                onPressed: onTap ?? () {},
+              )
+            : null,
       ),
       validator: validator,
     );

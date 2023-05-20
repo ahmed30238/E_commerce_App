@@ -128,7 +128,7 @@ Widget productsCart(
               height: 20.h,
               onTap: () {},
               text: AppStrings.addToCart,
-              textColor: Colors.black,
+              textColor: Theme.of(context).colorScheme.onBackground,
               borderColor: AppCubit.get(context).isDarkTheme
                   ? Colors.white
                   : Colors.black,

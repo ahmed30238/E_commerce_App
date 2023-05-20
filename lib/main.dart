@@ -9,7 +9,6 @@ import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart';
 import 'package:e_commerce_app/presentation/controller/logout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/search_controller/cubit.dart';
-import 'package:e_commerce_app/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +16,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
-  // abdo salama
   WidgetsFlutterBinding.ensureInitialized();
   ServiceLocator().init();
   Bloc.observer = MyBlocObserver();
@@ -71,7 +69,7 @@ class MyApp extends StatelessWidget {
             themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
             onGenerateRoute: AppRouter.onGenerateRoutes,
             initialRoute: RoutePaths.splashPath,
-            home: const SplashView(),
+            // home: const SplashView(),
           );
         },
       ),

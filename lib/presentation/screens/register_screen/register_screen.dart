@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
+import 'package:e_commerce_app/core/routing/routing_paths.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
@@ -5,8 +7,8 @@ import 'package:e_commerce_app/presentation/components/text_field.dart';
 import 'package:e_commerce_app/presentation/controller/register_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/register_cubit/states.dart';
 import 'package:e_commerce_app/presentation/screens/layout/layout_screen.dart';
-import 'package:e_commerce_app/presentation/screens/login_screen/login_screen.dart';
 import 'package:e_commerce_app/core/extensions/sizes.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,22 +68,10 @@ class RegisterScreen extends StatelessWidget {
                         ),
                       ),
                       20.ph,
-                      TextFormField(
+                      CustomFormField(
                         controller: nameController,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          label: const Text(
-                            AppStrings.name,
-                            style: TextStyle(
-                              color: Colors.deepOrange,
-                              fontSize: 20,
-                            ),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: const Icon(Icons.person),
-                            onPressed: () {},
-                          ),
-                        ),
+                        label: AppStrings.name,
+                        suffixIcon: Icons.person,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppStrings.nameValidationMessage;
@@ -89,10 +79,10 @@ class RegisterScreen extends StatelessWidget {
                           return null;
                         },
                       ),
+                 
                       10.ph,
                       CustomFormField(
                         onTap: () {},
-                        // obscureText: false,
                         controller: phoneController,
                         label: AppStrings.phone,
                         suffixIcon: Icons.phone,
@@ -106,7 +96,6 @@ class RegisterScreen extends StatelessWidget {
                       10.ph,
                       CustomFormField(
                         onTap: () {},
-                        obscureText: false,
                         controller: emailController,
                         label: AppStrings.email,
                         suffixIcon: Icons.email,
@@ -194,31 +183,34 @@ class RegisterScreen extends StatelessWidget {
                           }
                         },
                         text: AppStrings.signUp,
-                        textColor: Colors.white,
-                        borderColor: Colors.deepOrange,
-                        btnColor: Colors.deepOrange,
+                        textColor: Theme.of(context).colorScheme.primary,
+                        borderColor: Colors.white,
+                        btnColor: Theme.of(context).colorScheme.background,
+                        fontFamily: AppStrings.myFont1,
                       ),
                       10.ph,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            AppStrings.alreadyHaveAnAccount,
-                            style: TextStyle(color: Colors.white),
+                      RichText(
+                        text: TextSpan(
+                          text: "${AppStrings.alreadyHaveAnAccount}  ",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
                           ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginScreen()));
-                            },
-                            child: const Text(
-                              AppStrings.signIn,
-                              style: TextStyle(color: Colors.blue),
+                          children: [
+                            TextSpan(
+                              text: AppStrings.signIn,
+                              style: const TextStyle(
+                                color: Colors.blue,
+                                fontSize: 14,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => navigateTo(
+                                      context: context,
+                                      path: RoutePaths.loginScreen,
+                                    ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),

@@ -3,9 +3,11 @@ import 'package:e_commerce_app/core/routing/routing_paths.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
+import 'package:e_commerce_app/presentation/components/text_field.dart';
 import 'package:e_commerce_app/presentation/controller/login_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/login_cubit/states.dart';
 import 'package:e_commerce_app/core/extensions/sizes.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -120,108 +122,72 @@ class LoginScreen extends StatelessWidget {
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Color.fromRGBO(
-                                25,
-                                25,
-                                25,
-                                1,
-                              ),
-                              Color.fromRGBO(
-                                25,
-                                25,
-                                25,
-                                1,
-                              ),
+                              Color.fromRGBO(25, 25, 25, 1),
+                              Color.fromRGBO(25, 25, 25, 1),
                             ],
                           ),
                         ),
                       ),
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text(
-                            AppStrings.email,
-                            style: TextStyle(
-                              color: Colors.deepOrange,
-                              fontSize: 20,
-                            ),
-                          ),
-                          suffixIcon: Icon(
-                            Icons.email,
-                          ),
-                        ),
+                      CustomFormField(
+                        label: AppStrings.email,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppStrings.emailValidationMessage;
                           }
                           return null;
                         },
+                        controller: _emailController,
+                        suffixIcon: Icons.email,
                       ),
                       30.ph,
-                      TextFormField(
+                      CustomFormField(
                         obscureText: cubit.passwordVisibility,
+                        label: AppStrings.password,
                         controller: _passwordController,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          label: const Text(
-                            AppStrings.password,
-                            style: TextStyle(
-                              color: Colors.deepOrange,
-                              fontSize: 20,
-                            ),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: const Icon(Icons.remove_red_eye_rounded),
-                            onPressed: () {
-                              cubit.changeVisibility();
-                            },
-                          ),
-                        ),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppStrings.passwordValidationMessage;
                           }
                           return null;
                         },
+                        suffixIcon: Icons.remove_red_eye_rounded,
+                        onTap: cubit.changeVisibility,
                       ),
                       20.ph,
                       CustomElevatedButton(
-                        
                         onTap: tryToLogin,
                         text: AppStrings.login,
+                        textColor: Theme.of(context).colorScheme.primary,
                         fontFamily: AppStrings.myFont1,
-                        btnColor: Colors.deepOrange,
+                        btnColor: Theme.of(context).colorScheme.background,
                         borderColor: Colors.white,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
                       10.ph,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            AppStrings.haveAccountVerification,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
+                      RichText(
+                        text: TextSpan(
+                          text: "${AppStrings.haveAccountVerification}  ",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
                           ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, RoutePaths.registerScreen);
-                            },
-                            child: const Text(
-                              AppStrings.registerNow,
-                              style: TextStyle(
+                          children: [
+                            TextSpan(
+                              text: AppStrings.registerNow,
+                              style: const TextStyle(
                                 color: Colors.blue,
                                 fontSize: 14,
                               ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => navigateTo(
+                                      context: context,
+                                      path: RoutePaths.registerScreen,
+                                    ),
                             ),
-                          )
-                        ],
-                      )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

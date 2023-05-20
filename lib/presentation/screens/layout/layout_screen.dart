@@ -42,7 +42,7 @@ class _LayOutScreenState extends State<LayOutScreen> {
         return Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            title: Text(context.loc!.hi),
+            title: Text(context.loc!.title),
             actions: [
               IconButton(
                 onPressed: () {

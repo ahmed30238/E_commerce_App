@@ -10,6 +10,7 @@ import 'package:e_commerce_app/core/extensions/sizes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../change_password_screen/change_password_screen.dart';
 
@@ -75,7 +76,7 @@ class SettingsScreen extends StatelessWidget {
             const Divider(color: Colors.grey, height: 5),
             20.ph,
             SizedBox(
-              height: 180,
+              height: 200.h,
               child: ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) =>
@@ -86,8 +87,10 @@ class SettingsScreen extends StatelessWidget {
             ),
             10.ph,
             CustomElevatedButton(
+              borderColor: Colors.white,
               text: AppStrings.signOut,
-              textColor: Colors.black,
+              textColor: Theme.of(context).colorScheme.onBackground,
+              btnColor: Theme.of(context).colorScheme.primary,
               onTap: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 // ignore: use_build_context_synchronously
@@ -109,28 +112,6 @@ class SettingsScreen extends StatelessWidget {
                 });
               },
             )
-            // InkWell(
-            //   onTap: () async {
-
-            //   },
-            //   child: Container(
-            //     width: 140,
-            //     height: 40,
-            //     decoration: BoxDecoration(
-            //       border: Border.all(color: Colors.grey, width: 1),
-            //       borderRadius: BorderRadius.circular(20),
-            //     ),
-            //     child: Center(
-            //       child: Text(
-            //         AppStrings.signOut,
-            //         style: Theme.of(context)
-            //             .textTheme
-            //             .bodyLarge!
-            //             .copyWith(fontSize: 20),
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

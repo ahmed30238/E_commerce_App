@@ -29,9 +29,9 @@ class CustomElevatedButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
-        backgroundColor: btnColor ?? Colors.transparent,
+        backgroundColor: btnColor ?? Theme.of(context).colorScheme.primary,
         elevation: 0,
-        // fixedSize: Size(height ?? 40.h, width ?? 140.w),
+        // fixedSize: Size(width ?? 200.w, height ?? 40.w),
         // minimumSize: Size(height ?? 40.h, width ?? 140.w),
         shape: StadiumBorder(
           side: BorderSide(
@@ -46,7 +46,7 @@ class CustomElevatedButton extends StatelessWidget {
               fontFamily: fontFamily,
               fontSize: fontSize,
               fontWeight: fontWeight,
-              color: textColor ?? Colors.black,
+              color: textColor ?? Theme.of(context).colorScheme.primary,
             ),
       ),
     );
