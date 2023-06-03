@@ -20,6 +20,7 @@ void main() async {
   ServiceLocator().init();
   Bloc.observer = MyBlocObserver();
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //TODO edit dark theme
   bool? isDarkTheme = prefs.getBool('isDarkTheme') ?? false;
 
   runApp(
