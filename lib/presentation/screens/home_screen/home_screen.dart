@@ -36,47 +36,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   CarouselSlider(
                     items: cubit.bannersModel
                         .map(
-                          (e) => ShaderMask(
-                            blendMode: BlendMode.dstIn,
-                            shaderCallback: (Rect bounds) {
-                              return LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.transparent,
-                                  const Color.fromARGB(255, 33, 65, 243)
-                                      .withOpacity(.9),
-                                  const Color.fromARGB(255, 0, 0, 0)
-                                      .withOpacity(.9),
-                                  Colors.transparent
-                                ],
-                                stops: const [0, 0.3, 0.5, 1],
-                              ).createShader(
-                                Rect.fromLTRB(
-                                    0, 0, bounds.width, bounds.height),
-                              );
-                            },
-                            child: CachedNetworkImage(
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: Colors.grey.shade800,
-                                highlightColor: Colors.grey.shade700,
-                                child: Container(
-                                  color: Colors.black,
-                                  width: double.infinity,
-                                  height: MediaQuery.of(context).size.height / 4,
-                                ),
+                          (e) => CachedNetworkImage(
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: Colors.grey.shade800,
+                              highlightColor: Colors.grey.shade700,
+                              child: Container(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                width: double.infinity,
+                                height: MediaQuery.of(context).size.height / 4,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15)),
                               ),
-                              imageUrl: e.image,
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
                             ),
+                            imageUrl: e.image,
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
                         )
                         .toList(),
                     options: CarouselOptions(
                       scrollPhysics: const BouncingScrollPhysics(),
                       aspectRatio: 16 / 9,
-                      viewportFraction: 1,
+                      viewportFraction: .9,
+                      enlargeCenterPage: true,
                       autoPlay: true,
                       height: MediaQuery.of(context).size.height / 4,
                     ),
@@ -98,47 +80,57 @@ class _HomeScreenState extends State<HomeScreen> {
                         ? ListView.separated(
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) => Stack(
-                              alignment: AlignmentDirectional.bottomCenter,
-                              children: [
-                                CachedNetworkImage(
-                                  fit: BoxFit.cover,
-                                  width: 100,
-                                  height: 100,
-                                  imageUrl: cubit.categoryModel!.categoryData
-                                      .categoryObject[index].image,
-                                  placeholder: (context, url) =>
-                                      Shimmer.fromColors(
-                                    baseColor: Colors.grey.shade800,
-                                    highlightColor: Colors.grey.shade700,
-                                    child: Container(
-                                      color: Colors.black,
-                                      width: 100,
-                                      height: 100,
+                            itemBuilder: (context, index) => Container(
+
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.black)
+                              ),
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              child: Stack(
+                                alignment: AlignmentDirectional.bottomCenter,
+                                children: [
+                                  CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    width: 100,
+                                    height: 100,
+                                    imageUrl: cubit.categoryModel!.categoryData
+                                        .categoryObject[index].image,
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                      baseColor: Colors.grey.shade800,
+                                      highlightColor: Colors.grey.shade700,
+                                      child: Container(
+                                        color: Colors.black,
+                                        width: 100,
+                                        height: 100,
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(
+                                      Icons.error,
                                     ),
                                   ),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(
-                                    Icons.error,
-                                  ),
-                                ),
-                                Container(
-                                  color: Colors.black.withOpacity(.8),
-                                  height: 30,
-                                  width: 100,
-                                  child: Center(
-                                    child: Text(
-                                      cubit.categoryModel!.categoryData
-                                          .categoryObject[index].name,
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.center,
+                                  Container(
+                                    color: Colors.black.withOpacity(.8),
+                                    height: 30,
+                                    width: 120,
+                                    child: FittedBox(
+                                      child: Text(
+                                        cubit.categoryModel!.categoryData
+                                            .categoryObject[index].name,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge!
+                                            .copyWith(
+                                              color: Colors.white,
+                                              fontSize: 10,
+                                            ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             separatorBuilder: (context, index) => 3.pw,
                             itemCount: cubit.categoryModel!.categoryData

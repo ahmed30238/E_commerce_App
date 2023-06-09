@@ -12,6 +12,7 @@ Widget categoryItem(context, CategoryObject catModel) {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           //! categoryImage
           SizedBox(

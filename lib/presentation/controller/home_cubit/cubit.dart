@@ -15,6 +15,8 @@ import 'package:e_commerce_app/presentation/controller/home_cubit/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../components/flutter_toast.dart';
+
 class HomeCubit extends Cubit<HomeStates> {
   HomeCubit() : super(HomeInitialState());
   static HomeCubit get(context) => BlocProvider.of(context);
@@ -93,8 +95,16 @@ class HomeCubit extends Cubit<HomeStates> {
       value.fold((l) => l.message, (r) => addOrDeleteFavouritesEntity = r);
       if (!addOrDeleteFavouritesEntity!.status) {
         favorites[id] = !favorites[id]!;
+        showToast(
+          msg: addOrDeleteFavouritesEntity?.message ?? "somthing is wrong",
+          states: ToastStates.errorState,
+        );
       } else {
         getFavourites(token);
+        showToast(
+          msg: addOrDeleteFavouritesEntity?.message ?? "somthing is wrong",
+          states: ToastStates.successState,
+        );
       }
       emit(ChangeFavouriteSuccessState());
     }).catchError((error) {
