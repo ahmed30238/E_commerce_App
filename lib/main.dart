@@ -21,6 +21,7 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   //TODO edit dark theme
+  //TODO edit methods invocation
   bool? isDarkTheme = prefs.getBool('isDarkTheme') ?? false;
 
   runApp(
