@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/domain/Entity/products_entity.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
-import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/states.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
@@ -20,7 +19,7 @@ Widget productsCart(
 ) {
   return Card(
     
-    shape:  RoundedRectangleBorder(
+    shape:  const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(25))
     )
     ,
@@ -137,6 +136,7 @@ Widget productsCart(
             ],
           ),
         ),
+       const Expanded(child: SizedBox()),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
           child: CustomElevatedButton(

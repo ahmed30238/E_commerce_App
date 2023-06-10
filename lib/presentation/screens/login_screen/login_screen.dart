@@ -30,23 +30,23 @@ class LoginScreen extends StatelessWidget {
           void tryToLogin() {
             if (_formKey.currentState!.validate()) {
               FocusManager.instance.primaryFocus?.unfocus;
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) => AlertDialog(
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const CircularProgressIndicator.adaptive(
-                        backgroundColor: Colors.orange,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                      10.ph,
-                      const Text(AppStrings.loggingIn),
-                    ],
-                  ),
-                ),
-              );
+              // showDialog(
+              //   barrierDismissible: false,
+              //   context: context,
+              //   builder: (context) => AlertDialog(
+              //     content: Column(
+              //       mainAxisSize: MainAxisSize.min,
+              //       children: [
+              //         const CircularProgressIndicator.adaptive(
+              //           backgroundColor: Colors.orange,
+              //           valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              //         ),
+              //         10.ph,
+              //         const Text(AppStrings.loggingIn),
+              //       ],
+              //     ),
+              //   ),
+              // );
               cubit
                   .postLoginData(
                 _emailController.text,
@@ -65,21 +65,30 @@ class LoginScreen extends StatelessWidget {
                         );
 
                     showToast(
-                        msg: cubit.loginModel!.message,
-                        states: ToastStates.successState);
+                      msg: cubit.loginModel!.message,
+                      states: ToastStates.successState,
+                    );
                   } else {
                     showToast(
                       msg: cubit.loginModel!.message,
                       states: ToastStates.errorState,
                     );
-                    Navigator.pop(context);
+                    if (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                      return;
+                    }
                   }
                 },
               );
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+                return;
+              }
             }
           }
 
           return Scaffold(
+            resizeToAvoidBottomInset: true,
             backgroundColor: Colors.grey[300],
             body: Container(
               decoration: BoxDecoration(
@@ -98,6 +107,7 @@ class LoginScreen extends StatelessWidget {
                   key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                         width: 300,
@@ -118,16 +128,16 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       40.ph,
-                      Container(
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromRGBO(25, 25, 25, 1),
-                              Color.fromRGBO(25, 25, 25, 1),
-                            ],
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   decoration: const BoxDecoration(
+                      //     gradient: LinearGradient(
+                      //       colors: [
+                      //         Color.fromRGBO(25, 25, 25, 1),
+                      //         Color.fromRGBO(25, 25, 25, 1),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       CustomFormField(
                         label: AppStrings.email,
                         validator: (value) {
