@@ -50,7 +50,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LogoutCubit()),
       ],
       child: BlocBuilder<AppCubit, AppStates>(
-        // listener: (context, state) {},
         builder: (context, state) {
           var cubit = AppCubit.get(context);
           var darkMode = cubit.isDarkTheme;
