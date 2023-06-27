@@ -78,3 +78,5 @@ class MyApp extends StatelessWidget {
   }
 }
 // TODO pagination
+// todo pusher 
+// todo maps
