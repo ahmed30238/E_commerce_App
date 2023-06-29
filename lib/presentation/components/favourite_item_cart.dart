@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
 Widget favouriteCartItem({
@@ -18,53 +19,58 @@ Widget favouriteCartItem({
         width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.grey.shade600,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(25.r),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Stack(
-              children: [
-                CachedNetworkImage(
-                  imageUrl: model.image,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Shimmer.fromColors(
-                    baseColor: Colors.grey.shade800,
-                    highlightColor: Colors.grey.shade700,
-                    child: Container(
-                      color: Colors.black,
-                      width: 100,
-                      height: 100,
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery.sizeOf(context).height * .20,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: model.image,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: Colors.grey.shade800,
+                      highlightColor: Colors.grey.shade700,
+                      child: Container(
+                        color: Colors.black,
+                        width: 100.w,
+                        // height: 100.h,
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => const Icon(
+                      Icons.error,
                     ),
                   ),
-                  errorWidget: (context, url, error) => const Icon(
-                    Icons.error,
-                  ),
-                ),
-                hasOldPrice
-                    ? Positioned(
-                        bottom: 0,
-                        child: Container(
-                          height: 30,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color.fromARGB(255, 247, 2, 23),
-                          ),
-                          child: Center(
-                            child: Text(
-                              '${AppStrings.discounts} ${model.discount}\$',
-                              style: const TextStyle(
-                                color: Color.fromARGB(255, 210, 224, 9),
-                                fontWeight: FontWeight.bold,
+                  hasOldPrice
+                      ? Positioned(
+                          bottom: 0,
+                          child: Container(
+                            height: 30,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color.fromARGB(255, 247, 2, 23),
+                            ),
+                            child: Center(
+                              child: Text(
+                                '${AppStrings.discounts} ${model.discount}\$',
+                                style: const TextStyle(
+                                  color: Color.fromARGB(255, 210, 224, 9),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                    : const Text(''),
-              ],
+                        )
+                      : const Text(''),
+                ],
+              ),
             ),
             Expanded(
               child: Padding(
@@ -101,13 +107,15 @@ Widget favouriteCartItem({
                                   fontSize: 14,
                                 ),
                               )
-                            :  Text(AppStrings.noDiscounts,style: Theme.of(context).textTheme.bodyLarge,),
+                            : Text(
+                                AppStrings.noDiscounts,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
                         IconButton(
                           onPressed: () async {
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
+                   
                             HomeCubit.get(context).changeFavouriteState(
-                                model.id, prefs.getString('token') ?? '');
+                                model.id, prefs?.getString('token') ?? '');
                           },
                           icon: HomeCubit.get(context).favorites.isNotEmpty
                               ? HomeCubit.get(context).favorites[model.id]!

@@ -38,7 +38,7 @@ class HomeCubit extends Cubit<HomeStates> {
   Map<int, bool> favorites = {};
 
   HomeEntity? homeModel;
-  Future<void> getProducts(String token) async {
+  Future<void> getProducts(String token,{String? page /* in case of using pagination*/}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     emit(GetProductsLoadingState());
     await GetHomeProductsUseCase(baseRepository: sl())

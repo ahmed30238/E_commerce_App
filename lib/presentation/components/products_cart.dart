@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/domain/Entity/products_entity.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
@@ -10,7 +11,6 @@ import 'package:e_commerce_app/core/extensions/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 Widget productsCart(
@@ -18,11 +18,9 @@ Widget productsCart(
   ProductsEntity homeModel,
 ) {
   return Card(
-    
-    shape:  const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(25))
-    )
-    ,
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(25.r))),
+        clipBehavior: Clip.antiAlias,
     elevation: 5,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,13 +73,10 @@ Widget productsCart(
                       alignment: Alignment.center,
                       iconSize: 35,
                       onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
                         cubit.changeFavouriteState(
                           homeModel.id,
-                          prefs.getString('token') ?? '',
+                          prefs?.getString('token') ?? '',
                         );
-                       
                       },
                       icon: cubit.favorites[homeModel.id]!
                           ? const Icon(
@@ -136,7 +131,7 @@ Widget productsCart(
             ],
           ),
         ),
-       const Expanded(child: SizedBox()),
+        const Expanded(child: SizedBox()),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
           child: CustomElevatedButton(
@@ -145,9 +140,8 @@ Widget productsCart(
             onTap: () {},
             text: AppStrings.addToCart,
             textColor: Theme.of(context).colorScheme.onBackground,
-            borderColor: AppCubit.get(context).isDarkTheme
-                ? Colors.white
-                : Colors.black,
+            borderColor:
+                AppCubit.get(context).isDarkTheme ? Colors.white : Colors.black,
           ),
         ),
       ],
