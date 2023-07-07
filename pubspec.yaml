@@ -55,6 +55,9 @@ dependencies:
   intl: any
   flutter_screenutil: ^5.8.1
   get: ^4.6.5
+  pusher_channels_flutter: ^2.1.2
+  quick_log: ^5.2.1
+
 
 
 dev_dependencies:
