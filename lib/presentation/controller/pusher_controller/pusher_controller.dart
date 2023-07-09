@@ -12,6 +12,8 @@ class PusherController extends GetxController {
   Logger logger = const Logger("Pusher Logger");
   @override
   void onInit() {
+    onConnect();
+    pusherReConnect();
     super.onInit();
   }
 
