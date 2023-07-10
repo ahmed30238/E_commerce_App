@@ -82,5 +82,6 @@ class MyApp extends StatelessWidget {
   }
 }
 // TODO pagination(Done)
-// todo pusher (ongoing)
+// todo pusher (Done)
 // todo maps (Done)
+// todo connect to firebase (notification)
