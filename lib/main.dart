@@ -22,9 +22,7 @@ void main() async {
   ServiceLocator().init();
   Bloc.observer = MyBlocObserver();
   prefs = await SharedPreferences.getInstance();
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  //TODO edit dark theme
-  //TODO edit methods invocation
+
   bool? isDarkTheme = prefs?.getBool('isDarkTheme') ?? false;
 
   runApp(
@@ -85,3 +83,5 @@ class MyApp extends StatelessWidget {
 // todo pusher (Done)
 // todo maps (Done)
 // todo connect to firebase (notification)
+  //TODO edit dark theme
+  //TODO edit methods invocation
