@@ -83,5 +83,6 @@ class MyApp extends StatelessWidget {
 // todo pusher (Done)
 // todo maps (Done)
 // todo connect to firebase (notification)
-  //TODO edit dark theme
-  //TODO edit methods invocation
+// TODO edit dark theme
+// TODO edit methods invocation
+// TODO Customize Dio Library
