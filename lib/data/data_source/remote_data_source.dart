@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:e_commerce_app/core/utils/app_constances/app_constances.dart';
 import 'package:e_commerce_app/core/error/error_message_model.dart';
 import 'package:e_commerce_app/core/exceptions/exceptions.dart';
+import 'package:e_commerce_app/core/network_call/network_call.dart';
+import 'package:e_commerce_app/core/utils/app_constances/app_constances.dart';
 import 'package:e_commerce_app/data/models/AddOrDeleteFavourites_model.dart';
 import 'package:e_commerce_app/data/models/banners_model.dart';
 import 'package:e_commerce_app/data/models/category_model.dart';
@@ -11,7 +12,6 @@ import 'package:e_commerce_app/data/models/login_model.dart';
 import 'package:e_commerce_app/data/models/logout_model.dart';
 import 'package:e_commerce_app/data/models/register_model.dart';
 import 'package:e_commerce_app/data/models/search_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class BaseRemoteDataSource {
   Future<List<BannersModel>> getBanners();
@@ -31,20 +31,19 @@ abstract class BaseRemoteDataSource {
 class RemoteDataSource extends BaseRemoteDataSource {
   @override
   Future<List<BannersModel>> getBanners() async {
-    var response = await Dio().get(AppConstances.bannerPath,
-        options:
-            Options(receiveDataWhenStatusError: true, receiveTimeout: 2000));
-
-    if (response.statusCode == 200) {
+    var response = await NetworkCall().get(
+      path: AppConstances.bannerPath,
+    );
+    if (response?.statusCode == 200) {
       return List<BannersModel>.from(
-        (response.data['data'] as List).map(
+        (response?.data['data'] as List).map(
           (e) => BannersModel.fromjson(e),
         ),
       );
     } else {
       throw ServerException(
         ErrorMessageModel.fromJson(
-          response.data,
+          response?.data,
         ),
       );
     }
@@ -52,21 +51,14 @@ class RemoteDataSource extends BaseRemoteDataSource {
 
   @override
   Future<HomeModel> getProducts(String token) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    final response = await Dio().get(AppConstances.homeDataPath,
-        options: Options(
-          receiveDataWhenStatusError: true,
-          headers: {
-            'Authorization': prefs.getString('token'),
-            'lang': 'en',
-          },
-        ));
-    if (response.statusCode == 200) {
-      return HomeModel.fromjson(response.data);
+    final response = await NetworkCall().get(
+      path: AppConstances.homeDataPath,
+    );
+    if (response?.statusCode == 200) {
+      return HomeModel.fromjson(response?.data);
     } else {
       throw ServerException(
-        ErrorMessageModel.fromJson(response.data),
+        ErrorMessageModel.fromJson(response?.data),
       );
     }
   }
@@ -88,7 +80,9 @@ class RemoteDataSource extends BaseRemoteDataSource {
   Future<CategoryModel> getCategories() async {
     final response = await Dio().get(
       AppConstances.categoriesPath,
-      options: Options(receiveTimeout: 2000, headers: {'lang': 'en'}),
+      options: Options(
+          receiveTimeout: const Duration(milliseconds: 2000),
+          headers: {'lang': 'en'}),
     );
     if (response.statusCode == 200) {
       return CategoryModel.fromjson(response.data);

@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   //! banners section
                   CarouselSlider(
+                    
                     items: cubit.bannersModel
                         .map(
                           (e) => CachedNetworkImage(

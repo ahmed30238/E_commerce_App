@@ -1,3 +1,5 @@
+
+
 class AppConstances {
   static const baseUrl = 'https://student.valuxapps.com/api/';
   static const bannerPath = 'https://student.valuxapps.com/api/banners';

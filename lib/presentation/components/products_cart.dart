@@ -6,7 +6,6 @@ import 'package:e_commerce_app/domain/Entity/products_entity.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/states.dart';
-import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
 import 'package:e_commerce_app/core/extensions/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -140,8 +139,8 @@ Widget productsCart(
             onTap: () {},
             text: AppStrings.addToCart,
             textColor: Theme.of(context).colorScheme.onBackground,
-            borderColor:
-                AppCubit.get(context).isDarkTheme ? Colors.white : Colors.black,
+            // borderColor:
+            //     AppCubit.get(context).isDarkTheme ? Colors.white : Colors.black,
           ),
         ),
       ],

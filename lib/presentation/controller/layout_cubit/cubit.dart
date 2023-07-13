@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
+import 'package:e_commerce_app/core/token_util/theme_mode.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart';
 import 'package:e_commerce_app/presentation/screens/categories/categories_screen.dart';
 import 'package:e_commerce_app/presentation/screens/favourites_screen.dart/favourites_screen.dart';
@@ -7,7 +9,6 @@ import 'package:e_commerce_app/presentation/screens/home_screen/home_screen.dart
 import 'package:e_commerce_app/presentation/screens/settings_screen/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());
@@ -54,33 +55,39 @@ class AppCubit extends Cubit<AppStates> {
     emit(ChangeBottomNavBarState());
   }
 
-  bool isDarkTheme = false;
+  // bool isDarkTheme = false;
 
-  void changeThemeMode({bool? fromShared}) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (fromShared != null) {
-      isDarkTheme = fromShared;
-      emit(ChangeThemeModeSucessState());
-    } else {
-      isDarkTheme = !isDarkTheme;
-      prefs.setBool('isDarkTheme', isDarkTheme).then((value) {
-        emit(ChangeThemeModeSucessState());
-      });
-    }
+  // void changeThemeMode({bool? fromShared}) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   if (fromShared != null) {
+  //     isDarkTheme = fromShared;
+  //     emit(ChangeThemeModeSucessState());
+  //   } else {
+  //     isDarkTheme = !isDarkTheme;
+  //     prefs.setBool('isDarkTheme', isDarkTheme).then((value) {
+  //       emit(ChangeThemeModeSucessState());
+  //     });
+  //   }
+  // }
+  void storeThemeMode(){
+    ThemeUtils.saveThemeMode(false);
+    getThemeMode();
+  }
+
+  void getThemeMode(){
+    emit(ChangeThemeModeSucessState());
   }
 
   final String langKey = 'lang';
   void storeLanguage({required String langCode}) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(langKey, langCode);
+    prefs!.setString(langKey, langCode);
     getLanguage();
     emit(AppChangeLanguage(locale: langCode));
   }
 
   String? localeCode = 'en';
   void getLanguage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    localeCode = prefs.getString(langKey) ?? 'en';
+    localeCode = prefs!.getString(langKey) ?? 'en';
     log('lang is $localeCode');
     emit(AppChangeLanguage(locale: localeCode??'en'));
   }

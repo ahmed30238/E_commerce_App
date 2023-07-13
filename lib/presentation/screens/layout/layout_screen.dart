@@ -24,7 +24,6 @@ class _LayOutScreenState extends State<LayOutScreen> {
     HomeCubit.get(context).getProducts(token);
     // ignore: use_build_context_synchronously
     HomeCubit.get(context).getFavourites(token);
-    // TODO invoking Setting
   }
 
   @override
@@ -46,7 +45,7 @@ class _LayOutScreenState extends State<LayOutScreen> {
             actions: [
               IconButton(
                 onPressed: () {
-                  AppCubit.get(context).changeThemeMode();
+                  AppCubit.get(context).storeThemeMode();
                 },
                 icon: const Icon(
                   Icons.dark_mode_outlined,
