@@ -79,10 +79,30 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-// TODO pagination(Done)
+// todo pagination (Done)
 // todo pusher (Done)
 // todo maps (Done)
 // todo connect to firebase (notification)
-// TODO edit dark theme
-// TODO edit methods invocation
-// TODO Customize Dio Library
+// todo edit dark theme
+// todo edit methods invocation
+// todo Customize Dio Library
+
+Route pageAnimator(Widget widget) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => widget,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      // const begin = Offset(0.0, 1.0);
+      // const end = Offset.zero;
+      const curve = Curves.ease;
+      var tween =
+          Tween<double>(begin: 0, end: 1).chain(CurveTween(curve: curve));
+      return RotationTransition(
+        turns: animation.drive(tween),
+
+        // opacity: animation.drive(tween),
+        // position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
