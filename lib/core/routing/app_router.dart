@@ -4,6 +4,7 @@ import 'package:e_commerce_app/presentation/screens/layout/layout_screen.dart';
 import 'package:e_commerce_app/presentation/screens/login_screen/login_screen.dart';
 import 'package:e_commerce_app/presentation/screens/register_screen/register_screen.dart';
 import 'package:e_commerce_app/presentation/screens/splash_screen/splash_screen.dart';
+import 'package:e_commerce_app/presentation/screens/zoom_image/z.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -22,6 +23,16 @@ class AppRouter {
       case RoutePaths.loginScreen:
         return MaterialPageRoute(
           builder: (context) => LoginScreen(),
+        );
+      case RoutePaths.zoomImagePath:
+      
+        String image = settings.arguments as String;
+        int imageId = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (context) => ZoomImage(
+            image: image,
+            imageId: imageId,
+          ),
         );
       default:
         return MaterialPageRoute(

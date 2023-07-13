@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce_app/core/extensions/sizes.dart';
+import 'package:e_commerce_app/core/routing/routing_paths.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/products_cart.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
@@ -36,31 +37,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   //! banners section
                   CarouselSlider(
-                    
                     items: cubit.bannersModel
                         .map(
-                          (e) => CachedNetworkImage(
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: Colors.grey.shade800,
-                              highlightColor: Colors.grey.shade700,
-                              child: Container(
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                width: double.infinity,
-                                height: MediaQuery.of(context).size.height / 4,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15)),
-                              ),
+                          (e) => InkWell(
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              RoutePaths.zoomImagePath,
+                              arguments: cubit.bannersModel[e.id].image,
                             ),
-                            imageUrl: e.image,
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
+                            child: CachedNetworkImage(
+                              placeholder: (context, url) =>
+                                  Shimmer.fromColors(
+                                baseColor: Colors.grey.shade800,
+                                highlightColor: Colors.grey.shade700,
+                                child: Container(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  width: double.infinity,
+                                  height:
+                                      MediaQuery.of(context).size.height / 4,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                              ),
+                              imageUrl: e.image,
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
                           ),
                         )
                         .toList(),
                     options: CarouselOptions(
                       scrollPhysics: const BouncingScrollPhysics(),
                       aspectRatio: 16 / 9,
-                      viewportFraction: .9,
+                      viewportFraction: 1,
                       enlargeCenterPage: true,
                       autoPlay: true,
                       height: MediaQuery.of(context).size.height / 4,
