@@ -17,14 +17,14 @@ class TokenUtil {
     return _token ?? "";
   }
 
-  static Future<void> loadTokenToMemory() async {
-    // _token = GetStorage().read(TokenEnum.token.name).toString();
-  }
+  // static Future<void> loadTokenToMemory() async {
+  //   // _token = GetStorage().read(TokenEnum.token.name).toString();
+  // }
 
-  static String getTokenFrkomMemory() {
-    // return _token;
-    return "";
-  }
+  // static String getTokenFrkomMemory() {
+  //   // return _token;
+  //   return "";
+  // }
 
   // static Future<void> saveToken(String myToken) async {
   // GetStorage().write(TokenEnum.token.name, myToken);
