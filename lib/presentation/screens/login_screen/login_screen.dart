@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
 import 'package:e_commerce_app/core/routing/routing_paths.dart';
+import 'package:e_commerce_app/core/token_util/token_utile.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
@@ -55,6 +56,7 @@ class LoginScreen extends StatelessWidget {
                   .then(
                 (value) async {
                   if (cubit.loginModel!.status) {
+                    TokenUtil.saveToken(cubit.loginModel!.loginData!.token);
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     prefs

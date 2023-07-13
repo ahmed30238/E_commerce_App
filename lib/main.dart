@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/core/global/dark_theme/dark_theme.dart';
 import 'package:e_commerce_app/core/global/light_theme/light_theme.dart';
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
 import 'package:e_commerce_app/core/routing/app_router.dart';
 import 'package:e_commerce_app/core/routing/routing_paths.dart';
 import 'package:e_commerce_app/core/service_locator/service_locator.dart';
+import 'package:e_commerce_app/core/token_util/token_utile.dart';
 import 'package:e_commerce_app/observer.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
@@ -24,7 +27,7 @@ void main() async {
   prefs = await SharedPreferences.getInstance();
 
   bool? isDarkTheme = prefs?.getBool('isDarkTheme') ?? false;
-
+  log("Your token is ${TokenEnum.token}");
   runApp(
     MyApp(
       isDarkTheme: isDarkTheme,
