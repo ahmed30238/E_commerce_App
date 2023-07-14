@@ -55,28 +55,13 @@ class AppCubit extends Cubit<AppStates> {
     emit(ChangeBottomNavBarState());
   }
 
-  // bool isDarkTheme = false;
-
-  // void changeThemeMode({bool? fromShared}) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   if (fromShared != null) {
-  //     isDarkTheme = fromShared;
-  //     emit(ChangeThemeModeSucessState());
-  //   } else {
-  //     isDarkTheme = !isDarkTheme;
-  //     prefs.setBool('isDarkTheme', isDarkTheme).then((value) {
-  //       emit(ChangeThemeModeSucessState());
-  //     });
-  //   }
-  // }
-  void storeThemeMode(){
-    ThemeUtils.saveThemeMode(false);
-    getThemeMode();
-  }
-
-  void getThemeMode(){
+  var theme = ThemeUtils.getTheme();
+  toggleTheme() async {
+    theme = !theme;
+    await ThemeUtils.saveThemeMode(theme);
     emit(ChangeThemeModeSucessState());
   }
+
 
   final String langKey = 'lang';
   void storeLanguage({required String langCode}) async {
@@ -89,7 +74,7 @@ class AppCubit extends Cubit<AppStates> {
   void getLanguage() async {
     localeCode = prefs!.getString(langKey) ?? 'en';
     log('lang is $localeCode');
-    emit(AppChangeLanguage(locale: localeCode??'en'));
+    emit(AppChangeLanguage(locale: localeCode ?? 'en'));
   }
 
   bool isEnglishLang({required BuildContext context}) =>

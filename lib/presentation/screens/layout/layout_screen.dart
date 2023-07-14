@@ -45,7 +45,7 @@ class _LayOutScreenState extends State<LayOutScreen> {
             actions: [
               IconButton(
                 onPressed: () {
-                  AppCubit.get(context).storeThemeMode();
+                  AppCubit.get(context).toggleTheme();
                 },
                 icon: const Icon(
                   Icons.dark_mode_outlined,
