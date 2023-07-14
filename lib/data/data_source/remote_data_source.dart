@@ -78,17 +78,12 @@ class RemoteDataSource extends BaseRemoteDataSource {
 
   @override
   Future<CategoryModel> getCategories() async {
-    final response = await Dio().get(
-      AppConstances.categoriesPath,
-      options: Options(
-          receiveTimeout: const Duration(milliseconds: 2000),
-          headers: {'lang': 'en'}),
-    );
-    if (response.statusCode == 200) {
-      return CategoryModel.fromjson(response.data);
+    final response = await NetworkCall().get(path: AppConstances.categoriesPath);
+    if (response?.statusCode == 200) {
+      return CategoryModel.fromjson(response?.data);
     } else {
       throw ServerException(
-        ErrorMessageModel.fromJson(response.data),
+        ErrorMessageModel.fromJson(response?.data),
       );
     }
   }

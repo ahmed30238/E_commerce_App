@@ -19,13 +19,17 @@ Widget productsCart(
   return Card(
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(25.r))),
-        clipBehavior: Clip.antiAlias,
+    clipBehavior: Clip.antiAlias,
     elevation: 5,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height / 4.5,
+        Container(
+          constraints: BoxConstraints(
+            minHeight:  MediaQuery.of(context).size.height / 8,
+            // maxHeight:  MediaQuery.of(context).size.height / 5,
+          ),
+          // height: MediaQuery.of(context).size.height / 5,
           width: MediaQuery.of(context).size.width,
           child: CachedNetworkImage(
             fit: BoxFit.cover,
