@@ -81,9 +81,10 @@ class MyApp extends StatelessWidget {
 // todo pusher (Done)
 // todo maps (Done)
 // todo connect to firebase (notification)
-// todo edit dark theme (ongoing)
+// todo edit dark theme (ongoing) => falilure
 // todo edit methods invocation
 // todo Customize Dio Library (ongoing)
+// todo add firebase notification
 
 Route pageAnimator(Widget widget) {
   return PageRouteBuilder(
