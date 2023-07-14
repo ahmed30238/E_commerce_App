@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:e_commerce_app/core/extensions/sizes.dart';
+import 'package:e_commerce_app/core/extensions/locale_context.dart';
+import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:e_commerce_app/core/routing/routing_paths.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/products_cart.dart';
@@ -76,15 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   10.ph,
-                  Text(
-                    AppStrings.category,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(fontSize: 20),
-                  ),
+                  context.largeText(AppStrings.category, fontSize: 20),
                   10.ph,
-
                   //! Category Section
                   SizedBox(
                     height: 100.h,
@@ -105,13 +99,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                   ),
                   10.ph,
-                  Text(
-                    AppStrings.newProducts,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(fontSize: 20),
-                  ),
+                  context.largeText(AppStrings.newProducts, fontSize: 20),
+                  // Text(
+                  //   AppStrings.newProducts,
+                  //   style: Theme.of(context)
+                  //       .textTheme
+                  //       .bodyLarge!
+                  //       .copyWith(fontSize: 20),
+                  // ),
 
                   //! Products Section
                   10.ph,

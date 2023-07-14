@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/core/extensions/sizes.dart';
+import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/favourite_item_cart.dart';

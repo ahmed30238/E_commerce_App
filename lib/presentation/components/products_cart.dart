@@ -6,7 +6,7 @@ import 'package:e_commerce_app/domain/Entity/products_entity.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/states.dart';
-import 'package:e_commerce_app/core/extensions/sizes.dart';
+import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,37 +17,37 @@ Widget productsCart(
   ProductsEntity homeModel,
 ) {
   return Card(
-    shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(25.r))),
+    shape: RoundedRectangleBorder(borderRadius: 25.circualrRadius),
     clipBehavior: Clip.antiAlias,
     elevation: 5,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          constraints: BoxConstraints(
-            minHeight:  MediaQuery.of(context).size.height / 8,
-            // maxHeight:  MediaQuery.of(context).size.height / 5,
-          ),
-          // height: MediaQuery.of(context).size.height / 5,
-          width: MediaQuery.of(context).size.width,
+        SizedBox(
+          height: 200.h,
+          width: double.infinity,
           child: CachedNetworkImage(
-            fit: BoxFit.cover,
-            imageUrl: homeModel.image,
-            placeholder: (context, url) => Shimmer.fromColors(
-              baseColor: Colors.grey.shade800,
-              highlightColor: Colors.grey.shade700,
-              child: Container(
-                color: Colors.black,
-                width: 100,
-                height: 100,
+              fit: BoxFit.cover,
+              imageUrl: homeModel.image,
+              placeholder: (context, url) => Shimmer.fromColors(
+                baseColor: Colors.grey.shade800,
+                highlightColor: Colors.grey.shade700,
+                child: Container(
+                  color: Colors.black,
+                  width: 100.w,
+                  height: 100.h,
+                ),
               ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-          ),
         ),
+        // SizedBox(
+        //   height: MediaQuery.of(context).size.height / 6,
+        //   width: MediaQuery.of(context).size.width,
+        //   child: 
+        // ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
+          padding: 5.hPadding,
           child: Row(
             children: [
               Expanded(
@@ -55,8 +55,9 @@ Widget productsCart(
                 duration: const Duration(milliseconds: 500),
                 child: Text(
                   homeModel.name,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  maxLines: 2,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1.3),
+                  maxLines: 1,
+                  
                   overflow: TextOverflow.ellipsis,
                 ),
               )),
@@ -65,8 +66,8 @@ Widget productsCart(
                 builder: (context, state) {
                   var cubit = HomeCubit.get(context);
                   return Container(
-                    height: 45,
-                    width: 45,
+                    height: 45.h,
+                    width: 45.w,
                     decoration: BoxDecoration(
                       color: Colors.pink.withOpacity(.4),
                       borderRadius: BorderRadius.circular(10),

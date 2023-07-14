@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/domain/Entity/category_entity.dart';
-import 'package:e_commerce_app/core/extensions/sizes.dart';
+import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 

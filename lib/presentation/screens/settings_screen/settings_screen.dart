@@ -6,7 +6,7 @@ import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart'
 import 'package:e_commerce_app/presentation/controller/logout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/screens/content_screen/content_screen.dart';
 import 'package:e_commerce_app/presentation/screens/login_screen/login_screen.dart';
-import 'package:e_commerce_app/core/extensions/sizes.dart';
+import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
