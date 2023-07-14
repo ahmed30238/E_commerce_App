@@ -46,8 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               arguments: cubit.bannersModel[e.id].image,
                             ),
                             child: CachedNetworkImage(
-                              placeholder: (context, url) =>
-                                  Shimmer.fromColors(
+                              placeholder: (context, url) => Shimmer.fromColors(
                                 baseColor: Colors.grey.shade800,
                                 highlightColor: Colors.grey.shade700,
                                 child: Container(

@@ -62,17 +62,16 @@ class AppCubit extends Cubit<AppStates> {
     emit(ChangeThemeModeSucessState());
   }
 
-
-  final String langKey = 'lang';
+  final String langKey = "";
   void storeLanguage({required String langCode}) async {
     prefs!.setString(langKey, langCode);
-    getLanguage();
+    await getLanguage();
     emit(AppChangeLanguage(locale: langCode));
   }
 
   String? localeCode = 'en';
-  void getLanguage() async {
-    localeCode = prefs!.getString(langKey) ?? 'en';
+  Future<void> getLanguage() async {
+    localeCode = prefs!.getString(langKey);
     log('lang is $localeCode');
     emit(AppChangeLanguage(locale: localeCode ?? 'en'));
   }

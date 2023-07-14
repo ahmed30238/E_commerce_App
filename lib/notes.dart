@@ -1,0 +1,1 @@
+// dont use Flutter Localization in GetMaterialApp

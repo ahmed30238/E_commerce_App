@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:e_commerce_app/core/global/dark_theme/dark_theme.dart';
 import 'package:e_commerce_app/core/global/light_theme/light_theme.dart';
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
@@ -18,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:quick_log/quick_log.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,7 +27,7 @@ void main() async {
   await TokenUtil.loadTokenToMemory();
   await ThemeUtils.loadThemeToMemory();
   // prefs!.getBool(AppEnum.isDarkTheme.name);
- Logger logger = const Logger("Main Logger");
+  Logger logger = const Logger("Main Logger");
   logger.fine("Your token is ${TokenUtil.getTokenFromMemory()}");
   runApp(const MyApp());
 }
@@ -51,9 +48,12 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<AppCubit, AppStates>(
         builder: (context, state) {
+          // if (state is! AppChangeLanguage) {
+          //   return const SizedBox();
+          // }
           var cubit = AppCubit.get(context);
           // var darkMode = cubit.isDarkTheme;
-          return GetMaterialApp(
+          return MaterialApp(
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             locale: Locale(cubit.localeCode ?? 'en'),
@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
 // todo pusher (Done)
 // todo maps (Done)
 // todo connect to firebase (notification)
-// todo edit dark theme (ongoing) => falilure
+// todo edit dark theme (ongoing) => falilure ==> (done)
 // todo edit methods invocation
 // todo Customize Dio Library (ongoing)
 // todo add firebase notification
