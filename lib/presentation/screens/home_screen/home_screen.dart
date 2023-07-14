@@ -186,51 +186,32 @@ class CategoryItem extends StatelessWidget {
       width: 100.w,
       height: 100.h,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.black)),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Theme.of(context).colorScheme.primary),
+        image: DecorationImage(
+          image: NetworkImage(
+            cubit.categoryModel!.categoryData.categoryObject[index].image,
+          ),
+        ),
+      ),
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Stack(
-        fit: StackFit.passthrough,
-        alignment: AlignmentDirectional.bottomCenter,
-        children: [
-          CachedNetworkImage(
-            fit: BoxFit.cover,
-            width: 100.w,
-            height: 100.h,
-            imageUrl:
-                cubit.categoryModel!.categoryData.categoryObject[index].image,
-            placeholder: (context, url) => Shimmer.fromColors(
-              baseColor: Colors.grey.shade800,
-              highlightColor: Colors.grey.shade700,
-              child: Container(
-                color: Colors.black,
-                width: 100.w,
-                height: 100.h,
-              ),
-            ),
-            errorWidget: (context, url, error) => const Icon(
-              Icons.error,
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          color: Colors.black.withOpacity(.8),
+          height: 30.h,
+          width: 100.w,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              cubit.categoryModel!.categoryData.categoryObject[index].name,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            child: Container(
-              color: Colors.black.withOpacity(.8),
-              height: 30.h,
-              width: 100.w,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  cubit.categoryModel!.categoryData.categoryObject[index].name,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

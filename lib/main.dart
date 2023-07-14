@@ -85,13 +85,13 @@ class MyApp extends StatelessWidget {
 // todo edit methods invocation
 // todo Customize Dio Library (ongoing)
 // todo add firebase notification
+// todo convert navigation to the new way + add animation 
 
 Route pageAnimator(Widget widget) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => widget,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      // const begin = Offset(0.0, 1.0);
-      // const end = Offset.zero;
+
       const curve = Curves.ease;
       var tween =
           Tween<double>(begin: 0, end: 1).chain(CurveTween(curve: curve));
