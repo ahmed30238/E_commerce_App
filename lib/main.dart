@@ -12,12 +12,28 @@ import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart';
 import 'package:e_commerce_app/presentation/controller/logout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/search_controller/cubit.dart';
+import 'package:e_commerce_app/presentation/map_screen/map_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:quick_log/quick_log.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+Future getPermission() async {
+  bool services;
+  LocationPermission per;
+  services = await Geolocator.isLocationServiceEnabled();
+  if (!services) {
+    return;
+  }
+  per = await Geolocator.checkPermission();
+  if (per == LocationPermission.denied) {
+    Geolocator.requestPermission();
+  }
+  return per;
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +42,8 @@ void main() async {
   prefs = await SharedPreferences.getInstance();
   await TokenUtil.loadTokenToMemory();
   await ThemeUtils.loadThemeToMemory();
-  // prefs!.getBool(AppEnum.isDarkTheme.name);
+  await getPermission();
+
   Logger logger = const Logger("Main Logger");
   logger.fine("Your token is ${TokenUtil.getTokenFromMemory()}");
   runApp(const MyApp());
@@ -45,14 +62,11 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(create: (context) => SearchCubit()),
         BlocProvider(create: (context) => LogoutCubit()),
+        BlocProvider(create: (context) => MapCubit()),
       ],
       child: BlocBuilder<AppCubit, AppStates>(
         builder: (context, state) {
-          // if (state is! AppChangeLanguage) {
-          //   return const SizedBox();
-          // }
           var cubit = AppCubit.get(context);
-          // var darkMode = cubit.isDarkTheme;
           return MaterialApp(
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -85,14 +99,13 @@ class MyApp extends StatelessWidget {
 // todo edit methods invocation
 // todo Customize Dio Library (ongoing)
 // todo add firebase notification
-// todo convert navigation to the new way + add animation 
+// todo convert navigation to the new way + add animation
 // todo resize product card
 
 Route pageAnimator(Widget widget) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => widget,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-
       const curve = Curves.ease;
       var tween =
           Tween<double>(begin: 0, end: 1).chain(CurveTween(curve: curve));

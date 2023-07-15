@@ -1,7 +1,6 @@
 import 'package:e_commerce_app/domain/Entity/products_entity.dart';
 import 'package:e_commerce_app/presentation/components/products_cart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductDetails extends StatelessWidget {
   final ProductsEntity productModel;

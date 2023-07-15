@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce_app/core/extensions/locale_context.dart';
 import 'package:e_commerce_app/core/extensions/numbers.dart';
-import 'package:e_commerce_app/core/routing/routing_paths.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/domain/Entity/category_entity.dart';
 import 'package:e_commerce_app/main.dart';
