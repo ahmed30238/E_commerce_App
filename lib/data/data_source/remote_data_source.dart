@@ -31,9 +31,7 @@ abstract class BaseRemoteDataSource {
 class RemoteDataSource extends BaseRemoteDataSource {
   @override
   Future<List<BannersModel>> getBanners() async {
-    var response = await NetworkCall().get(
-      path: AppConstances.bannerPath,
-    );
+    var response = await NetworkCall().get(path: AppConstances.bannerPath);
     if (response?.statusCode == 200) {
       return List<BannersModel>.from(
         (response?.data['data'] as List).map(
@@ -51,9 +49,7 @@ class RemoteDataSource extends BaseRemoteDataSource {
 
   @override
   Future<HomeModel> getProducts(String token) async {
-    final response = await NetworkCall().get(
-      path: AppConstances.homeDataPath,
-    );
+    final response = await NetworkCall().get(path: AppConstances.homeDataPath);
     if (response?.statusCode == 200) {
       return HomeModel.fromjson(response?.data);
     } else {
@@ -78,7 +74,8 @@ class RemoteDataSource extends BaseRemoteDataSource {
 
   @override
   Future<CategoryModel> getCategories() async {
-    final response = await NetworkCall().get(path: AppConstances.categoriesPath);
+    final response =
+        await NetworkCall().get(path: AppConstances.categoriesPath);
     if (response?.statusCode == 200) {
       return CategoryModel.fromjson(response?.data);
     } else {
@@ -113,18 +110,14 @@ class RemoteDataSource extends BaseRemoteDataSource {
 
   @override
   Future<GetFavouritesModel> getfavourites(String token) async {
-    final response = await Dio().get(
-      AppConstances.addFavouritesPath,
-      options: Options(
-        headers: {'Authorization': token, 'lang': 'en'},
-      ),
-    );
+    final response =
+        await NetworkCall().get(path: AppConstances.addFavouritesPath);
 
-    if (response.statusCode == 200) {
-      return GetFavouritesModel.fromjson(response.data);
+    if (response?.statusCode == 200) {
+      return GetFavouritesModel.fromjson(response?.data);
     } else {
       throw ServerException(
-        ErrorMessageModel.fromJson(response.data),
+        ErrorMessageModel.fromJson(response?.data),
       );
     }
   }

@@ -5,7 +5,6 @@ import 'package:e_commerce_app/presentation/screens/layout/layout_screen.dart';
 import 'package:e_commerce_app/presentation/screens/login_screen/login_screen.dart';
 import 'package:e_commerce_app/presentation/screens/register_screen/register_screen.dart';
 import 'package:e_commerce_app/presentation/screens/splash_screen/splash_screen.dart';
-import 'package:e_commerce_app/presentation/screens/zoom_image/z.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
