@@ -73,28 +73,15 @@ class ProductDesign extends StatelessWidget {
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
-          // SizedBox(
-          //   height: MediaQuery.of(context).size.height / 6,
-          //   width: MediaQuery.of(context).size.width,
-          //   child:
-          // ),
           Padding(
             padding: 5.hPadding,
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: FadeIn(
                     duration: const Duration(milliseconds: 500),
                     child: context.largeText(homeModel.name),
-                    // Text(
-
-                    //   style: Theme.of(context)
-                    //       .textTheme
-                    //       .bodyLarge
-                    //       ?.copyWith(height: 1.3),
-                    //   maxLines: 1,
-                    //   overflow: TextOverflow.ellipsis,
-                    // ),
                   ),
                 ),
                 BlocConsumer<HomeCubit, HomeStates>(
