@@ -57,6 +57,10 @@ dependencies:
   get: ^4.6.5
   pusher_channels_flutter: ^2.1.2
   quick_log: ^5.2.1
+  geocoding: ^2.1.0
+  geolocator: ^9.0.2
+  google_maps_flutter: ^2.3.1
+  
 
 
 

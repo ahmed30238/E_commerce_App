@@ -4,9 +4,13 @@ import 'package:e_commerce_app/core/extensions/locale_context.dart';
 import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:e_commerce_app/core/routing/routing_paths.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
+import 'package:e_commerce_app/domain/Entity/category_entity.dart';
+import 'package:e_commerce_app/main.dart';
+import 'package:e_commerce_app/presentation/category_details/category_details.dart';
 import 'package:e_commerce_app/presentation/components/products_cart.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/states.dart';
+import 'package:e_commerce_app/presentation/screens/zoom_image/z.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,11 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     items: cubit.bannersModel
                         .map(
                           (e) => InkWell(
-                            onTap: () => Navigator.pushNamed(
-                              context,
-                              RoutePaths.zoomImagePath,
-                              arguments: cubit.bannersModel[e.id].image,
-                            ),
+                            onTap: () => Navigator.push(
+                                context,
+                                pageAnimator(
+                                    ZoomImage(image: e.image, imageId: e.id))),
                             child: CachedNetworkImage(
                               placeholder: (context, url) => Shimmer.fromColors(
                                 baseColor: Colors.grey.shade800,
@@ -89,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (context, index) => CategoryItem(
                               cubit: cubit,
                               index: index,
+                              model: cubit.categoryModel!,
                             ),
                             separatorBuilder: (context, index) => 3.pw,
                             itemCount: cubit.categoryModel!.categoryData
@@ -122,9 +126,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ? List.generate(
                             cubit.homeModel!.data.products.length,
                             (index) => productsCart(
-                                  context,
-                                  cubit.homeModel!.data.products[index],
-                                ))
+                              context,
+                              cubit.homeModel!.data.products[index],
+                            ),
+                          )
                         : List.generate(
                             6,
                             (index) => const Center(
@@ -170,40 +175,53 @@ class CategoryItem extends StatelessWidget {
     super.key,
     required this.cubit,
     required this.index,
+    required this.model,
   });
 
   final HomeCubit cubit;
   final int index;
+  final CategoryEntity model;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 100.w,
-      height: 100.h,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Theme.of(context).colorScheme.primary),
-        image: DecorationImage(
-          image: NetworkImage(
-            cubit.categoryModel!.categoryData.categoryObject[index].image,
+    return InkWell(
+      onTap: () => Navigator.push(
+        context,
+        pageAnimator(
+          CategoryDetails(
+            catModel: model,
+            index: index,
           ),
         ),
       ),
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          color: Colors.black.withOpacity(.8),
-          height: 30.h,
-          width: 100.w,
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              cubit.categoryModel!.categoryData.categoryObject[index].name,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Colors.white,
-                    fontSize: 15,
-                  ),
+      child: Container(
+        width: 100.w,
+        height: 100.h,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Theme.of(context).colorScheme.primary),
+          image: DecorationImage(
+            image: NetworkImage(
+              cubit.categoryModel!.categoryData.categoryObject[index].image,
+            ),
+          ),
+        ),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            color: Colors.black.withOpacity(.8),
+            height: 30.h,
+            width: 100.w,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                cubit.categoryModel!.categoryData.categoryObject[index].name,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+              ),
             ),
           ),
         ),
