@@ -15,9 +15,7 @@ import 'package:e_commerce_app/domain/repository/base_repository.dart';
 
 class ShopRepository extends BaseRepository {
   BaseRemoteDataSource baseRemoteDataSource;
-  ShopRepository({
-    required this.baseRemoteDataSource,
-  });
+  ShopRepository({required this.baseRemoteDataSource});
 
   @override
   Future<Either<Failure, List<BannersModel>>> getBanners() async {
@@ -26,9 +24,7 @@ class ShopRepository extends BaseRepository {
       return Right(result);
     } on ServerException catch (error) {
       return Left(
-        ServerFailure(
-          error.errorMessageModel.message,
-        ),
+        ServerFailure(error.errorMessageModel.message),
       );
     }
   }
@@ -132,11 +128,7 @@ class ShopRepository extends BaseRepository {
   Future<Either<Failure, RegisterEntity>> postRegisterData(
       String name, String phone, String email, String password) async {
     final res = await baseRemoteDataSource.postRegisterData(
-      name,
-      phone,
-      email,
-      password,
-    );
+        name, phone, email, password);
     try {
       return Right(res);
     } on ServerException catch (error) {

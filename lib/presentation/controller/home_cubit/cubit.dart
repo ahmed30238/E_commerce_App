@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/core/base_usecase/base_usecase.dart';
 import 'package:e_commerce_app/core/failure/failure.dart';
 import 'package:e_commerce_app/core/service_locator/service_locator.dart';
+import 'package:e_commerce_app/data/models/category_model.dart';
 import 'package:e_commerce_app/domain/Entity/add&delete_favourites_entity.dart';
 import 'package:e_commerce_app/domain/Entity/banners_entity.dart';
 import 'package:e_commerce_app/domain/Entity/category_entity.dart';
@@ -38,26 +39,18 @@ class HomeCubit extends Cubit<HomeStates> {
   Map<int, bool> favorites = {};
 
   HomeEntity? homeModel;
-  Future<void> getProducts(String token,{String? page /* in case of using pagination*/}) async {
+  Future<void> getProducts(String token,
+      {String? page /* in case of using pagination*/}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     emit(GetProductsLoadingState());
     await GetHomeProductsUseCase(baseRepository: sl())
-        .call(
-      ProductsParameter(token: prefs.getString('token') ?? ''),
-    )
+        .call(ProductsParameter(token: prefs.getString('token') ?? ''))
         .then(
       (value) {
-        value.fold(
-          (l) => ServerFailure(
-            l.message,
-          ),
-          (r) => homeModel = r,
-        );
+        value.fold((l) => ServerFailure(l.message), (r) => homeModel = r);
 
         for (var element in homeModel!.data.products) {
-          favorites.addAll({
-            element.id: element.in_favorites,
-          });
+          favorites.addAll({element.id: element.in_favorites});
         }
         emit(GetProductsSuccessState());
       },
@@ -67,6 +60,7 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
   CategoryEntity? categoryModel;
+  CategoryModel? m;
   void getCategories() {
     emit(GetCategoriesLoadingState());
     GetCategoryUseCase(baseRepository: sl())
@@ -74,7 +68,8 @@ class HomeCubit extends Cubit<HomeStates> {
       const NoParameter(),
     )
         .then((value) {
-      value.fold((l) => l.message, (r) => categoryModel = r);
+      // todo if category failed return it to categoryEntity;
+      value.fold((l) => l.message, (r) => m = r as CategoryModel);
       emit(GetCategoriesSuccessState());
     }).catchError((error) {
       emit(GetCategoriesErrorState());
@@ -83,10 +78,7 @@ class HomeCubit extends Cubit<HomeStates> {
 
   AddOrDeleteFavouritesEntity? addOrDeleteFavouritesEntity;
 
-  void changeFavouriteState(
-    int id,
-    String token,
-  ) {
+  void changeFavouriteState(int id, String token) {
     favorites[id] = !favorites[id]!;
     emit(ChangeFavouriteSuccessState());
     AddOrDeleteFavouritesUseCase(baseRepository: sl())
@@ -109,7 +101,6 @@ class HomeCubit extends Cubit<HomeStates> {
       emit(ChangeFavouriteSuccessState());
     }).catchError((error) {
       favorites[id] = !favorites[id]!;
-
       emit(ChangeFavouriteErrorState());
     });
   }
@@ -118,15 +109,10 @@ class HomeCubit extends Cubit<HomeStates> {
   void getFavourites(String token) {
     emit(GetFavouriteLoadingState());
     GetFavouritesUseCase(baseRepository: sl())
-        .call(
-      GetFavouritesParameters(token),
-    )
+        .call(GetFavouritesParameters(token))
         .then(
       (value) {
-        value.fold(
-          (l) => l.message,
-          (r) => getFavouritesEntity = r,
-        );
+        value.fold((l) => l.message, (r) => getFavouritesEntity = r);
         emit(GetFavouriteSuccessState());
       },
     ).catchError(
