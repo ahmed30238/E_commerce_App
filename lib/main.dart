@@ -100,7 +100,8 @@ class MyApp extends StatelessWidget {
 // todo Customize Dio Library (ongoing)
 // todo add firebase notification
 // todo convert navigation to the new way + add animation
-// todo resize product card
+// todo resize product card 
+// todo use Map<String,dynamic> as argument
 
 Route pageAnimator(Widget widget) {
   return PageRouteBuilder(
