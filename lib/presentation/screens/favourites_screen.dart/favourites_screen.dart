@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/extensions/widget_extension.dart';
 import 'package:e_commerce_app/core/service_locator/service_locator.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/favourite_item_cart.dart';
@@ -42,9 +43,7 @@ class FavouritesScreen extends StatelessWidget {
                   itemCount: cubit.getFavouritesEntity!.favouriteData!
                       .favouriteItemData!.length,
                 )
-              :  Center(
-                  child: Text(AppStrings.noFavourites,style: Theme.of(context).textTheme.bodyLarge,),
-                );
+              :  Text(AppStrings.noFavourites,style: Theme.of(context).textTheme.bodyLarge,).center();
         },
       );
     });

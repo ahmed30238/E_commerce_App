@@ -8,11 +8,10 @@ extension EmptyPadding on num {
 
   //* padding
   EdgeInsets get allPadding => EdgeInsets.all(toDouble());
-  EdgeInsets get vPadding => EdgeInsets.symmetric(horizontal:toDouble().h);
-  EdgeInsets get hPadding => EdgeInsets.symmetric(vertical:toDouble().h);
+  EdgeInsets get vPadding => EdgeInsets.symmetric(horizontal: toDouble().h);
+  EdgeInsets get hPadding => EdgeInsets.symmetric(vertical: toDouble().h);
 
   //* borderradius
-
   BorderRadius get circualrRadius => BorderRadius.circular(toDouble().r);
   BorderRadius get onlyTopRadius => BorderRadius.only(
       topRight: Radius.circular(toDouble().r),
