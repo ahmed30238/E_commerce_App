@@ -56,7 +56,7 @@ class ProductDesign extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: height ?? 200.h,
+            height: height ?? 120.h,
             width: double.infinity,
             child: CachedNetworkImage(
               fit: BoxFit.cover,
@@ -81,7 +81,12 @@ class ProductDesign extends StatelessWidget {
                 Expanded(
                   child: FadeIn(
                     duration: const Duration(milliseconds: 500),
-                    child: context.largeText(homeModel.name),
+                    child: context.largeText(
+                      homeModel.name,
+                      fontSize: 17.sp,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
                 BlocConsumer<HomeCubit, HomeStates>(
@@ -98,7 +103,7 @@ class ProductDesign extends StatelessWidget {
                       child: IconButton(
                         padding: EdgeInsets.zero,
                         alignment: Alignment.center,
-                        iconSize: 35,
+                        iconSize: 25,
                         onPressed: () async {
                           cubit.changeFavouriteState(
                             homeModel.id,
@@ -122,7 +127,7 @@ class ProductDesign extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: Row(
               children: [
                 Text(
@@ -130,7 +135,7 @@ class ProductDesign extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge!
-                      .copyWith(fontSize: 20),
+                      .copyWith(fontSize: 15.sp),
                 ),
                 4.pw,
                 homeModel.discount != 0
@@ -167,8 +172,6 @@ class ProductDesign extends StatelessWidget {
               onTap: () {},
               text: AppStrings.addToCart,
               textColor: Theme.of(context).colorScheme.onBackground,
-              // borderColor:
-              //     AppCubit.get(context).isDarkTheme ? Colors.white : Colors.black,
             ),
           ),
         ],
