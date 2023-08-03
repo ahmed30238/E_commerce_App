@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/extensions/widget_extension.dart';
 import 'package:e_commerce_app/presentation/components/category_item.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/states.dart';
@@ -13,15 +14,18 @@ class CategoriesScreen extends StatelessWidget {
       listener: (context, states) {},
       builder: (context, states) {
         var cubit = HomeCubit.get(context);
-        return cubit.categoryModel!=null? ListView.separated(
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (context, index) => categoryItem(
-              context, cubit.categoryModel!.categoryData.categoryObject[index]),
-          separatorBuilder: (context, index) => const SizedBox(
-            height: 3,
-          ),
-          itemCount: cubit.categoryModel!.categoryData.categoryObject.length,
-        ):const Center(child:  LinearProgressIndicator());
+        return cubit.categoryModel != null
+            ? ListView.separated(
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) => categoryItem(context,
+                    cubit.categoryModel!.categoryData.categoryObject[index]),
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 3,
+                ),
+                itemCount:
+                    cubit.categoryModel!.categoryData.categoryObject.length,
+              )
+            : const LinearProgressIndicator().center();
       },
     );
   }

@@ -64,12 +64,10 @@ class HomeCubit extends Cubit<HomeStates> {
   void getCategories() {
     emit(GetCategoriesLoadingState());
     GetCategoryUseCase(baseRepository: sl())
-        .call(
-      const NoParameter(),
-    )
+        .call(const NoParameter())
         .then((value) {
       // todo if category failed return it to categoryEntity;
-      value.fold((l) => l.message, (r) => m = r as CategoryModel);
+      value.fold((l) => l.message, (r) => categoryModel = r);
       emit(GetCategoriesSuccessState());
     }).catchError((error) {
       emit(GetCategoriesErrorState());
