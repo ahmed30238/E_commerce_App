@@ -1,0 +1,4 @@
+enum AppEnum {
+  token,
+  isDarkTheme,
+}

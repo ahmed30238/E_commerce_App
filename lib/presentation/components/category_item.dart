@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/domain/Entity/category_entity.dart';
-import 'package:e_commerce_app/sizes.dart';
+import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -12,6 +12,7 @@ Widget categoryItem(context, CategoryObject catModel) {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           //! categoryImage
           SizedBox(

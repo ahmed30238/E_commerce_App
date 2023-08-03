@@ -1,11 +1,14 @@
+import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
+import 'package:e_commerce_app/core/routing/routing_paths.dart';
+import 'package:e_commerce_app/core/token_util/token_utile.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
+import 'package:e_commerce_app/presentation/components/text_field.dart';
 import 'package:e_commerce_app/presentation/controller/login_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/login_cubit/states.dart';
-import 'package:e_commerce_app/presentation/screens/layout/layout_screen.dart';
-import 'package:e_commerce_app/presentation/screens/register_screen/register_screen.dart';
-import 'package:e_commerce_app/sizes.dart';
+import 'package:e_commerce_app/core/extensions/numbers.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,23 +31,23 @@ class LoginScreen extends StatelessWidget {
           void tryToLogin() {
             if (_formKey.currentState!.validate()) {
               FocusManager.instance.primaryFocus?.unfocus;
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) => AlertDialog(
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const CircularProgressIndicator.adaptive(
-                        backgroundColor: Colors.orange,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                      10.ph,
-                      const Text(AppStrings.loggingIn),
-                    ],
-                  ),
-                ),
-              );
+              // showDialog(
+              //   barrierDismissible: false,
+              //   context: context,
+              //   builder: (context) => AlertDialog(
+              //     content: Column(
+              //       mainAxisSize: MainAxisSize.min,
+              //       children: [
+              //         const CircularProgressIndicator.adaptive(
+              //           backgroundColor: Colors.orange,
+              //           valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              //         ),
+              //         10.ph,
+              //         const Text(AppStrings.loggingIn),
+              //       ],
+              //     ),
+              //   ),
+              // );
               cubit
                   .postLoginData(
                 _emailController.text,
@@ -53,31 +56,41 @@ class LoginScreen extends StatelessWidget {
                   .then(
                 (value) async {
                   if (cubit.loginModel!.status) {
+                    TokenUtil.saveToken(cubit.loginModel!.loginData!.token);
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     prefs
                         .setString('token', cubit.loginModel!.loginData!.token)
-                        .then((value) => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LayOutScreen())));
+                        .then(
+                          (value) => navigateAndRemove(
+                              context: context, path: RoutePaths.layoutScreen),
+                        );
 
                     showToast(
-                        msg: cubit.loginModel!.message,
-                        states: ToastStates.successState);
+                      msg: cubit.loginModel!.message,
+                      states: ToastStates.successState,
+                    );
                   } else {
                     showToast(
                       msg: cubit.loginModel!.message,
                       states: ToastStates.errorState,
                     );
-                    Navigator.pop(context);
+                    if (Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                      return;
+                    }
                   }
                 },
               );
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+                return;
+              }
             }
           }
 
           return Scaffold(
+            resizeToAvoidBottomInset: true,
             backgroundColor: Colors.grey[300],
             body: Container(
               decoration: BoxDecoration(
@@ -96,6 +109,7 @@ class LoginScreen extends StatelessWidget {
                   key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                         width: 300,
@@ -116,116 +130,76 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       40.ph,
-                      Container(
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromRGBO(
-                                25,
-                                25,
-                                25,
-                                1,
-                              ),
-                              Color.fromRGBO(
-                                25,
-                                25,
-                                25,
-                                1,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          label: Text(
-                            AppStrings.email,
-                            style: TextStyle(
-                              color: Colors.deepOrange,
-                              fontSize: 20,
-                            ),
-                          ),
-                          suffixIcon: Icon(
-                            Icons.email,
-                          ),
-                        ),
+                      // Container(
+                      //   decoration: const BoxDecoration(
+                      //     gradient: LinearGradient(
+                      //       colors: [
+                      //         Color.fromRGBO(25, 25, 25, 1),
+                      //         Color.fromRGBO(25, 25, 25, 1),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      CustomFormField(
+                        label: AppStrings.email,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppStrings.emailValidationMessage;
                           }
                           return null;
                         },
+                        controller: _emailController,
+                        suffixIcon: Icons.email,
                       ),
                       30.ph,
-                      TextFormField(
+                      CustomFormField(
                         obscureText: cubit.passwordVisibility,
+                        label: AppStrings.password,
                         controller: _passwordController,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          label: const Text(
-                            AppStrings.password,
-                            style: TextStyle(
-                              color: Colors.deepOrange,
-                              fontSize: 20,
-                            ),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: const Icon(Icons.remove_red_eye_rounded),
-                            onPressed: () {
-                              cubit.changeVisibility();
-                            },
-                          ),
-                        ),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return AppStrings.passwordValidationMessage;
                           }
                           return null;
                         },
+                        suffixIcon: Icons.remove_red_eye_rounded,
+                        onTap: cubit.changeVisibility,
                       ),
                       20.ph,
-                      defaultButton(
-                          onTap: tryToLogin,
-                          text: AppStrings.login,
-                          context: context,
-                          fontFamily: AppStrings.myFont1,
-                          containerColor: Colors.deepOrange,
-                          borderColor: Colors.transparent,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                  
+                      CustomElevatedButton(
+                        onTap: tryToLogin,
+                        text: AppStrings.login,
+                        textColor: Theme.of(context).colorScheme.primary,
+                        fontFamily: AppStrings.myFont1,
+                        btnColor: Theme.of(context).colorScheme.background,
+                        borderColor: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                       10.ph,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            AppStrings.haveAccountVerification,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
+                      RichText(
+                        text: TextSpan(
+                          text: "${AppStrings.haveAccountVerification}  ",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
                           ),
-                          InkWell(
-                            onTap: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => RegisterScreen(),
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              AppStrings.registerNow,
-                              style: TextStyle(
+                          children: [
+                            TextSpan(
+                              text: AppStrings.registerNow,
+                              style: const TextStyle(
                                 color: Colors.blue,
                                 fontSize: 14,
                               ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => navigateTo(
+                                      context: context,
+                                      path: RoutePaths.registerScreen,
+                                    ),
                             ),
-                          )
-                        ],
-                      )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

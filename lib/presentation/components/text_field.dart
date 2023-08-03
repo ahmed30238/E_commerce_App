@@ -1,31 +1,60 @@
 import 'package:flutter/material.dart';
 
-Widget defaultTextFormField({
-  bool isPassword = false,
-  required TextEditingController controller,
-  required String label,
-  double fontSize = 20,
-  Color textColor = Colors.deepOrange,
-  required Function()? onTap,
-  required IconData suffixIcon,
-  required String? Function(String? value) validator,
-}) =>
-    TextFormField(
-      obscureText: isPassword,
+class CustomFormField extends StatelessWidget {
+  final bool? obscureText;
+  final TextEditingController? controller;
+  final String label;
+  final double? fontSize;
+  final Color? textColor;
+  final VoidCallback? onTap;
+  final IconData? suffixIcon;
+  final String? Function(String? value) validator;
+  const CustomFormField({
+    super.key,
+    this.controller,
+    this.fontSize,
+    this.obscureText,
+    required this.label,
+    this.onTap,
+    this.suffixIcon,
+    this.textColor,
+    required this.validator,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      obscureText: obscureText ?? false,
       controller: controller,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        label: Text(
-          label,
-          style: TextStyle(
-            color: textColor,
-            fontSize: fontSize,
-          ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 10,
         ),
-        suffixIcon: IconButton(
-          icon: Icon(suffixIcon),
-          onPressed: onTap!,
+        filled: true,
+        fillColor: Colors.grey[300],
+        enabledBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          borderSide: BorderSide.none,
         ),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          borderSide: BorderSide.none,
+        ),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          borderSide: BorderSide.none,
+        ),
+        hintText: label,
+        suffixIcon: suffixIcon != null
+            ? IconButton(
+                icon: Icon(suffixIcon),
+                onPressed: onTap ?? () {},
+              )
+            : null,
       ),
       validator: validator,
     );
+  }
+}

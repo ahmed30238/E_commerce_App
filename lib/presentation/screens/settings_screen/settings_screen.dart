@@ -1,10 +1,16 @@
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
+import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
+import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
+import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart';
 import 'package:e_commerce_app/presentation/controller/logout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/screens/content_screen/content_screen.dart';
 import 'package:e_commerce_app/presentation/screens/login_screen/login_screen.dart';
-import 'package:e_commerce_app/sizes.dart';
+import 'package:e_commerce_app/core/extensions/numbers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../change_password_screen/change_password_screen.dart';
 
@@ -70,17 +76,21 @@ class SettingsScreen extends StatelessWidget {
             const Divider(color: Colors.grey, height: 5),
             20.ph,
             SizedBox(
-              height: 180,
+              height: 200.h,
               child: ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) =>
-                    notificationSettingsItem(notificationsList[index]),
+                    notificationSettingsItem(notificationsList[index], context),
                 separatorBuilder: (context, index) => 15.ph,
                 itemCount: notificationsList.length,
               ),
             ),
             10.ph,
-            InkWell(
+            CustomElevatedButton(
+              borderColor: Colors.white,
+              text: AppStrings.signOut,
+              textColor: Theme.of(context).colorScheme.onBackground,
+              btnColor: Theme.of(context).colorScheme.primary,
               onTap: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 // ignore: use_build_context_synchronously
@@ -101,21 +111,7 @@ class SettingsScreen extends StatelessWidget {
                   );
                 });
               },
-              child: Container(
-                width: 140,
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey, width: 1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Center(
-                  child: Text(
-                    AppStrings.signOut,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 20),
-                  ),
-                ),
-              ),
-            ),
+            )
           ],
         ),
       ),
@@ -136,27 +132,27 @@ class AccountSettingsListModel {
 }
 
 List<AccountSettingsListModel> settingsList = [
-  AccountSettingsListModel(
+  const AccountSettingsListModel(
     AppStrings.changePassword,
     Icons.arrow_forward_ios,
     0,
   ),
-  AccountSettingsListModel(
+  const AccountSettingsListModel(
     AppStrings.content,
     Icons.arrow_forward_ios,
     1,
   ),
-  AccountSettingsListModel(
+  const AccountSettingsListModel(
     AppStrings.social,
     Icons.arrow_forward_ios,
     2,
   ),
-  AccountSettingsListModel(
+  const AccountSettingsListModel(
     AppStrings.language,
     Icons.arrow_forward_ios,
     3,
   ),
-  AccountSettingsListModel(
+  const AccountSettingsListModel(
     AppStrings.privacyAndSecurity,
     Icons.arrow_forward_ios,
     4,
@@ -165,6 +161,9 @@ List<AccountSettingsListModel> settingsList = [
 
 List<Widget> settingsScreen = [
   ChangePasswordScreen(),
+  const ContentScreen(),
+  const ContentScreen(),
+  const ContentScreen(),
   const ContentScreen(),
 ];
 Widget accountSettingsItem(AccountSettingsListModel model, context) {
@@ -213,7 +212,10 @@ class NotificationsSettingsListModel {
 List<NotificationsSettingsListModel> notificationsList = [
   NotificationsSettingsListModel(
     AppStrings.themeDark,
-    Switch(value: false, onChanged: (value) {}),
+    CupertinoSwitch(
+      value: false,
+      onChanged: (value) {},
+    ),
   ),
   NotificationsSettingsListModel(
     AppStrings.accountActivate,
@@ -224,11 +226,100 @@ List<NotificationsSettingsListModel> notificationsList = [
     Switch(value: true, onChanged: (value) {}),
   ),
 ];
-Widget notificationSettingsItem(NotificationsSettingsListModel model) {
+Widget notificationSettingsItem(
+  NotificationsSettingsListModel model,
+  BuildContext context,
+) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: InkWell(
-      onTap: () {},
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return BlocBuilder<AppCubit, AppStates>(
+              builder: (context, state) {
+                var cubit = AppCubit.get(context);
+
+                return AlertDialog(
+                  content: Container(
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    height: 130,
+                    width: 150,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              cubit.storeLanguage(langCode: 'ar');
+                              Navigator.pop(context);
+                            },
+                            child: IgnorePointer(
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    autofocus: true,
+                                    splashRadius: 20,
+                                    tristate: true,
+                                    shape: const CircleBorder(
+                                      side: BorderSide(width: 2),
+                                    ),
+                                    value:
+                                        !cubit.isEnglishLang(context: context),
+                                    // activeColor: MainColors.primaryColor,
+                                    onChanged: (value) {},
+                                  ),
+                                  const Text('arabicLang'
+                                      // style: MainTextStyle.boldTextStyle(
+                                      //     fontSize: 20,
+                                      //     color: MainColors.primaryColor),
+                                      ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // const HorizontalDivider(),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              cubit.storeLanguage(langCode: 'en');
+                              Navigator.pop(context);
+                            },
+                            child: IgnorePointer(
+                              child: Row(
+                                children: [
+                                  // Radio(value: true, groupValue: RadioButtonInputElement(), onChanged: (value){}),
+                                  Checkbox(
+                                    tristate: true,
+                                    shape: const CircleBorder(eccentricity: 0),
+                                    value:
+                                        cubit.isEnglishLang(context: context),
+                                    onChanged: (value) {},
+                                  ),
+                                  const Text('englishLang,'
+                                      // style: MainTextStyle.boldTextStyle(
+                                      //     fontSize: 20,
+                                      //     color: MainColors.primaryColor),
+                                      ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

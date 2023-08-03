@@ -1,34 +1,63 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_commerce_app/core/extensions/locale_context.dart';
+import 'package:e_commerce_app/core/extensions/numbers.dart';
+import 'package:e_commerce_app/core/token_util/token_utile.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/domain/Entity/products_entity.dart';
+import 'package:e_commerce_app/main.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/states.dart';
-import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
-import 'package:e_commerce_app/sizes.dart';
+import 'package:e_commerce_app/presentation/screens/product_details/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
 Widget productsCart(
   context,
   ProductsEntity homeModel,
 ) {
-  return Container(
-    clipBehavior: Clip.antiAlias,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(25),
+  return InkWell(
+    onTap: () {
+      Navigator.push(
+        context,
+        pageAnimator(
+          ProductDetails(
+            productModel: homeModel,
+          ),
+        ),
+      );
+    },
+    child: ProductDesign(
+      homeModel: homeModel,
     ),
-    child: Card(
+  );
+}
+
+class ProductDesign extends StatelessWidget {
+  final ProductsEntity homeModel;
+  final double? height;
+
+  const ProductDesign({
+    super.key,
+    required this.homeModel,
+    this.height,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: 25.circualrRadius),
+      clipBehavior: Clip.antiAlias,
       elevation: 5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height / 4.5,
-            width: MediaQuery.of(context).size.width,
+            height: height ?? 200.h,
+            width: double.infinity,
             child: CachedNetworkImage(
               fit: BoxFit.cover,
               imageUrl: homeModel.image,
@@ -37,46 +66,55 @@ Widget productsCart(
                 highlightColor: Colors.grey.shade700,
                 child: Container(
                   color: Colors.black,
-                  width: 100,
-                  height: 100,
+                  width: 100.w,
+                  height: 100.h,
                 ),
               ),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
+            padding: 5.hPadding,
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                    child: FadeIn(
-                  duration: const Duration(milliseconds: 500),
-                  child: Text(
-                    homeModel.name,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                  child: FadeIn(
+                    duration: const Duration(milliseconds: 500),
+                    child: context.largeText(homeModel.name),
                   ),
-                )),
+                ),
                 BlocConsumer<HomeCubit, HomeStates>(
                   listener: (context, state) {},
                   builder: (context, state) {
                     var cubit = HomeCubit.get(context);
-                    return IconButton(
-                      onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        cubit.changeFavouriteState(
-                          homeModel.id,
-                          prefs.getString('token') ?? '',
-                        );
-                      },
-                      icon: cubit.favorites[homeModel.id]!
-                          ? const Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            )
-                          : const Icon(Icons.favorite_border),
+                    return Container(
+                      height: 45.h,
+                      width: 45.w,
+                      decoration: BoxDecoration(
+                        color: Colors.pink.withOpacity(.4),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        alignment: Alignment.center,
+                        iconSize: 35,
+                        onPressed: () async {
+                          cubit.changeFavouriteState(
+                            homeModel.id,
+                            TokenUtil.getTokenFromMemory(),
+                          );
+                        },
+                        icon: cubit.favorites[homeModel.id]!
+                            ? const Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                              )
+                            : const Icon(
+                                Icons.favorite_border,
+                                color: Colors.white,
+                              ),
+                      ),
                     );
                   },
                 ),
@@ -120,21 +158,21 @@ Widget productsCart(
               ],
             ),
           ),
+          const Expanded(child: SizedBox()),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
-            child: defaultButton(
-              width: 100,
-              height: 35,
+            child: CustomElevatedButton(
+              width: 100.w,
+              height: 20.h,
               onTap: () {},
               text: AppStrings.addToCart,
-              borderColor: AppCubit.get(context).isDarkTheme
-                  ? Colors.white
-                  : Colors.black,
-              context: context,
+              textColor: Theme.of(context).colorScheme.onBackground,
+              // borderColor:
+              //     AppCubit.get(context).isDarkTheme ? Colors.white : Colors.black,
             ),
           ),
         ],
       ),
-    ),
-  );
+    );
+  }
 }
