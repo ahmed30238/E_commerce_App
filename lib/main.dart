@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/fire_base_helper/init.dart';
 import 'package:e_commerce_app/core/global/dark_theme/dark_theme.dart';
 import 'package:e_commerce_app/core/global/light_theme/light_theme.dart';
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
@@ -40,6 +41,11 @@ void main() async {
   ServiceLocator().init();
   Bloc.observer = MyBlocObserver();
   prefs = await SharedPreferences.getInstance();
+  await NotificationHelper.instance.initializeFirebase();
+  var fcmToken = await NotificationHelper.instance.getFcmToken();
+  fcmToken;
+  Logger loger = const Logger("Main Logger");
+  loger.debug(fcmToken);
   await TokenUtil.loadTokenToMemory();
   await ThemeUtils.loadThemeToMemory();
   await getPermission();
@@ -100,7 +106,7 @@ class MyApp extends StatelessWidget {
 // todo Customize Dio Library (ongoing)
 // todo add firebase notification
 // todo convert navigation to the new way + add animation
-// todo resize product card 
+// todo resize product card
 // todo use Map<String,dynamic> as argument
 
 Route pageAnimator(Widget widget) {
