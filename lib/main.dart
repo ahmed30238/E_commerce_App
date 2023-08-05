@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/core/fire_base_helper/init.dart';
 import 'package:e_commerce_app/core/global/dark_theme/dark_theme.dart';
 import 'package:e_commerce_app/core/global/light_theme/light_theme.dart';
@@ -14,6 +16,7 @@ import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart'
 import 'package:e_commerce_app/presentation/controller/logout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/search_controller/cubit.dart';
 import 'package:e_commerce_app/presentation/map_screen/map_cubit.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -21,6 +24,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:quick_log/quick_log.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+Future<void> onBackNotification(RemoteMessage message) async {
+  log("This is BackGround Notification");
+  log(message.data.toString());
+}
 
 Future getPermission() async {
   bool services;
@@ -49,6 +57,19 @@ void main() async {
   await TokenUtil.loadTokenToMemory();
   await ThemeUtils.loadThemeToMemory();
   await getPermission();
+  // NotificationHelper.instance.messaging.
+
+
+  //! onForeground notification
+  FirebaseMessaging.onMessage.listen((event) {
+    loger.debug("This is notification ${event.data.toString()}");
+  });
+  //! onNotification Clicked notification
+  FirebaseMessaging.onMessageOpenedApp.listen((event) {
+    loger.debug("This is notification ${event.data.toString()}");
+  });
+  //! onBackgroundNotification
+  FirebaseMessaging.onBackgroundMessage(onBackNotification);
 
   Logger logger = const Logger("Main Logger");
   logger.fine("Your token is ${TokenUtil.getTokenFromMemory()}");
