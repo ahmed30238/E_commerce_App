@@ -59,7 +59,6 @@ void main() async {
   await getPermission();
   // NotificationHelper.instance.messaging.
 
-
   //! onForeground notification
   FirebaseMessaging.onMessage.listen((event) {
     loger.debug("This is notification ${event.data.toString()}");
@@ -129,7 +128,7 @@ class MyApp extends StatelessWidget {
 // todo convert navigation to the new way + add animation
 // todo resize product card
 // todo use Map<String,dynamic> as argument
-// todo add lottie nimation 
+// todo add lottie nimation
 
 Route pageAnimator(Widget widget) {
   return PageRouteBuilder(
@@ -147,4 +146,14 @@ Route pageAnimator(Widget widget) {
       );
     },
   );
+}
+
+//! email validation function
+validateEmail(String? value) {
+  String patten = r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
+  RegExp regex = RegExp(patten);
+
+  if (!regex.hasMatch(value!)) {
+    "Not Valid";
+  }
 }
