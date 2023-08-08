@@ -129,6 +129,7 @@ class MyApp extends StatelessWidget {
 // todo convert navigation to the new way + add animation
 // todo resize product card
 // todo use Map<String,dynamic> as argument
+// todo add lottie nimation 
 
 Route pageAnimator(Widget widget) {
   return PageRouteBuilder(
