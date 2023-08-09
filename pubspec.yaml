@@ -64,12 +64,14 @@ dependencies:
   firebase_core: ^2.15.0
   firebase_messaging: ^14.6.5
   firebase_storage: ^11.2.5
+  firebase_auth: ^4.7.2
   #=====
   url_launcher: ^6.1.12
   image_picker: ^1.0.2
   image_pickers: ^2.0.4+1
   flash: ^3.0.5+1
   share_plus: ^7.1.0
+  google_sign_in: ^6.1.4
   
 
 
