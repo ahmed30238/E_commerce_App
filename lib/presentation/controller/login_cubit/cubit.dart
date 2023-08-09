@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:e_commerce_app/core/failure/failure.dart';
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
+import 'package:e_commerce_app/core/network_call/network_call.dart';
 import 'package:e_commerce_app/core/service_locator/service_locator.dart';
 import 'package:e_commerce_app/core/token_util/token_utile.dart';
+import 'package:e_commerce_app/data/models/login_model.dart';
 import 'package:e_commerce_app/domain/Entity/login.dart';
 import 'package:e_commerce_app/domain/use_cases/post_login_data.dart';
 import 'package:e_commerce_app/presentation/controller/login_cubit/states.dart';
@@ -48,6 +51,7 @@ class LoginCubit extends Cubit<Loginstates> {
     });
   }
 
+  // todo need to be fixed
   Logger logger = const Logger("Login Logger");
   Future<void> signInWithGoogleAccount({required BuildContext context}) async {
     try {
@@ -60,21 +64,39 @@ class LoginCubit extends Cubit<Loginstates> {
         accessToken: googleSignInAuthentication?.accessToken,
         idToken: googleSignInAuthentication?.idToken,
       );
-      final userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
-
-      PostLoginDataUseCase(baseRepository: sl())
-          .call(
-        LoginParameters(
-          email: userCredential.user?.email ?? "",
-          password: userCredential.user?.phoneNumber ?? "",
+      var auth = FirebaseAuth.instance;
+      final userCredential = await auth.signInWithCredential(credential);
+      logger.info(userCredential.user?.email);
+      logger.info(userCredential.user?.uid);
+      final res = await NetworkCall().post(
+        "https://student.valuxapps.com/api/login",
+        body: FormData.fromMap(
+          {
+            "email": userCredential.user?.email,
+            "password": "aaaa",
+          },
         ),
-      )
-          .then((value) {
-        value.fold(
-            (l) => ServerFailure(loginModel!.message), (r) => loginModel = r);
-      });
-      cacheUserData(loginModel!, context: context);
+      );
+      if (res?.statusCode == 200) {
+        loginModel = LoginModel.fromjson(res?.data);
+        cacheUserData(loginModel!, context: context);
+      }
+      logger.debug("res from login data ${loginModel?.loginData?.token}");
+
+      // PostLoginDataUseCase(baseRepository: sl())
+      //     .call(
+      //   LoginParameters(
+      //     email: userCredential.user?.displayName ?? "",
+      //     password: userCredential.user?.displayName ?? "",
+      //   ),
+      // )
+      //     .then((value) {
+      //   value.fold(
+      //     (l) => ServerFailure(loginModel!.message),
+      //     (r) => loginModel = r,
+      //   );
+      // });
+      // cacheUserData(loginModel!, context: context);
       logger.fine(loginModel?.loginData?.name);
       logger.fine(loginModel?.loginData);
     } catch (error) {
