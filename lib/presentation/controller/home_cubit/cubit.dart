@@ -74,6 +74,8 @@ class HomeCubit extends Cubit<HomeStates> {
     });
   }
 
+
+
   AddOrDeleteFavouritesEntity? addOrDeleteFavouritesEntity;
 
   void changeFavouriteState(int id, String token) {

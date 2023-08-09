@@ -177,6 +177,16 @@ class LoginScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                       10.ph,
+                      // todo change icon to google logo
+                      IconButton(
+                        onPressed: () {
+                          cubit.signInWithGoogleAccount(
+                            context: context,
+                          );
+                        },
+                        icon: const Icon(Icons.abc),
+                        iconSize: 50,
+                      ),
                       RichText(
                         text: TextSpan(
                           text: "${AppStrings.haveAccountVerification}  ",
