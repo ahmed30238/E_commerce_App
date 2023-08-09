@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/helper_functions.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
@@ -92,9 +93,9 @@ class SettingsScreen extends StatelessWidget {
               textColor: Theme.of(context).colorScheme.onBackground,
               btnColor: Theme.of(context).colorScheme.primary,
               onTap: () async {
+                var logoutCubit = LogoutCubit.get(context);
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-                // ignore: use_build_context_synchronously
-                LogoutCubit.get(context)
+                logoutCubit
                     .postLogout(prefs.getString('token') ?? '')
                     .then((value) {
                   prefs.remove('token').then((value) {
@@ -111,7 +112,15 @@ class SettingsScreen extends StatelessWidget {
                   );
                 });
               },
-            )
+            ),
+            IconButton(
+              onPressed: () {
+                urlLauncher("https://www.facebook.com/");
+              },
+              icon: const Icon(
+                Icons.telegram_sharp,
+              ),
+            ),
           ],
         ),
       ),
