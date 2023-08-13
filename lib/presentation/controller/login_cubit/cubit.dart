@@ -1,11 +1,9 @@
 import 'dart:convert';
-import 'package:dio/dio.dart';
+
 import 'package:e_commerce_app/core/failure/failure.dart';
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
-import 'package:e_commerce_app/core/network_call/network_call.dart';
 import 'package:e_commerce_app/core/service_locator/service_locator.dart';
 import 'package:e_commerce_app/core/token_util/token_utile.dart';
-import 'package:e_commerce_app/data/models/login_model.dart';
 import 'package:e_commerce_app/domain/Entity/login.dart';
 import 'package:e_commerce_app/domain/use_cases/post_login_data.dart';
 import 'package:e_commerce_app/presentation/controller/login_cubit/states.dart';
@@ -66,22 +64,25 @@ class LoginCubit extends Cubit<Loginstates> {
       );
       var auth = FirebaseAuth.instance;
       final userCredential = await auth.signInWithCredential(credential);
-      logger.info(userCredential.user?.email);
-      logger.info(userCredential.user?.uid);
-      final res = await NetworkCall().post(
-        "https://student.valuxapps.com/api/login",
-        body: FormData.fromMap(
-          {
-            "email": userCredential.user?.email,
-            "password": "aaaa",
-          },
-        ),
-      );
-      if (res?.statusCode == 200) {
-        loginModel = LoginModel.fromjson(res?.data);
-        cacheUserData(loginModel!, context: context);
-      }
-      logger.debug("res from login data ${loginModel?.loginData?.token}");
+      userCredential.credential?.signInMethod;
+      TokenUtil.saveToken(userCredential.user?.uid ?? "");
+      print(auth.currentUser?.uid ?? "");
+      // logger.info(userCredential.user?.email);
+      // logger.info(userCredential.user?.uid);
+      // final res = await NetworkCall().post(
+      //   AppConstances.loginDataPath,
+      //   body: FormData.fromMap(
+      //     {
+      //       "email": userCredential.user?.email,
+      //       "password": "123456789",
+      //     },
+      //   ),
+      // );
+      // if (res?.statusCode == 200) {
+      //   loginModel = LoginModel.fromjson(res?.data);
+      //   cacheUserData(loginModel!, context: context);
+      // }
+      logger.debug("res from login data ${userCredential.user?.uid}");
 
       // PostLoginDataUseCase(baseRepository: sl())
       //     .call(
