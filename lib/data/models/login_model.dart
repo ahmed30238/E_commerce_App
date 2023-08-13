@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/domain/Entity/login.dart';
 
 class LoginModel extends LoginEntity {
- const LoginModel(
+  const LoginModel(
     super.status, // bool
     super.message, // String
     super.loginData, // object
@@ -10,12 +10,12 @@ class LoginModel extends LoginEntity {
   factory LoginModel.fromjson(Map<String, dynamic> json) => LoginModel(
         json['status'],
         json['message'],
-      json['data'] != null? LoginDataModel.fromjson(json ['data']):null,
+        json['data'] != null ? LoginDataModel.fromjson(json['data']) : null,
       );
 }
 
 class LoginDataModel extends LoginDataEntity {
- const LoginDataModel(
+  const LoginDataModel(
     super.id,
     super.name,
     super.email,

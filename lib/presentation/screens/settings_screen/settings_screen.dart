@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/core/helper_functions.dart';
+import 'package:e_commerce_app/core/utils/app_constances/app_constances.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../change_password_screen/change_password_screen.dart';
 
@@ -223,7 +225,11 @@ List<NotificationsSettingsListModel> notificationsList = [
     AppStrings.themeDark,
     CupertinoSwitch(
       value: false,
-      onChanged: (value) {},
+      onChanged: (value) {
+        Share.share(
+          AppConstances.appUrl,
+        );
+      },
     ),
   ),
   NotificationsSettingsListModel(
