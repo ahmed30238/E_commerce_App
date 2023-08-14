@@ -15,14 +15,14 @@ import 'package:e_commerce_app/data/models/search_model.dart';
 
 abstract class BaseRemoteDataSource {
   Future<List<BannersModel>> getBanners();
-  Future<HomeModel> getProducts(String token);
+  Future<HomeModel> getProducts();
   Future<LoginModel> postLoginData(String email, String password);
   Future<CategoryModel> getCategories();
   Future<AddOrDeleteFavouritesModel> addOrDeleteFavourites(
       int id, String token);
 
-  Future<GetFavouritesModel> getfavourites(String token);
-  Future<SearchModel> postSearch(String text, String token);
+  Future<GetFavouritesModel> getfavourites();
+  Future<SearchModel> postSearch(String text);
   Future<LogoutModel> postLogout(String token);
   Future<RegisterModel> postRegisterData(
       String name, String phone, String email, String password);
@@ -48,7 +48,7 @@ class RemoteDataSource extends BaseRemoteDataSource {
   }
 
   @override
-  Future<HomeModel> getProducts(String token) async {
+  Future<HomeModel> getProducts() async {
     final response = await NetworkCall().get(path: AppConstances.homeDataPath);
     if (response?.statusCode == 200) {
       return HomeModel.fromjson(response?.data);
@@ -109,7 +109,7 @@ class RemoteDataSource extends BaseRemoteDataSource {
   }
 
   @override
-  Future<GetFavouritesModel> getfavourites(String token) async {
+  Future<GetFavouritesModel> getfavourites() async {
     final response =
         await NetworkCall().get(path: AppConstances.addFavouritesPath);
 
@@ -123,25 +123,25 @@ class RemoteDataSource extends BaseRemoteDataSource {
   }
 
   @override
-  Future<SearchModel> postSearch(String text, String token) async {
-    final response = await Dio().post(
+  Future<SearchModel> postSearch(String text) async {
+    final response = await NetworkCall().post(
       AppConstances.postSearchPath,
-      options: Options(
-        headers: {
-          'Authorization': token,
-        },
-        receiveDataWhenStatusError: true,
-      ),
-      data: {
+      // options: Options(
+      //   // headers: {
+      //   //   'Authorization': token,
+      //   // },
+      //   receiveDataWhenStatusError: true,
+      // ),
+      body: FormData.fromMap({
         'text': text,
-      },
+      }),
     );
 
-    if (response.statusCode == 200) {
-      return SearchModel.fromjson(response.data);
+    if (response?.statusCode == 200) {
+      return SearchModel.fromjson(response?.data);
     } else {
       throw ServerException(
-        ErrorMessageModel.fromJson(response.data),
+        ErrorMessageModel.fromJson(response?.data),
       );
     }
   }

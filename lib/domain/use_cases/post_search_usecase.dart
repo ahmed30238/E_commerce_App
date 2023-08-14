@@ -13,16 +13,16 @@ class PostSearchUseCase extends BaseUseCase<SearchEntity, SearchParameters> {
   @override
   Future<Either<Failure, SearchEntity>> call(
       SearchParameters parameters) async {
-    return await baseRepository.postSearch(parameters.text, parameters.token);
+    return await baseRepository.postSearch(parameters.text);
   }
 }
 
 class SearchParameters extends Equatable {
-  final String token;
+  // final String token;
   final String text;
 
-  const SearchParameters(this.token, this.text);
+  const SearchParameters(this.text);
 
   @override
-  List<Object> get props => [token, text];
+  List<Object> get props => [text];
 }
