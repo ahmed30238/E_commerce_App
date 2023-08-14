@@ -12,6 +12,6 @@ class AppConstances {
       'https://student.valuxapps.com/api/products/search';
   static const postLogoutPath = 'https://student.valuxapps.com/api/logout';
   static const postRegisterDataPath =
-      'https://student.valuxapps.com/api/register';
+      'register';
   static String get appUrl => Platform.isAndroid ? "androidUrl" : "appleUrl";
 }

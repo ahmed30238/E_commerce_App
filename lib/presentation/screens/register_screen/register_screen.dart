@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
 import 'package:e_commerce_app/core/routing/routing_paths.dart';
+import 'package:e_commerce_app/core/token_util/token_utile.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
 import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
@@ -11,7 +12,6 @@ import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
@@ -79,7 +79,6 @@ class RegisterScreen extends StatelessWidget {
                           return null;
                         },
                       ),
-                 
                       10.ph,
                       CustomFormField(
                         onTap: () {},
@@ -155,19 +154,28 @@ class RegisterScreen extends StatelessWidget {
                                 .then(
                               (value) async {
                                 if (cubit.registerEntity!.status) {
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  prefs
-                                      .setString(
-                                          'token',
-                                          cubit.registerEntity!.registerData
-                                              .token)
-                                      .then((value) =>
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const LayOutScreen())));
+                                  TokenUtil.saveToken(cubit.registerEntity
+                                              ?.registerData.token ??
+                                          "")
+                                      .then(
+                                    (value) => Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LayOutScreen(),
+                                      ),
+                                    ),
+                                  );
+
+                                  // SharedPreferences prefs =
+                                  //     await SharedPreferences.getInstance();
+                                  // prefs
+                                  //     .setString(
+                                  //         'token',
+                                  //         cubit.registerEntity!.registerData
+                                  //             .token)
+                                  //     .then((value) =>
+                                  //        );
 
                                   showToast(
                                       msg: cubit.registerEntity!.message,

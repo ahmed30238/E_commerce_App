@@ -20,7 +20,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
       String email, String password, String name, String phone) {
     emit(PostRegisterDataLoadingState());
   return  PostRegisterDataUseCase(baseRepository: sl())
-        .call(RegisterDataParameters(name, password, email, phone))
+        .call(RegisterDataParameters(name, password, email, phone,))
         .then((value) {
       value.fold((l) => l.message, (r) => registerEntity = r);
       emit(PostRegisterDataSuccessState());
