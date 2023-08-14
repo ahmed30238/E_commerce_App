@@ -11,7 +11,7 @@ import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -56,15 +56,16 @@ class LoginScreen extends StatelessWidget {
                   .then(
                 (value) async {
                   if (cubit.loginModel!.status) {
-                    TokenUtil.saveToken(cubit.loginModel!.loginData!.token);
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs
-                        .setString('token', cubit.loginModel!.loginData!.token)
-                        .then(
-                          (value) => navigateAndRemove(
-                              context: context, path: RoutePaths.layoutScreen),
-                        );
+                    TokenUtil.saveToken(cubit.loginModel!.loginData!.token)
+                        .then((value) => navigateAndRemove(
+                            context: context, path: RoutePaths.layoutScreen));
+                    // SharedPreferences prefs =
+                    //     await SharedPreferences.getInstance();
+                    // prefs
+                    //     .setString('token', cubit.loginModel!.loginData!.token)
+                    //     .then(
+                    //       (value) => ,
+                    //     );
 
                     showToast(
                       msg: cubit.loginModel!.message,

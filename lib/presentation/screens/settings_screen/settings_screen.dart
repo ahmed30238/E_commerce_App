@@ -118,8 +118,10 @@ class SettingsScreen extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                AudioPlayer().setAsset("assets/sound/send.mp3");
-                urlLauncher("https://www.facebook.com/");
+               var player =  AudioPlayer();
+               player.setAsset("assets/sound/send.mp3").then((value) => player.play());
+              //  player.play
+                // urlLauncher("https://www.facebook.com/");
               },
               icon: const Icon(
                 Icons.telegram_sharp,

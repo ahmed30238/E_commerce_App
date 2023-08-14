@@ -172,19 +172,20 @@ class RemoteDataSource extends BaseRemoteDataSource {
   @override
   Future<RegisterModel> postRegisterData(
       String name, String phone, String email, String password) async {
-    final response = await Dio().post(
-      AppConstances.postRegisterDataPath,
-      data: {
-        'name': name,
-        'phone': phone,
-        'email': email,
-        'password': password
-      },
-    );
-    if (response.statusCode == 200) {
-      return RegisterModel.fromjson(response.data);
+    final response = await NetworkCall().post(
+        AppConstances.postRegisterDataPath,
+        body: FormData.fromMap({
+          'name': name,
+          'phone': phone,
+          'email': email,
+          'password': password
+        })
+        // data:,
+        );
+    if (response?.statusCode == 200) {
+      return RegisterModel.fromjson(response?.data);
     } else {
-      throw ServerException(ErrorMessageModel.fromJson(response.data));
+      throw ServerException(ErrorMessageModel.fromJson(response?.data));
     }
   }
 }
