@@ -13,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../change_password_screen/change_password_screen.dart';
@@ -117,6 +118,7 @@ class SettingsScreen extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
+                AudioPlayer().setAsset("assets/sound/send.mp3");
                 urlLauncher("https://www.facebook.com/");
               },
               icon: const Icon(
@@ -234,7 +236,9 @@ List<NotificationsSettingsListModel> notificationsList = [
   ),
   NotificationsSettingsListModel(
     AppStrings.accountActivate,
-    Switch(value: true, onChanged: (value) {}),
+    Switch(value: true, onChanged: (value) {
+
+    }),
   ),
   NotificationsSettingsListModel(
     AppStrings.opportunity,
