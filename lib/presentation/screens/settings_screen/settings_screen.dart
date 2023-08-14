@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/core/helper_functions.dart';
+import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:e_commerce_app/core/utils/app_constances/app_constances.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
@@ -8,7 +8,6 @@ import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart'
 import 'package:e_commerce_app/presentation/controller/logout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/screens/content_screen/content_screen.dart';
 import 'package:e_commerce_app/presentation/screens/login_screen/login_screen.dart';
-import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +15,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../change_password_screen/change_password_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
