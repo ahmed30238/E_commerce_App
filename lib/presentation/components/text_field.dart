@@ -24,6 +24,7 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      // onTapOutside: (event) => Navigator.pop(context),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: obscureText ?? false,
       controller: controller,
