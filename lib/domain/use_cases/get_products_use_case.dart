@@ -6,17 +6,16 @@ import 'package:e_commerce_app/core/failure/failure.dart';
 import 'package:e_commerce_app/domain/repository/base_repository.dart';
 
 class GetHomeProductsUseCase
-    extends BaseUseCase<HomeEntity, ProductsParameter> {
+    extends BaseUseCase<HomeEntity, NoParameter> {
   BaseRepository baseRepository;
   GetHomeProductsUseCase({
     required this.baseRepository,
   });
   @override
   Future<Either<Failure, HomeEntity>> call(
-      ProductsParameter parameters) async {
-    return await baseRepository.getProducts(
-      parameters.token,
-    );
+    NoParameter parameters,
+      ) async {
+    return await baseRepository.getProducts();
   }
 }
 

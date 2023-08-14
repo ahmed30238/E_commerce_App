@@ -10,25 +10,19 @@ class SearchCubit extends Cubit<SearchStates> {
 
   SearchEntity? searchEntity;
 
-  void postSearch(String text, String token) {
+  void postSearch(String text) {
     emit(SearchLoadingState());
-    PostSearchUseCase(
-      baseRepository: sl(),
-    ).call(SearchParameters(token, text)).then(
+    PostSearchUseCase(baseRepository: sl()).call(SearchParameters(text)).then(
       (value) {
         value.fold(
           (l) => l.message,
           (r) => searchEntity = r,
         );
-        emit(
-          SearchSuccessState(),
-        );
+        emit(SearchSuccessState());
       },
     ).catchError(
       (error) {
-        emit(
-          SearchErrorState(),
-        );
+        emit(SearchErrorState());
       },
     );
   }

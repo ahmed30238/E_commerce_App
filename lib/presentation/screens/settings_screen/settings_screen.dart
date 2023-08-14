@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/core/extensions/numbers.dart';
+import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
 import 'package:e_commerce_app/core/utils/app_constances/app_constances.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
@@ -14,7 +15,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../change_password_screen/change_password_screen.dart';
 
@@ -23,6 +23,25 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<NotificationsSettingsListModel> notificationsList = [
+      NotificationsSettingsListModel(
+        AppStrings.themeDark,
+        CupertinoSwitch(
+          value: AppCubit.get(context).theme,
+          onChanged: (value) {
+            AppCubit.get(context).toggleTheme();
+          },
+        ),
+      ),
+      NotificationsSettingsListModel(
+        AppStrings.accountActivate,
+        Switch(value: true, onChanged: (value) {}),
+      ),
+      NotificationsSettingsListModel(
+        AppStrings.opportunity,
+        Switch(value: true, onChanged: (value) {}),
+      ),
+    ];
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Padding(
@@ -97,11 +116,10 @@ class SettingsScreen extends StatelessWidget {
               btnColor: Theme.of(context).colorScheme.primary,
               onTap: () async {
                 var logoutCubit = LogoutCubit.get(context);
-                SharedPreferences prefs = await SharedPreferences.getInstance();
                 logoutCubit
-                    .postLogout(prefs.getString('token') ?? '')
+                    .postLogout(prefs?.getString('token') ?? '')
                     .then((value) {
-                  prefs.remove('token').then((value) {
+                  prefs?.remove('token').then((value) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -116,16 +134,31 @@ class SettingsScreen extends StatelessWidget {
                 });
               },
             ),
-            IconButton(
-              onPressed: () {
-               var player =  AudioPlayer();
-               player.setAsset("assets/sound/send.mp3").then((value) => player.play());
-              //  player.play
-                // urlLauncher("https://www.facebook.com/");
-              },
-              icon: const Icon(
-                Icons.telegram_sharp,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    var player = AudioPlayer();
+                    player
+                        .setAsset("assets/sound/send.mp3")
+                        .then((value) => player.play());
+                    //  player.play
+                    // urlLauncher("https://www.facebook.com/");
+                  },
+                  icon: const Icon(
+                    Icons.telegram_sharp,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Share.share(
+                      AppConstances.appUrl,
+                    );
+                  },
+                  icon: const Icon(Icons.share),
+                ),
+              ],
             ),
           ],
         ),
@@ -224,29 +257,6 @@ class NotificationsSettingsListModel {
   );
 }
 
-List<NotificationsSettingsListModel> notificationsList = [
-  NotificationsSettingsListModel(
-    AppStrings.themeDark,
-    CupertinoSwitch(
-      value: false,
-      onChanged: (value) {
-        Share.share(
-          AppConstances.appUrl,
-        );
-      },
-    ),
-  ),
-  NotificationsSettingsListModel(
-    AppStrings.accountActivate,
-    Switch(value: true, onChanged: (value) {
-
-    }),
-  ),
-  NotificationsSettingsListModel(
-    AppStrings.opportunity,
-    Switch(value: true, onChanged: (value) {}),
-  ),
-];
 Widget notificationSettingsItem(
   NotificationsSettingsListModel model,
   BuildContext context,
@@ -294,7 +304,7 @@ Widget notificationSettingsItem(
                                     // activeColor: MainColors.primaryColor,
                                     onChanged: (value) {},
                                   ),
-                                  const Text('arabicLang'
+                                  const Text('العربية'
                                       // style: MainTextStyle.boldTextStyle(
                                       //     fontSize: 20,
                                       //     color: MainColors.primaryColor),
@@ -322,7 +332,7 @@ Widget notificationSettingsItem(
                                         cubit.isEnglishLang(context: context),
                                     onChanged: (value) {},
                                   ),
-                                  const Text('englishLang,'
+                                  const Text('English'
                                       // style: MainTextStyle.boldTextStyle(
                                       //     fontSize: 20,
                                       //     color: MainColors.primaryColor),

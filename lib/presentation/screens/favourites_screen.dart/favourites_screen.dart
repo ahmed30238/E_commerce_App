@@ -1,10 +1,9 @@
+import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:e_commerce_app/core/extensions/widget_extension.dart';
-import 'package:e_commerce_app/core/service_locator/service_locator.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/favourite_item_cart.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/states.dart';
-import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,7 +24,7 @@ class FavouritesScreen extends StatelessWidget {
                 .favouriteItemData!
                 .isNotEmpty) {
               // ignore: use_build_context_synchronously
-              HomeCubit.get(context).getFavourites(sl());
+              HomeCubit.get(context).getFavourites();
             }
           }
           var cubit = HomeCubit.get(context);

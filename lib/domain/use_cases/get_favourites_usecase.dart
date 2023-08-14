@@ -8,15 +8,15 @@ import 'package:e_commerce_app/domain/Entity/get_favourites_entity.dart';
 import 'package:e_commerce_app/domain/repository/base_repository.dart';
 
 class GetFavouritesUseCase
-    extends BaseUseCase<GetFavouritesEntity, GetFavouritesParameters> {
+    extends BaseUseCase<GetFavouritesEntity, NoParameter> {
   BaseRepository baseRepository;
   GetFavouritesUseCase({
     required this.baseRepository,
   });
   @override
   Future<Either<Failure, GetFavouritesEntity>> call(
-      GetFavouritesParameters parameters) async {
-    return await baseRepository.getFavourites(parameters.token);
+      NoParameter parameters) async {
+    return await baseRepository.getFavourites();
   }
 }
 

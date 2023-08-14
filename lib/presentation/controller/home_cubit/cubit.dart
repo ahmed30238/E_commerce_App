@@ -14,7 +14,6 @@ import 'package:e_commerce_app/domain/use_cases/get_products_use_case.dart';
 import 'package:e_commerce_app/domain/use_cases/post_addOrDeleteFavourites.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../components/flutter_toast.dart';
 
@@ -39,12 +38,12 @@ class HomeCubit extends Cubit<HomeStates> {
   Map<int, bool> favorites = {};
 
   HomeEntity? homeModel;
-  Future<void> getProducts(String token,
+  Future<void> getProducts(
       {String? page /* in case of using pagination*/}) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
     emit(GetProductsLoadingState());
     await GetHomeProductsUseCase(baseRepository: sl())
-        .call(ProductsParameter(token: prefs.getString('token') ?? ''))
+        .call(const NoParameter())
         .then(
       (value) {
         value.fold((l) => ServerFailure(l.message), (r) => homeModel = r);
@@ -92,7 +91,7 @@ class HomeCubit extends Cubit<HomeStates> {
           states: ToastStates.errorState,
         );
       } else {
-        getFavourites(token);
+        getFavourites();
         showToast(
           msg: addOrDeleteFavouritesEntity?.message ?? "somthing is wrong",
           states: ToastStates.successState,
@@ -106,10 +105,10 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
   GetFavouritesEntity? getFavouritesEntity;
-  void getFavourites(String token) {
+  void getFavourites() {
     emit(GetFavouriteLoadingState());
     GetFavouritesUseCase(baseRepository: sl())
-        .call(GetFavouritesParameters(token))
+        .call(const NoParameter())
         .then(
       (value) {
         value.fold((l) => l.message, (r) => getFavouritesEntity = r);
