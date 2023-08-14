@@ -7,6 +7,9 @@ ThemeData darkTheme =  ThemeData(
             bodyLarge: TextStyle(
               color: Colors.white,
             ),
+            bodyMedium: TextStyle(
+              color: Colors.white,
+            ),
           ),
           hintColor: Colors.black,
           appBarTheme: AppBarTheme(

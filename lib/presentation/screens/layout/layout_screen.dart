@@ -5,7 +5,6 @@ import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart'
 import 'package:e_commerce_app/presentation/screens/search_screen/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LayOutScreen extends StatefulWidget {
   const LayOutScreen({super.key});
@@ -16,14 +15,9 @@ class LayOutScreen extends StatefulWidget {
 
 class _LayOutScreenState extends State<LayOutScreen> {
   void defineShared() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token') ?? '';
-    // ignore: use_build_context_synchronously
     HomeCubit.get(context).getBanners();
-    // ignore: use_build_context_synchronously
-    HomeCubit.get(context).getProducts(token);
-    // ignore: use_build_context_synchronously
-    HomeCubit.get(context).getFavourites(token);
+    HomeCubit.get(context).getProducts();
+    HomeCubit.get(context).getFavourites();
   }
 
   @override
@@ -43,14 +37,14 @@ class _LayOutScreenState extends State<LayOutScreen> {
             automaticallyImplyLeading: false,
             title: Text(context.loc!.title),
             actions: [
-              IconButton(
-                onPressed: () {
-                  AppCubit.get(context).toggleTheme();
-                },
-                icon: const Icon(
-                  Icons.dark_mode_outlined,
-                ),
-              ),
+              // IconButton(
+              //   onPressed: () {
+              //     AppCubit.get(context).toggleTheme();
+              //   },
+              //   icon: const Icon(
+              //     Icons.dark_mode_outlined,
+              //   ),
+              // ),
               IconButton(
                 onPressed: () async {
                   Navigator.push(
@@ -60,9 +54,7 @@ class _LayOutScreenState extends State<LayOutScreen> {
                     ),
                   );
                 },
-                icon: const Icon(
-                  Icons.search,
-                ),
+                icon: const Icon(Icons.search),
               ),
             ],
           ),

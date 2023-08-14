@@ -30,8 +30,8 @@ class ShopRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, HomeModel>> getProducts(String token) async {
-    final res = await baseRemoteDataSource.getProducts(token);
+  Future<Either<Failure, HomeModel>> getProducts() async {
+    final res = await baseRemoteDataSource.getProducts();
     try {
       return Right(res);
     } on ServerException catch (error) {
@@ -88,8 +88,8 @@ class ShopRepository extends BaseRepository {
 
   @override
   Future<Either<Failure, GetFavouritesModel>> getFavourites(
-      String token) async {
-    final res = await baseRemoteDataSource.getfavourites(token);
+     ) async {
+    final res = await baseRemoteDataSource.getfavourites();
     try {
       return Right(res);
     } on ServerException catch (error) {
@@ -101,8 +101,8 @@ class ShopRepository extends BaseRepository {
 
   @override
   Future<Either<Failure, SearchEntity>> postSearch(
-      String text, String token) async {
-    final res = await baseRemoteDataSource.postSearch(text, token);
+      String text) async {
+    final res = await baseRemoteDataSource.postSearch(text);
     try {
       return Right(res);
     } on ServerException catch (error) {

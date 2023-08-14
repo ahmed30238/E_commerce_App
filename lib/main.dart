@@ -18,6 +18,7 @@ import 'package:e_commerce_app/presentation/controller/search_controller/cubit.d
 import 'package:e_commerce_app/presentation/map_screen/map_cubit.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -93,24 +94,29 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<AppCubit, AppStates>(
         builder: (context, state) {
           var cubit = AppCubit.get(context);
-          return MaterialApp(
-            supportedLocales: AppLocalizations.supportedLocales,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            locale: Locale(cubit.localeCode ?? 'en'),
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
-            builder: (context, child) => ScreenUtilInit(
-              builder: (_, __) => child!,
-              useInheritedMediaQuery: true,
-
-              /// The [Size] of the device in the design draft,
-              designSize: const Size(430, 932),
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: const SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
             ),
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            themeMode: ThemeUtils.getTheme() ? ThemeMode.dark : ThemeMode.light,
-            onGenerateRoute: AppRouter.onGenerateRoutes,
-            initialRoute: RoutePaths.splashPath,
+            child: MaterialApp(
+              supportedLocales: AppLocalizations.supportedLocales,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              locale: Locale(cubit.localeCode ?? 'en'),
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter Demo',
+              builder: (context, child) => ScreenUtilInit(
+                builder: (_, __) => child!,
+                useInheritedMediaQuery: true,
+          
+                /// The [Size] of the device in the design draft,
+                designSize: const Size(430, 932),
+              ),
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              themeMode: ThemeUtils.getTheme() ? ThemeMode.dark : ThemeMode.light,
+              onGenerateRoute: AppRouter.onGenerateRoutes,
+              initialRoute: RoutePaths.splashPath,
+            ),
           );
         },
       ),
