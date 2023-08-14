@@ -24,9 +24,7 @@ Widget productsCart(
       Navigator.push(
         context,
         pageAnimator(
-          ProductDetails(
-            productModel: homeModel,
-          ),
+          ProductDetails(productModel: homeModel),
         ),
       );
     },
