@@ -1,4 +1,3 @@
-import 'package:e_commerce_app/core/extensions/strins_extension.dart';
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
 import 'package:e_commerce_app/core/routing/routing_paths.dart';
 import 'package:e_commerce_app/core/token_util/token_utile.dart';
@@ -10,6 +9,7 @@ import 'package:e_commerce_app/presentation/controller/register_cubit/cubit.dart
 import 'package:e_commerce_app/presentation/controller/register_cubit/states.dart';
 import 'package:e_commerce_app/presentation/screens/layout/layout_screen.dart';
 import 'package:e_commerce_app/core/extensions/numbers.dart';
+import 'package:e_commerce_app/core/extensions/strings_extension.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -164,19 +164,8 @@ class RegisterScreen extends StatelessWidget {
                                       ),
                                     ),
                                   );
-
-                                  // SharedPreferences prefs =
-                                  //     await SharedPreferences.getInstance();
-                                  // prefs
-                                  //     .setString(
-                                  //         'token',
-                                  //         cubit.registerEntity!.registerData
-                                  //             .token)
-                                  //     .then((value) =>
-                                  //        );
-
                                   showToast(
-                                      msg: cubit.registerEntity!.message,
+                                      msg: cubit.registerEntity?.message ?? "",
                                       states: ToastStates.successState);
                                 } else {
                                   showToast(

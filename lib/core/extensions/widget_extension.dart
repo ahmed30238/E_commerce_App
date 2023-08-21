@@ -6,11 +6,16 @@ extension WidgetExtension on Widget {
         body: this,
         appBar: AppBar(),
       );
+  Form customValidationForm({GlobalKey? formKey}) {
+    return Form(
+      key: formKey,
+      child: this,
+    );
+  }
 }
-// todo 
+// todo
 extension BtnStyle on ButtonStyle {
-ButtonStyle?  green() {
-  
+  ButtonStyle? green() {
     return copyWith(
       backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
       // shape: ,
@@ -18,7 +23,8 @@ ButtonStyle?  green() {
   }
 }
 
-
+// extension FormExtension on Widget {
+// }
 
 void gh() {
   ElevatedButton(
