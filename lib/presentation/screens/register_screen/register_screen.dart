@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/extensions/strins_extension.dart';
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
 import 'package:e_commerce_app/core/routing/routing_paths.dart';
 import 'package:e_commerce_app/core/token_util/token_utile.dart';
@@ -98,12 +99,9 @@ class RegisterScreen extends StatelessWidget {
                         controller: emailController,
                         label: AppStrings.email,
                         suffixIcon: Icons.email,
-                        validator: (String? value) {
-                          if (value!.isEmpty) {
-                            return AppStrings.emailValidationMessage;
-                          }
-                          return null;
-                        },
+                        validator: (value) => (value?.emailValidation() ?? true)
+                            ? null
+                            : "Not Valid",
                       ),
                       10.ph,
                       CustomFormField(
