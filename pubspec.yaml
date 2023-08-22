@@ -61,6 +61,7 @@ dependencies:
   share_plus: ^7.1.0
   google_sign_in: ^6.1.4
   just_audio: ^0.9.34
+  dismissible_page: ^1.0.2
   
 
 
