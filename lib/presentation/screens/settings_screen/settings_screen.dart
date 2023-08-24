@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/core/extensions/numbers.dart';
+import 'package:e_commerce_app/core/helper_functions.dart';
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
 import 'package:e_commerce_app/core/utils/app_constances/app_constances.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
@@ -23,6 +24,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var image;
     List<NotificationsSettingsListModel> notificationsList = [
       NotificationsSettingsListModel(
         AppStrings.themeDark,
@@ -148,6 +150,18 @@ class SettingsScreen extends StatelessWidget {
                   },
                   icon: const Icon(
                     Icons.telegram_sharp,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    showImagePicker(
+                      context: context,
+                      onCameraTapped: pickImageFromCamera,
+                      onGalleryTapped: pickImageFromGallery,
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.image,
                   ),
                 ),
                 IconButton(

@@ -53,6 +53,12 @@ Future<XFile?> pickImageFromGallery() async {
 
   return image;
 }
+Future<XFile?> pickImageFromCamera() async {
+  final ImagePicker picker = ImagePicker();
+  final XFile? image = await picker.pickImage(source: ImageSource.camera);
+
+  return image;
+}
 
 Future<List<XFile>?> pickMultiImageFromGallery() async {
   final ImagePicker picker = ImagePicker();

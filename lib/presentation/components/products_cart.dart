@@ -56,20 +56,23 @@ class ProductDesign extends StatelessWidget {
           SizedBox(
             height: height ?? 120.h,
             width: double.infinity,
-            child: CachedNetworkImage(
-              fit: BoxFit.cover,
-              imageUrl: homeModel.image,
-              placeholder: (context, url) => Shimmer.fromColors(
-                baseColor: Colors.grey.shade800,
-                highlightColor: Colors.grey.shade700,
-                child: Container(
-                  color: Colors.black,
-                  width: 100.w,
-                  height: 100.h,
-                ),
-              ),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-            ),
+            child: homeModel.image.contains('student.valuxapps.com')
+                ? CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: homeModel.image,
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: Colors.grey.shade800,
+                      highlightColor: Colors.grey.shade700,
+                      child: Container(
+                        color: Colors.black,
+                        width: 100.w,
+                        height: 100.h,
+                      ),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  )
+                : const SizedBox(),
           ),
           Padding(
             padding: 5.hPadding,
