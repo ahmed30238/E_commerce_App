@@ -49,24 +49,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                 context,
                                 pageAnimator(
                                     ZoomImage(image: e.image, imageId: e.id))),
-                            child: CachedNetworkImage(
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: Colors.grey.shade800,
-                                highlightColor: Colors.grey.shade700,
-                                child: Container(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  width: double.infinity,
-                                  height:
-                                      MediaQuery.of(context).size.height / 4,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                ),
-                              ),
-                              imageUrl: e.image,
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            ),
+                            child: e.image.contains('student.valuxapps.com')
+                                ? CachedNetworkImage(
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                      baseColor: Colors.grey.shade800,
+                                      highlightColor: Colors.grey.shade700,
+                                      child: Container(
+                                        clipBehavior:
+                                            Clip.antiAliasWithSaveLayer,
+                                        width: double.infinity,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                4,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                      ),
+                                    ),
+                                    imageUrl: e.image,
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  )
+                                : const SizedBox(),
                           ),
                         )
                         .toList(),
@@ -111,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //       .bodyLarge!
                   //       .copyWith(fontSize: 20),
                   // ),
-                  context.mediumText(text: "text",fontSize: 20),
+                  context.mediumText(text: "text", fontSize: 20),
                   //! Products Section
                   10.ph,
                   GridView.count(
@@ -202,9 +208,13 @@ class CategoryItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Theme.of(context).colorScheme.primary),
           image: DecorationImage(
-            image: NetworkImage(
-              cubit.categoryModel!.categoryData.categoryObject[index].image,
-            ),
+            image: cubit.categoryModel!.categoryData.categoryObject[index].image
+                    .contains('student.valuxapps.com')
+                ? NetworkImage(
+                    cubit.categoryModel!.categoryData.categoryObject[index]
+                        .image,
+                  )
+                : const AssetImage("") as ImageProvider,
           ),
         ),
         clipBehavior: Clip.antiAliasWithSaveLayer,
