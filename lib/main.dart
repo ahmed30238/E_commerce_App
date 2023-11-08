@@ -145,7 +145,6 @@ Route pageAnimator(Widget widget) {
           Tween<double>(begin: 0, end: 1).chain(CurveTween(curve: curve));
       return RotationTransition(
         turns: animation.drive(tween),
-
         // opacity: animation.drive(tween),
         // position: animation.drive(tween),
         child: child,

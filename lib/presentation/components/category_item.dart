@@ -16,27 +16,29 @@ Widget categoryItem(context, CategoryObject catModel) {
         children: [
           //! categoryImage
           SizedBox(
-            height: 150,
-            width: MediaQuery.of(context).size.width / 4,
-            child: catModel.image.contains('student.valuxapps.com')
-                ? CachedNetworkImage(
-                    imageUrl: catModel.image,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Shimmer.fromColors(
-                      baseColor: Colors.grey.shade800,
-                      highlightColor: Colors.grey.shade700,
-                      child: Container(
-                        color: Colors.black,
-                        width: 100,
-                        height: 100,
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => const Icon(
-                      Icons.error,
-                    ),
-                  )
-                : const SizedBox(),
-          ),
+              height: 150,
+              width: MediaQuery.of(context).size.width / 4,
+              child:
+                  // catModel.image.contains('student.valuxapps.com')
+                  //     ?
+                  CachedNetworkImage(
+                imageUrl: catModel.image,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Shimmer.fromColors(
+                  baseColor: Colors.grey.shade800,
+                  highlightColor: Colors.grey.shade700,
+                  child: Container(
+                    color: Colors.black,
+                    width: 100,
+                    height: 100,
+                  ),
+                ),
+                errorWidget: (context, url, error) => const Icon(
+                  Icons.error,
+                ),
+              )
+              // : const SizedBox(),
+              ),
           //! catText
           15.pw,
           Text(

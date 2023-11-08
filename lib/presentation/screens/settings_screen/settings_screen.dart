@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:e_commerce_app/core/helper_functions.dart';
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
@@ -14,7 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:just_audio/just_audio.dart';
+// import 'package:just_audio/just_audio.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../change_password_screen/change_password_screen.dart';
@@ -140,11 +141,16 @@ class SettingsScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
-                  onPressed: () {
+                  onPressed: () async {
                     var player = AudioPlayer();
-                    player
-                        .setAsset("assets/sound/send.mp3")
-                        .then((value) => player.play());
+                    await player.play(
+                      AssetSource(
+                        "sound/send.mp3",
+                      ),
+                    );
+                    // player
+                    //     .setAsset("assets/sound/send.mp3")
+                    //     .then((value) => player.play());
                     //  player.play
                     // urlLauncher("https://www.facebook.com/");
                   },
