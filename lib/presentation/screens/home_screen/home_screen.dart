@@ -49,8 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 context,
                                 pageAnimator(
                                     ZoomImage(image: e.image, imageId: e.id))),
-                            child: e.image.contains('student.valuxapps.com')
-                                ? CachedNetworkImage(
+                            child:
+                            //  e.image.contains('student.valuxapps.com')
+                            //     ?
+                                 CachedNetworkImage(
                                     placeholder: (context, url) =>
                                         Shimmer.fromColors(
                                       baseColor: Colors.grey.shade800,
@@ -72,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     errorWidget: (context, url, error) =>
                                         const Icon(Icons.error),
                                   )
-                                : const SizedBox(),
+                                // : const SizedBox(),
                           ),
                         )
                         .toList(),
