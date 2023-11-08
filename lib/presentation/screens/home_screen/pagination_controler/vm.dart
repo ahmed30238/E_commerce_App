@@ -7,11 +7,8 @@
 // import 'package:get/get.dart';
 
 // class PaginationVm extends GetxController {
-//   BuildContext? context;
 //   List<ProductsEntity> dataList = [];
 //   HomeEntity? productsModel;
-
-//   HomeCubit cubit = HomeCubit.get(context);
 
 //   @override
 //   void onInit() {
@@ -20,13 +17,15 @@
 //   }
 
 //   ScrollController scrollController = ScrollController();
-//   bool isLoadMore = false;
+//   bool isLoadingMore = false;
 
-//   void productsPagination() {
+//   void productsPagination(BuildContext context) {
+//     HomeCubit cubit = HomeCubit.get(context);
+
 //     scrollController.addListener(() {
 //       if (scrollController.position.maxScrollExtent ==
 //           scrollController.position.pixels) {
-//         isLoadMore = true;
+//         isLoadingMore = true;
 //         if (productsModel!.links.next != "") {
 //           cubit
 //               .getProducts(
@@ -41,11 +40,11 @@
 //             for (var element in productsModel!.data.products) {
 //               dataList.add(element);
 //             }
-//             isLoadMore = false;
+//             isLoadingMore = false;
 //             update();
 //           });
 //         } else {
-//           isLoadMore = false;
+//           isLoadingMore = false;
 //           update();
 //         }
 //       }
