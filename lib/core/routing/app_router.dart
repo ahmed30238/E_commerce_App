@@ -5,6 +5,7 @@ import 'package:e_commerce_app/presentation/map_screen/location_screen.dart';
 import 'package:e_commerce_app/presentation/screens/layout/layout_screen.dart';
 import 'package:e_commerce_app/presentation/screens/login_screen/login_screen.dart';
 import 'package:e_commerce_app/presentation/screens/register_screen/register_screen.dart';
+import 'package:e_commerce_app/presentation/screens/search_screen/search_screen.dart';
 import 'package:e_commerce_app/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,11 +16,15 @@ class AppRouter {
         return pageAnimator(const SplashView());
       case RoutePaths.registerScreen:
         return MaterialPageRoute(
-          builder: (context) => RegisterScreen(),
+          builder: (context) => const RegisterScreen(),
         );
       case RoutePaths.layoutScreen:
         return MaterialPageRoute(
           builder: (context) => const LayOutScreen(),
+        );
+      case RoutePaths.searchScreen:
+        return MaterialPageRoute(
+          builder: (context) => const SearchScreen(),
         );
       case RoutePaths.loginScreen:
         return MaterialPageRoute(

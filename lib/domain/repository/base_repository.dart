@@ -21,7 +21,7 @@ abstract class BaseRepository {
       int id, String token);
   Future<Either<Failure, GetFavouritesEntity>> getFavourites();
   Future<Either<Failure, SearchEntity>> postSearch(String text);
-  Future<Either<Failure, LogoutEntity>> postLogout(String token);
+  Future<Either<Failure, LogoutEntity>> postLogout(String fcmToken);
   Future<Either<Failure, RegisterEntity>> postRegisterData(
       String name, String phone, String email, String password);
 }

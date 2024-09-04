@@ -6,7 +6,11 @@ class GetBannersSuccessState extends HomeStates {}
 
 class GetBannersLoadingtate extends HomeStates {}
 
-class GetBannersFailedtate extends HomeStates {}
+class GetBannersFailedtate extends HomeStates {
+  final String message;
+
+  GetBannersFailedtate({required this.message});
+}
 
 class GetProductsSuccessState extends HomeStates {}
 

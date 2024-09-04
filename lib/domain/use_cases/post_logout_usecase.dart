@@ -1,7 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-
 import 'package:e_commerce_app/core/base_usecase/base_usecase.dart';
 import 'package:e_commerce_app/core/failure/failure.dart';
 import 'package:e_commerce_app/domain/Entity/logout_entity.dart';
@@ -15,15 +13,15 @@ class LogoutUseCase extends BaseUseCase<LogoutEntity, LogoutParameters> {
   @override
   Future<Either<Failure, LogoutEntity>> call(
       LogoutParameters parameters) async {
-    return await baseRepository.postLogout(parameters.token);
+    return await baseRepository.postLogout(parameters.fcmToken);
   }
 }
 
 class LogoutParameters extends Equatable {
-  final String token;
+  final String fcmToken;
 
-  const LogoutParameters(this.token);
+  const LogoutParameters(this.fcmToken);
 
   @override
-  List<Object> get props => [token];
+  List<Object> get props => [fcmToken];
 }

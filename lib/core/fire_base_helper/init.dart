@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:e_commerce_app/core/global/app_enums/enums.dart';
+import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
 import 'package:e_commerce_app/firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,6 +32,7 @@ class NotificationHelper {
     String? token = '';
     try {
       token = await messaging.getToken();
+      prefs?.setString(AppEnum.fcmToken.name, token ?? "");
     } catch (error) {
       log(error.toString());
     }
