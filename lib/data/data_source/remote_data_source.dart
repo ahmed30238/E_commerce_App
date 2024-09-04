@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:e_commerce_app/core/error/error_message_model.dart';
 import 'package:e_commerce_app/core/exceptions/exceptions.dart';
+import 'package:e_commerce_app/core/global/app_enums/enums.dart';
 import 'package:e_commerce_app/core/network_call/network_call.dart';
 import 'package:e_commerce_app/core/token_util/token_utile.dart';
 import 'package:e_commerce_app/core/utils/app_constances/app_constances.dart';
 import 'package:e_commerce_app/data/models/AddOrDeleteFavourites_model.dart';
 import 'package:e_commerce_app/data/models/banners_model.dart';
 import 'package:e_commerce_app/data/models/category_model.dart';
+import 'package:e_commerce_app/data/models/change_password_model.dart';
 import 'package:e_commerce_app/data/models/get_favourites_model.dart';
 import 'package:e_commerce_app/data/models/home_model.dart';
 import 'package:e_commerce_app/data/models/login_model.dart';
@@ -19,14 +21,21 @@ abstract class BaseRemoteDataSource {
   Future<HomeModel> getProducts();
   Future<LoginModel> postLoginData(String email, String password);
   Future<CategoryModel> getCategories();
-  Future<AddOrDeleteFavouritesModel> addOrDeleteFavourites(
-      int id, String token);
+  Future<AddOrDeleteFavouritesModel> addOrDeleteFavourites(int productId);
 
   Future<GetFavouritesModel> getfavourites();
   Future<SearchModel> postSearch(String text);
   Future<LogoutModel> postLogout(String fcmToken);
+  Future<ChangePasswordModel> postChangePassword(
+    String currentPasword,
+    String newPassword,
+  );
   Future<RegisterModel> postRegisterData(
-      String name, String phone, String email, String password);
+    String name,
+    String phone,
+    String email,
+    String password,
+  );
 }
 
 class RemoteDataSource extends BaseRemoteDataSource {
@@ -88,11 +97,11 @@ class RemoteDataSource extends BaseRemoteDataSource {
 
   @override
   Future<AddOrDeleteFavouritesModel> addOrDeleteFavourites(
-      int id, String token) async {
+      int productId) async {
     final response = await Dio().post(
       AppConstances.addFavouritesPath,
       data: {
-        'product_id': id,
+        'product_id': productId,
       },
       options: Options(
         headers: {
@@ -190,6 +199,31 @@ class RemoteDataSource extends BaseRemoteDataSource {
       return RegisterModel.fromjson(response?.data);
     } else {
       throw ServerException(ErrorMessageModel.fromJson(response?.data));
+    }
+  }
+
+  @override
+  Future<ChangePasswordModel> postChangePassword(
+      String currentPasword, String newPassword) async {
+    var response = await NetworkCall().post(
+      AppConstances.changePasswordPath,
+      body: FormData.fromMap(
+        {
+          AppEnum.current_password.name: currentPasword,
+          AppEnum.new_password.name: newPassword,
+        },
+      ),
+      headers: {
+        AppEnum.Authorization.name: TokenUtil.getTokenFromMemory(),
+      },
+      withHeader: false,
+    );
+    if (response?.statusCode == 200) {
+      return ChangePasswordModel.fromjson(response?.data);
+    } else {
+      throw ServerException(ErrorMessageModel.fromJson(
+        response?.data,
+      ));
     }
   }
 }

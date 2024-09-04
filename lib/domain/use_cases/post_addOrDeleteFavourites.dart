@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:e_commerce_app/core/base_usecase/base_usecase.dart';
@@ -16,15 +15,15 @@ class AddOrDeleteFavouritesUseCase extends BaseUseCase<
   Future<Either<Failure, AddOrDeleteFavouritesEntity>> call(
       AddOrDeleteFavouritesParameters parameters) async {
     return await baseRepository.addOrDeleteFavourites(
-        parameters.id, parameters.token);
+        parameters.productId);
   }
 }
 
 class AddOrDeleteFavouritesParameters extends Equatable {
-  final int id;
-  final String token;
-  const AddOrDeleteFavouritesParameters(this.id, this.token);
+  final int productId;
+  
+  const AddOrDeleteFavouritesParameters(this.productId);
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [productId];
 }

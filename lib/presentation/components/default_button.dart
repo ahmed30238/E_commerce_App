@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class CustomElevatedButton extends StatelessWidget {
   final VoidCallback onTap;
   final Color? borderColor;
@@ -10,6 +11,7 @@ class CustomElevatedButton extends StatelessWidget {
   final double? width;
   final double? height;
   final String? fontFamily;
+  final bool? loading;
   const CustomElevatedButton({
     super.key,
     required this.text,
@@ -22,6 +24,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.height,
     this.textColor,
     this.width,
+    this.loading,
   });
 
   @override
@@ -40,15 +43,19 @@ class CustomElevatedButton extends StatelessWidget {
           ),
         ),
       ),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              fontFamily: fontFamily,
-              fontSize: fontSize,
-              fontWeight: fontWeight,
-              color: textColor ?? Theme.of(context).colorScheme.primary,
+      child: loading == true
+          ? const CircularProgressIndicator.adaptive(
+              backgroundColor: Colors.cyan,
+            )
+          : Text(
+              text,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    fontFamily: fontFamily,
+                    fontSize: fontSize,
+                    fontWeight: fontWeight,
+                    color: textColor ?? Theme.of(context).colorScheme.primary,
+                  ),
             ),
-      ),
     );
   }
 }

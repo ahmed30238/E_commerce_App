@@ -9,6 +9,7 @@ import 'package:e_commerce_app/data/models/home_model.dart';
 import 'package:e_commerce_app/data/models/login_model.dart';
 import 'package:e_commerce_app/data/models/logout_model.dart';
 import 'package:e_commerce_app/domain/Entity/category_entity.dart';
+import 'package:e_commerce_app/domain/Entity/change_password.dart';
 import 'package:e_commerce_app/domain/Entity/register_entity.dart';
 import 'package:e_commerce_app/domain/Entity/search_entity.dart';
 import 'package:e_commerce_app/domain/repository/base_repository.dart';
@@ -75,10 +76,9 @@ class ShopRepository extends BaseRepository {
 
   @override
   Future<Either<Failure, AddOrDeleteFavouritesModel>> addOrDeleteFavourites(
-    int id,
-    String token,
+    int productId,
   ) async {
-    final res = await baseRemoteDataSource.addOrDeleteFavourites(id, token);
+    final res = await baseRemoteDataSource.addOrDeleteFavourites(productId);
     try {
       return Right(res);
     } on ServerException catch (error) {
@@ -87,8 +87,7 @@ class ShopRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, GetFavouritesModel>> getFavourites(
-     ) async {
+  Future<Either<Failure, GetFavouritesModel>> getFavourites() async {
     final res = await baseRemoteDataSource.getfavourites();
     try {
       return Right(res);
@@ -100,8 +99,7 @@ class ShopRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, SearchEntity>> postSearch(
-      String text) async {
+  Future<Either<Failure, SearchEntity>> postSearch(String text) async {
     final res = await baseRemoteDataSource.postSearch(text);
     try {
       return Right(res);
@@ -135,6 +133,22 @@ class ShopRepository extends BaseRepository {
       return Left(
         ServerFailure(error.errorMessageModel.message),
       );
+    }
+  }
+
+  @override
+  Future<Either<Failure, ChangePasswordEntity>> changePassword(
+      String currentPasword, String newPassword) async {
+    var result = await baseRemoteDataSource.postChangePassword(
+      currentPasword,
+      newPassword,
+    );
+    try {
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        e.errorMessageModel.message,
+      ));
     }
   }
 }

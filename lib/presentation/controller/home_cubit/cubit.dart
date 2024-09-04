@@ -74,11 +74,11 @@ class HomeCubit extends Cubit<HomeStates> {
 
   AddOrDeleteFavouritesEntity? addOrDeleteFavouritesEntity;
 
-  void changeFavouriteState(int id, String token) {
+  void changeFavouriteState(int id) {
     favorites[id] = !favorites[id]!;
     emit(ChangeFavouriteSuccessState());
     AddOrDeleteFavouritesUseCase(baseRepository: sl())
-        .call(AddOrDeleteFavouritesParameters(id, token))
+        .call(AddOrDeleteFavouritesParameters(id))
         .then((value) {
       value.fold((l) => l.message, (r) => addOrDeleteFavouritesEntity = r);
       if (!addOrDeleteFavouritesEntity!.status) {
