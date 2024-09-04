@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +114,7 @@ Widget favouriteCartItem({
                           onPressed: () async {
                    
                             HomeCubit.get(context).changeFavouriteState(
-                                model.id, prefs?.getString('token') ?? '');
+                                model.id);
                           },
                           icon: HomeCubit.get(context).favorites.isNotEmpty
                               ? HomeCubit.get(context).favorites[model.id]!

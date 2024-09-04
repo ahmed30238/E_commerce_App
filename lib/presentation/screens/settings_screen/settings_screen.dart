@@ -2,13 +2,16 @@ import 'package:e_commerce_app/core/extensions/locale_context.dart';
 import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:e_commerce_app/core/global/app_enums/enums.dart';
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
+import 'package:e_commerce_app/core/service_locator/service_locator.dart';
 import 'package:e_commerce_app/core/utils/app_constances/app_constances.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
+import 'package:e_commerce_app/presentation/controller/change_password_cubit/changepassword_cubit.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart';
 import 'package:e_commerce_app/presentation/controller/logout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/screens/content_screen/content_screen.dart';
+import 'package:e_commerce_app/presentation/screens/content_setting_screen/content_settinn_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -135,7 +138,7 @@ class SettingsScreen extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () => Navigator.pop(context),
-                         child: context.mediumText(
+                        child: context.mediumText(
                           text: "No",
                           color: Colors.black,
                         ),
@@ -236,8 +239,14 @@ List<AccountSettingsListModel> settingsList = [
 ];
 
 List<Widget> settingsScreen = [
-  ChangePasswordScreen(),
-  const ContentScreen(),
+  BlocProvider(
+    create: (context) => ChangepasswordCubit(sl()),
+    child: const ChangePasswordScreen(),
+  ),
+  BlocProvider(
+    create: (context) => ChangepasswordCubit(sl()),
+    child: const ContentSettingScreen(),
+  ),
   const ContentScreen(),
   const ContentScreen(),
   const ContentScreen(),
