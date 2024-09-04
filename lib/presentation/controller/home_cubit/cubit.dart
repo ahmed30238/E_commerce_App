@@ -18,20 +18,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../components/flutter_toast.dart';
 
 class HomeCubit extends Cubit<HomeStates> {
-  HomeCubit() : super(HomeInitialState());
+  HomeCubit({required this.getBannersUseCase}) : super(HomeInitialState());
   static HomeCubit get(context) => BlocProvider.of(context);
 
   late List<BannersEntity> bannersModel = [];
-  void getBanners() {
+  GetBannersUseCase getBannersUseCase;
+  void getBanners() async {
     emit(GetBannersLoadingtate());
-    GetBannersUseCase(sl()).call(const NoParameter()).then((value) {
-      value.fold(
-        (l) => ServerFailure(l.message),
-        (r) => bannersModel = r,
-      );
+    var res = await getBannersUseCase.call(const NoParameter());
+    res.fold((l) {
+      emit(GetBannersFailedtate(message: l.message));
+    }, (r) {
+      bannersModel = r;
       emit(GetBannersSuccessState());
-    }).catchError((error) {
-      emit(GetBannersFailedtate());
     });
   }
 
@@ -73,8 +72,6 @@ class HomeCubit extends Cubit<HomeStates> {
     });
   }
 
-
-
   AddOrDeleteFavouritesEntity? addOrDeleteFavouritesEntity;
 
   void changeFavouriteState(int id, String token) {
@@ -107,9 +104,7 @@ class HomeCubit extends Cubit<HomeStates> {
   GetFavouritesEntity? getFavouritesEntity;
   void getFavourites() {
     emit(GetFavouriteLoadingState());
-    GetFavouritesUseCase(baseRepository: sl())
-        .call(const NoParameter())
-        .then(
+    GetFavouritesUseCase(baseRepository: sl()).call(const NoParameter()).then(
       (value) {
         value.fold((l) => l.message, (r) => getFavouritesEntity = r);
         emit(GetFavouriteSuccessState());

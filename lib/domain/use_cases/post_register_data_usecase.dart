@@ -9,7 +9,7 @@ import 'package:e_commerce_app/domain/repository/base_repository.dart';
 class PostRegisterDataUseCase
     extends BaseUseCase<RegisterEntity, RegisterDataParameters> {
   BaseRepository baseRepository;
-  PostRegisterDataUseCase({
+    PostRegisterDataUseCase({
     required this.baseRepository,
   });
   @override

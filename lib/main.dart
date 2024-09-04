@@ -52,7 +52,6 @@ void main() async {
   prefs = await SharedPreferences.getInstance();
   await NotificationHelper.instance.initializeFirebase();
   var fcmToken = await NotificationHelper.instance.getFcmToken();
-  fcmToken;
   Logger loger = const Logger("Main Logger");
   loger.debug(fcmToken);
   await TokenUtil.loadTokenToMemory();
@@ -83,12 +82,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => HomeCubit()),
+        BlocProvider(create: (context) => HomeCubit(getBannersUseCase: sl())),
         BlocProvider(
           create: (context) => AppCubit()..getLanguage(),
         ),
         BlocProvider(create: (context) => SearchCubit()),
-        BlocProvider(create: (context) => LogoutCubit()),
+        BlocProvider(create: (context) => LogoutCubit(sl())),
         BlocProvider(create: (context) => MapCubit()),
       ],
       child: BlocBuilder<AppCubit, AppStates>(
