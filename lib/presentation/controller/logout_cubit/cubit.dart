@@ -38,7 +38,11 @@ class LogoutCubit extends Cubit<LogoutStates> {
 
   removeTokenAfterLogut(BuildContext context) {
     prefs?.remove(AppEnum.token.name).then((value) {
-      Navigator.pushNamed(context, RoutePaths.loginScreen);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        RoutePaths.loginScreen,
+        (route) => false,
+      );
     });
   }
 }
