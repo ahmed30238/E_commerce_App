@@ -45,37 +45,39 @@ class _HomeScreenState extends State<HomeScreen> {
                     items: cubit.bannersModel
                         .map(
                           (e) => InkWell(
-                            onTap: () => Navigator.push(
-                                context,
-                                pageAnimator(
-                                    ZoomImage(image: e.image, imageId: e.id))),
-                            child:
-                            //  e.image.contains('student.valuxapps.com')
-                            //     ?
-                                 CachedNetworkImage(
-                                    placeholder: (context, url) =>
-                                        Shimmer.fromColors(
-                                      baseColor: Colors.grey.shade800,
-                                      highlightColor: Colors.grey.shade700,
-                                      child: Container(
-                                        clipBehavior:
-                                            Clip.antiAliasWithSaveLayer,
-                                        width: double.infinity,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                4,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
+                              onTap: () => Navigator.push(
+                                    context,
+                                    pageAnimator(
+                                      ZoomImage(
+                                        image: e.image,
+                                        imageId: e.id,
                                       ),
                                     ),
-                                    imageUrl: e.image,
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                  )
-                                // : const SizedBox(),
-                          ),
+                                  ),
+                              child:
+                                  //  e.image.contains('student.valuxapps.com')
+                                  //     ?
+                                  CachedNetworkImage(
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                  baseColor: Colors.grey.shade800,
+                                  highlightColor: Colors.grey.shade700,
+                                  child: Container(
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    width: double.infinity,
+                                    height:
+                                        MediaQuery.of(context).size.height / 4,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                ),
+                                imageUrl: e.image,
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              )
+                              // : const SizedBox(),
+                              ),
                         )
                         .toList(),
                     options: CarouselOptions(

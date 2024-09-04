@@ -25,7 +25,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var image;
+    // var image;
     List<NotificationsSettingsListModel> notificationsList = [
       NotificationsSettingsListModel(
         AppStrings.themeDark,
