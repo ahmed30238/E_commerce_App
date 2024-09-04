@@ -113,8 +113,8 @@ class ShopRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, LogoutModel>> postLogout(String token) async {
-    final res = await baseRemoteDataSource.postLogout(token);
+  Future<Either<Failure, LogoutModel>> postLogout(String fcmToken) async {
+    final res = await baseRemoteDataSource.postLogout(fcmToken);
     try {
       return Right(res);
     } on ServerException catch (error) {

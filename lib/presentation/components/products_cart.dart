@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:e_commerce_app/core/extensions/listWidgetsextension.dart';
 import 'package:e_commerce_app/core/extensions/locale_context.dart';
 import 'package:e_commerce_app/core/extensions/numbers.dart';
 import 'package:e_commerce_app/core/token_util/token_utile.dart';

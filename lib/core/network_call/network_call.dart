@@ -1,10 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:e_commerce_app/core/constants/consts.dart';
 import 'package:e_commerce_app/core/token_util/token_utile.dart';
-import 'package:e_commerce_app/core/utils/app_constances/app_constances.dart';
 import 'package:flutter/foundation.dart';
 import 'package:quick_log/quick_log.dart';
 
@@ -20,7 +18,7 @@ class NetworkCall {
   }) async {
     Response? response;
     try {
-      dio.options.baseUrl = AppConstances.baseUrl;
+      dio.options.baseUrl = Constants.apiUrl;
       var options = Options(
         headers: withHeaders
             ? {

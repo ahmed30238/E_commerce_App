@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:e_commerce_app/core/error/error_message_model.dart';
 import 'package:e_commerce_app/core/exceptions/exceptions.dart';
 import 'package:e_commerce_app/core/network_call/network_call.dart';
+import 'package:e_commerce_app/core/token_util/token_utile.dart';
 import 'package:e_commerce_app/core/utils/app_constances/app_constances.dart';
 import 'package:e_commerce_app/data/models/AddOrDeleteFavourites_model.dart';
 import 'package:e_commerce_app/data/models/banners_model.dart';
@@ -23,7 +24,7 @@ abstract class BaseRemoteDataSource {
 
   Future<GetFavouritesModel> getfavourites();
   Future<SearchModel> postSearch(String text);
-  Future<LogoutModel> postLogout(String token);
+  Future<LogoutModel> postLogout(String fcmToken);
   Future<RegisterModel> postRegisterData(
       String name, String phone, String email, String password);
 }
@@ -95,7 +96,7 @@ class RemoteDataSource extends BaseRemoteDataSource {
       },
       options: Options(
         headers: {
-          'Authorization': token,
+          'Authorization': TokenUtil.getTokenFromMemory(),
         },
       ),
     );
@@ -147,24 +148,27 @@ class RemoteDataSource extends BaseRemoteDataSource {
   }
 
   @override
-  Future<LogoutModel> postLogout(String token) async {
-    final response = await Dio().post(
+  Future<LogoutModel> postLogout(String fcmToken) async {
+    final response = await NetworkCall().post(
       AppConstances.postLogoutPath,
-      options: Options(
-        headers: {
-          'Authorization': token,
+      withHeader: false,
+      body: FormData.fromMap(
+        {
+          "fcm_token": fcmToken,
         },
-        receiveDataWhenStatusError: true,
       ),
-      data: {
-        "fcm_token": 'SomeFcmToken',
+      headers: {
+        "lang": "ar",
+        "Content-Type": "application/json",
+        'Authorization': TokenUtil.getTokenFromMemory(),
       },
     );
-    if (response.statusCode == 200) {
-      return LogoutModel.fromjson(response.data);
+
+    if (response?.statusCode == 200) {
+      return LogoutModel.fromjson(response?.data);
     } else {
       throw ServerException(
-        ErrorMessageModel.fromJson(response.data),
+        ErrorMessageModel.fromJson(response?.data),
       );
     }
   }

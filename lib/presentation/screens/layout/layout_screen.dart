@@ -1,8 +1,8 @@
 import 'package:e_commerce_app/core/extensions/locale_context.dart';
+import 'package:e_commerce_app/core/routing/routing_paths.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart';
-import 'package:e_commerce_app/presentation/screens/search_screen/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,11 +47,9 @@ class _LayOutScreenState extends State<LayOutScreen> {
               // ),
               IconButton(
                 onPressed: () async {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const SearchScreen(),
-                    ),
+                    RoutePaths.searchScreen,
                   );
                 },
                 icon: const Icon(Icons.search),

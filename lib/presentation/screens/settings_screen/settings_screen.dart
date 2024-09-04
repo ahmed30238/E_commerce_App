@@ -1,21 +1,18 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'package:e_commerce_app/core/extensions/locale_context.dart';
 import 'package:e_commerce_app/core/extensions/numbers.dart';
-import 'package:e_commerce_app/core/helper_functions.dart';
+import 'package:e_commerce_app/core/global/app_enums/enums.dart';
 import 'package:e_commerce_app/core/helper_methods/helper_methods.dart';
 import 'package:e_commerce_app/core/utils/app_constances/app_constances.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
-import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart';
 import 'package:e_commerce_app/presentation/controller/logout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/screens/content_screen/content_screen.dart';
-import 'package:e_commerce_app/presentation/screens/login_screen/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:just_audio/just_audio.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../change_password_screen/change_password_screen.dart';
@@ -119,57 +116,68 @@ class SettingsScreen extends StatelessWidget {
               btnColor: Theme.of(context).colorScheme.primary,
               onTap: () async {
                 var logoutCubit = LogoutCubit.get(context);
-                logoutCubit
-                    .postLogout(prefs?.getString('token') ?? '')
-                    .then((value) {
-                  prefs?.remove('token').then((value) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
+
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text("Logout"),
+                    content: Text(context.loc?.logutMssage ?? ""),
+                    actions: [
+                      InkWell(
+                        onTap: () => logoutCubit.postLogout(
+                          prefs?.getString(AppEnum.fcmToken.name) ?? "",
+                          context,
+                        ),
+                        child: context.mediumText(
+                          text: "Yes",
+                          color: Colors.red,
+                        ),
                       ),
-                    );
-                  });
-                  showToast(
-                    msg: LogoutCubit.get(context).logoutEntity!.message,
-                    states: ToastStates.successState,
-                  );
-                });
+                      InkWell(
+                        onTap: () => Navigator.pop(context),
+                         child: context.mediumText(
+                          text: "No",
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
               },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  onPressed: () async {
-                    var player = AudioPlayer();
-                    await player.play(
-                      AssetSource(
-                        "sound/send.mp3",
-                      ),
-                    );
-                    // player
-                    //     .setAsset("assets/sound/send.mp3")
-                    //     .then((value) => player.play());
-                    //  player.play
-                    // urlLauncher("https://www.facebook.com/");
-                  },
-                  icon: const Icon(
-                    Icons.telegram_sharp,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    showImagePicker(
-                      context: context,
-                      onCameraTapped: pickImageFromCamera,
-                      onGalleryTapped: pickImageFromGallery,
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.image,
-                  ),
-                ),
+                // IconButton(
+                //   onPressed: () async {
+                //     var player = AudioPlayer();
+                //     await player.play(
+                //       AssetSource(
+                //         "sound/send.mp3",
+                //       ),
+                //     );
+                //     // player
+                //     //     .setAsset("assets/sound/send.mp3")
+                //     //     .then((value) => player.play());
+                //     //  player.play
+                //     // urlLauncher("https://www.facebook.com/");
+                //   },
+                //   icon: const Icon(
+                //     Icons.telegram_sharp,
+                //   ),
+                // ),
+                // IconButton(
+                //   onPressed: () {
+                //     showImagePicker(
+                //       context: context,
+                //       onCameraTapped: pickImageFromCamera,
+                //       onGalleryTapped: pickImageFromGallery,
+                //     );
+                //   },
+                //   icon: const Icon(
+                //     Icons.image,
+                //   ),
+                // ),
                 IconButton(
                   onPressed: () {
                     Share.share(
@@ -240,12 +248,14 @@ Widget accountSettingsItem(AccountSettingsListModel model, context) {
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => settingsScreen[index],
-          ),
-        );
+        index == 3
+            ? changeLangDailog(context)
+            : Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => settingsScreen[index],
+                ),
+              );
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -284,93 +294,7 @@ Widget notificationSettingsItem(
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: InkWell(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return BlocBuilder<AppCubit, AppStates>(
-              builder: (context, state) {
-                var cubit = AppCubit.get(context);
-
-                return AlertDialog(
-                  content: Container(
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    height: 130,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              cubit.storeLanguage(langCode: 'ar');
-                              Navigator.pop(context);
-                            },
-                            child: IgnorePointer(
-                              child: Row(
-                                children: [
-                                  Checkbox(
-                                    autofocus: true,
-                                    splashRadius: 20,
-                                    tristate: true,
-                                    shape: const CircleBorder(
-                                      side: BorderSide(width: 2),
-                                    ),
-                                    value:
-                                        !cubit.isEnglishLang(context: context),
-                                    // activeColor: MainColors.primaryColor,
-                                    onChanged: (value) {},
-                                  ),
-                                  const Text('العربية'
-                                      // style: MainTextStyle.boldTextStyle(
-                                      //     fontSize: 20,
-                                      //     color: MainColors.primaryColor),
-                                      ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        // const HorizontalDivider(),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              cubit.storeLanguage(langCode: 'en');
-                              Navigator.pop(context);
-                            },
-                            child: IgnorePointer(
-                              child: Row(
-                                children: [
-                                  // Radio(value: true, groupValue: RadioButtonInputElement(), onChanged: (value){}),
-                                  Checkbox(
-                                    tristate: true,
-                                    shape: const CircleBorder(eccentricity: 0),
-                                    value:
-                                        cubit.isEnglishLang(context: context),
-                                    onChanged: (value) {},
-                                  ),
-                                  const Text('English'
-                                      // style: MainTextStyle.boldTextStyle(
-                                      //     fontSize: 20,
-                                      //     color: MainColors.primaryColor),
-                                      ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-        );
-      },
+      onTap: () {},
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -386,5 +310,91 @@ Widget notificationSettingsItem(
         ],
       ),
     ),
+  );
+}
+
+changeLangDailog(context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return BlocBuilder<AppCubit, AppStates>(
+        builder: (context, state) {
+          var cubit = AppCubit.get(context);
+
+          return AlertDialog(
+            content: Container(
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              height: 130,
+              width: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        cubit.storeLanguage(langCode: 'ar');
+                        Navigator.pop(context);
+                      },
+                      child: IgnorePointer(
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              autofocus: true,
+                              splashRadius: 20,
+                              tristate: true,
+                              shape: const CircleBorder(
+                                side: BorderSide(width: 2),
+                              ),
+                              value: !cubit.isEnglishLang(context: context),
+                              // activeColor: MainColors.primaryColor,
+                              onChanged: (value) {},
+                            ),
+                            const Text('العربية'
+                                // style: MainTextStyle.boldTextStyle(
+                                //     fontSize: 20,
+                                //     color: MainColors.primaryColor),
+                                ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  // const HorizontalDivider(),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        cubit.storeLanguage(langCode: 'en');
+                        Navigator.pop(context);
+                      },
+                      child: IgnorePointer(
+                        child: Row(
+                          children: [
+                            // Radio(value: true, groupValue: RadioButtonInputElement(), onChanged: (value){}),
+                            Checkbox(
+                              tristate: true,
+                              shape: const CircleBorder(eccentricity: 0),
+                              value: cubit.isEnglishLang(context: context),
+                              onChanged: (value) {},
+                            ),
+                            const Text('English'
+                                // style: MainTextStyle.boldTextStyle(
+                                //     fontSize: 20,
+                                //     color: MainColors.primaryColor),
+                                ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    },
   );
 }

@@ -100,7 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) => CategoryItem(
-                              cubit: cubit,
                               index: index,
                               model: cubit.categoryModel!,
                             ),
@@ -121,7 +120,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   //       .bodyLarge!
                   //       .copyWith(fontSize: 20),
                   // ),
-                  context.mediumText(text: "text", fontSize: 20),
                   //! Products Section
                   10.ph,
                   GridView.count(
@@ -184,12 +182,10 @@ class _HomeScreenState extends State<HomeScreen> {
 class CategoryItem extends StatelessWidget {
   const CategoryItem({
     super.key,
-    required this.cubit,
     required this.index,
     required this.model,
   });
 
-  final HomeCubit cubit;
   final int index;
   final CategoryEntity model;
 
@@ -212,14 +208,16 @@ class CategoryItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Theme.of(context).colorScheme.primary),
           image: DecorationImage(
-            image: cubit.categoryModel!.categoryData.categoryObject[index].image
-                    .contains('student.valuxapps.com')
-                ? NetworkImage(
-                    cubit.categoryModel!.categoryData.categoryObject[index]
-                        .image,
-                  )
-                : const AssetImage("") as ImageProvider,
-          ),
+            fit: BoxFit.cover,
+              image:
+                  // model.categoryData.categoryObject[index].image
+                  //         .contains('student.valuxapps.com')
+                  //     ?
+                  NetworkImage(
+            model.categoryData.categoryObject[index].image,
+          )
+              // : const AssetImage("") as ImageProvider,
+              ),
         ),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Align(
@@ -231,7 +229,7 @@ class CategoryItem extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
-                cubit.categoryModel!.categoryData.categoryObject[index].name,
+                model.categoryData.categoryObject[index].name,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: Colors.white,
                       fontSize: 15,

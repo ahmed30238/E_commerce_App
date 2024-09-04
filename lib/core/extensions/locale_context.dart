@@ -7,6 +7,7 @@ extension LocalExtension on BuildContext {
   Widget mediumText({
     required String text,
     TextOverflow? overFlow,
+    Color? color,
     int? maxLines,
     double? fontSize,
   }) =>
@@ -16,6 +17,7 @@ extension LocalExtension on BuildContext {
         style: Theme.of(this).textTheme.bodyMedium?.copyWith(
               overflow: overFlow,
               fontSize: fontSize?.sp,
+              color: color
             ),
       );
 

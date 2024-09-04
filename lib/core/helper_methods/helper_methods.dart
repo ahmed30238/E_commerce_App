@@ -1,8 +1,6 @@
-import 'package:e_commerce_app/core/helper_functions.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/cupertino.dart';
 
 navigateAndRemove({required BuildContext context, required String path}) {
   Navigator.pushNamedAndRemoveUntil(context, path, (route) => false);
