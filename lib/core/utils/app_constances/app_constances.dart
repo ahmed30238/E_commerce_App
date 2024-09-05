@@ -3,6 +3,7 @@ import 'dart:io';
 class AppConstances {
   static const baseUrl = 'https://student.valuxapps.com/api/';
   static const bannerPath = '${baseUrl}banners';
+  static const getCartPath = '${baseUrl}carts';
   static const changePasswordPath = '${baseUrl}change-password';
   static const homeDataPath = 'https://student.valuxapps.com/api/home';
   static const loginDataPath = 'https://student.valuxapps.com/api/login';

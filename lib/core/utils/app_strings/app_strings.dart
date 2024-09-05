@@ -3,6 +3,7 @@ class AppStrings {
   static const String email = 'Email';
   static const String password = 'password';
   static const String name = 'name';
+  static const String cart = 'cart';
   static const String phone = 'phone';
   static const String emailValidationMessage = 'email must not be empty';
   static const String passwordValidationMessage = 'password must not be empty';
