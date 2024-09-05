@@ -9,6 +9,7 @@ import 'package:e_commerce_app/data/models/AddOrDeleteFavourites_model.dart';
 import 'package:e_commerce_app/data/models/banners_model.dart';
 import 'package:e_commerce_app/data/models/category_model.dart';
 import 'package:e_commerce_app/data/models/change_password_model.dart';
+import 'package:e_commerce_app/data/models/get_carts_model.dart';
 import 'package:e_commerce_app/data/models/get_favourites_model.dart';
 import 'package:e_commerce_app/data/models/home_model.dart';
 import 'package:e_commerce_app/data/models/login_model.dart';
@@ -24,6 +25,7 @@ abstract class BaseRemoteDataSource {
   Future<AddOrDeleteFavouritesModel> addOrDeleteFavourites(int productId);
 
   Future<GetFavouritesModel> getfavourites();
+  Future<GetCartsModel> getCarts();
   Future<SearchModel> postSearch(String text);
   Future<LogoutModel> postLogout(String fcmToken);
   Future<ChangePasswordModel> postChangePassword(
@@ -125,6 +127,19 @@ class RemoteDataSource extends BaseRemoteDataSource {
 
     if (response?.statusCode == 200) {
       return GetFavouritesModel.fromjson(response?.data);
+    } else {
+      throw ServerException(
+        ErrorMessageModel.fromJson(response?.data),
+      );
+    }
+  }
+  @override
+  Future<GetCartsModel> getCarts() async {
+    final response =
+        await NetworkCall().get(path: AppConstances.getCartPath);
+
+    if (response?.statusCode == 200) {
+      return GetCartsModel.fromjson(response?.data);
     } else {
       throw ServerException(
         ErrorMessageModel.fromJson(response?.data),

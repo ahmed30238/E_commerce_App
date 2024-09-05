@@ -6,10 +6,12 @@ import 'package:e_commerce_app/core/service_locator/service_locator.dart';
 import 'package:e_commerce_app/core/utils/app_constances/app_constances.dart';
 import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
+import 'package:e_commerce_app/presentation/controller/cart_cubit/cart_cubit.dart';
 import 'package:e_commerce_app/presentation/controller/change_password_cubit/changepassword_cubit.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/layout_cubit/states.dart';
 import 'package:e_commerce_app/presentation/controller/logout_cubit/cubit.dart';
+import 'package:e_commerce_app/presentation/screens/cart_screen/cart_screen.dart';
 import 'package:e_commerce_app/presentation/screens/content_screen/content_screen.dart';
 import 'package:e_commerce_app/presentation/screens/content_setting_screen/content_settinn_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -222,7 +224,7 @@ List<AccountSettingsListModel> settingsList = [
     1,
   ),
   const AccountSettingsListModel(
-    AppStrings.social,
+    AppStrings.cart,
     Icons.arrow_forward_ios,
     2,
   ),
@@ -243,11 +245,11 @@ List<Widget> settingsScreen = [
     create: (context) => ChangepasswordCubit(sl()),
     child: const ChangePasswordScreen(),
   ),
+  const ContentSettingScreen(),
   BlocProvider(
-    create: (context) => ChangepasswordCubit(sl()),
-    child: const ContentSettingScreen(),
+    create: (context) => CartCubit(sl()),
+    child: const CartScreen(),
   ),
-  const ContentScreen(),
   const ContentScreen(),
   const ContentScreen(),
 ];

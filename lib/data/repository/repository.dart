@@ -4,6 +4,7 @@ import 'package:e_commerce_app/core/failure/failure.dart';
 import 'package:e_commerce_app/data/data_source/remote_data_source.dart';
 import 'package:e_commerce_app/data/models/AddOrDeleteFavourites_model.dart';
 import 'package:e_commerce_app/data/models/banners_model.dart';
+import 'package:e_commerce_app/data/models/get_carts_model.dart';
 import 'package:e_commerce_app/data/models/get_favourites_model.dart';
 import 'package:e_commerce_app/data/models/home_model.dart';
 import 'package:e_commerce_app/data/models/login_model.dart';
@@ -89,6 +90,17 @@ class ShopRepository extends BaseRepository {
   @override
   Future<Either<Failure, GetFavouritesModel>> getFavourites() async {
     final res = await baseRemoteDataSource.getfavourites();
+    try {
+      return Right(res);
+    } on ServerException catch (error) {
+      return Left(
+        ServerFailure(error.errorMessageModel.message),
+      );
+    }
+  }
+  @override
+  Future<Either<Failure, GetCartsModel>> getCarts() async {
+    final res = await baseRemoteDataSource.getCarts();
     try {
       return Right(res);
     } on ServerException catch (error) {

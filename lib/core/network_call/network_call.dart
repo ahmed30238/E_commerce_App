@@ -23,8 +23,7 @@ class NetworkCall {
         headers: withHeaders
             ? {
                 if (TokenUtil.getTokenFromMemory().isNotEmpty) ...{
-                  HttpHeaders.authorizationHeader:
-                      TokenUtil.getTokenFromMemory()
+                  "Authorization": TokenUtil.getTokenFromMemory()
                 },
                 HttpHeaders.acceptHeader: 'application/json',
                 HttpHeaders.contentTypeHeader: 'application/json',
@@ -42,7 +41,8 @@ class NetworkCall {
     }
     return response == null ? null : handleResponse(response);
   }
-    Future<Response?> post(
+
+  Future<Response?> post(
     String url, {
     Map<String, dynamic>? headers,
     FormData? body,
