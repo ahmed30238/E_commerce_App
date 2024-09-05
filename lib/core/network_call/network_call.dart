@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:e_commerce_app/core/constants/consts.dart';
+import 'package:e_commerce_app/core/global/app_enums/enums.dart';
 import 'package:e_commerce_app/core/token_util/token_utile.dart';
 import 'package:flutter/foundation.dart';
 import 'package:quick_log/quick_log.dart';
@@ -72,11 +73,10 @@ class NetworkCall {
             headers: withHeader
                 ? {
                     if (customizedToken != null) ...{
-                      HttpHeaders.authorizationHeader:
-                          'Bearer $customizedToken',
+                      AppEnum.Authorization.name: customizedToken,
                     } else if (tokenFromMemory.isNotEmpty) ...{
                       HttpHeaders.authorizationHeader:
-                          'Bearer $tokenFromMemory',
+                          tokenFromMemory,
                     },
 
                     // HttpHeaders.contentTypeHeader: 'application/json',

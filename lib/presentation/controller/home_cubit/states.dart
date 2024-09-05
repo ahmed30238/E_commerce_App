@@ -34,3 +34,12 @@ class GetFavouriteLoadingState extends HomeStates {}
 
 class GetFavouriteErrorState extends HomeStates {}
 
+class AddToCartErrorState extends HomeStates {
+  final String message;
+
+  AddToCartErrorState({required this.message});
+}
+
+class AddToCartSuccessState extends HomeStates {}
+
+class AddToCartLoadingState extends HomeStates {}

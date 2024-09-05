@@ -6,6 +6,7 @@ import 'package:e_commerce_app/core/utils/app_strings/app_strings.dart';
 import 'package:e_commerce_app/domain/Entity/products_entity.dart';
 import 'package:e_commerce_app/main.dart';
 import 'package:e_commerce_app/presentation/components/default_button.dart';
+import 'package:e_commerce_app/presentation/components/flutter_toast.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/cubit.dart';
 import 'package:e_commerce_app/presentation/controller/home_cubit/states.dart';
 import 'package:e_commerce_app/presentation/screens/product_details/product_details.dart';
@@ -163,7 +164,13 @@ class ProductDesign extends StatelessWidget {
           child: CustomElevatedButton(
             width: 100.w,
             height: 20.h,
-            onTap: () {},
+            onTap: () {
+              HomeCubit.get(context).addToCart(homeModel.id);
+              showToast(
+                msg: HomeCubit.get(context).addToCartEntity?.message ?? "",
+                states: ToastStates.successState,
+              );
+            },
             text: AppStrings.addToCart,
             textColor: Theme.of(context).colorScheme.onBackground,
           ),

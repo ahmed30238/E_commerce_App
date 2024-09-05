@@ -3,6 +3,7 @@ import 'package:e_commerce_app/core/exceptions/exceptions.dart';
 import 'package:e_commerce_app/core/failure/failure.dart';
 import 'package:e_commerce_app/data/data_source/remote_data_source.dart';
 import 'package:e_commerce_app/data/models/AddOrDeleteFavourites_model.dart';
+import 'package:e_commerce_app/data/models/add_to_cart_model.dart';
 import 'package:e_commerce_app/data/models/banners_model.dart';
 import 'package:e_commerce_app/data/models/get_carts_model.dart';
 import 'package:e_commerce_app/data/models/get_favourites_model.dart';
@@ -98,6 +99,7 @@ class ShopRepository extends BaseRepository {
       );
     }
   }
+
   @override
   Future<Either<Failure, GetCartsModel>> getCarts() async {
     final res = await baseRemoteDataSource.getCarts();
@@ -161,6 +163,21 @@ class ShopRepository extends BaseRepository {
       return Left(ServerFailure(
         e.errorMessageModel.message,
       ));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AddToCartModel>> postAddCarts(int productId) async {
+    var res = await baseRemoteDataSource.postAddToCart(productId);
+
+    try {
+      return Right(res);
+    } on ServerException catch (e) {
+      return Left(
+        ServerFailure(
+          e.errorMessageModel.message,
+        ),
+      );
     }
   }
 }
