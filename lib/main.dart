@@ -46,6 +46,7 @@ Future getPermission() async {
 }
 
 void main() async {
+  // todo add ci/cd pipeline
   WidgetsFlutterBinding.ensureInitialized();
   ServiceLocator().init();
   Bloc.observer = MyBlocObserver();
