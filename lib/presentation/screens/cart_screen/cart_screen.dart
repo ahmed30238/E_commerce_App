@@ -25,12 +25,15 @@ class _CartScreenState extends State<CartScreen> {
     var item = cubit.getCartEntity?.data.cartItems;
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          BlocBuilder<CartCubit, CartState>(
-            builder: (context, state) => state is GetCartSuccessState && item!=null
-                ? SizedBox(
+      body: BlocBuilder<CartCubit, CartState>(
+        builder: (context, state) {
+          if (state is GetCartLoadingState) {
+            return const CircularProgressIndicator().center();
+          } else if (state is GetCartSuccessState && item != null) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
                     height: 600,
                     child: ListView.separated(
                       itemBuilder: (context, index) => Container(
@@ -40,27 +43,29 @@ class _CartScreenState extends State<CartScreen> {
                             color: Colors.red,
                             image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: NetworkImage(
-                                    item[index].product.image))),
+                                image:
+                                    NetworkImage(item[index].product.image))),
                         child: Text(
                           "${cubit.getCartEntity?.data.cartItems[0].product.name}",
                         ),
                       ),
                       separatorBuilder: (context, index) => 10.ph,
                       itemCount: cubit.getCartEntity!.data.cartItems.length,
-                    ),
-                  )
-                : const CircularProgressIndicator().center(),
-          ),
-          // ...{
-          //   for (int i = 0;
-          //       i < cubit.getCartEntity!.data.cartItems.length;
-          //       i++) ...{
-          //     Text("${cubit.getCartEntity!.data.cartItems[i].product.price}"),
-          //   }
-          // },
-          // Text("${cubit.getCartEntity!.data.total}"),
-        ],
+                    ))
+
+                // ...{
+                //   for (int i = 0;
+                //       i < cubit.getCartEntity!.data.cartItems.length;
+                //       i++) ...{
+                //     Text("${cubit.getCartEntity!.data.cartItems[i].product.price}"),
+                //   }
+                // },
+                // Text("${cubit.getCartEntity!.data.total}"),
+              ],
+            );
+          }
+          return const Text("data");
+        },
       ),
     );
   }

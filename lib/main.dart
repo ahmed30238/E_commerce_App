@@ -82,7 +82,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => HomeCubit(getBannersUseCase: sl())),
+        BlocProvider(
+            create: (context) =>
+                HomeCubit(getBannersUseCase: sl(), addToCartUsecase: sl())),
         BlocProvider(
           create: (context) => AppCubit()..getLanguage(),
         ),
@@ -106,13 +108,14 @@ class MyApp extends StatelessWidget {
               builder: (context, child) => ScreenUtilInit(
                 builder: (_, __) => child!,
                 useInheritedMediaQuery: true,
-          
+
                 /// The [Size] of the device in the design draft,
                 designSize: const Size(430, 932),
               ),
               theme: lightTheme,
               darkTheme: darkTheme,
-              themeMode: ThemeUtils.getTheme() ? ThemeMode.dark : ThemeMode.light,
+              themeMode:
+                  ThemeUtils.getTheme() ? ThemeMode.dark : ThemeMode.light,
               onGenerateRoute: AppRouter.onGenerateRoutes,
               initialRoute: RoutePaths.splashPath,
             ),
