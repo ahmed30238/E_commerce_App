@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/data/data_source/remote_data_source.dart';
 import 'package:e_commerce_app/data/repository/repository.dart';
 import 'package:e_commerce_app/domain/repository/base_repository.dart';
+import 'package:e_commerce_app/domain/use_cases/add_to_car_usecase.dart';
 import 'package:e_commerce_app/domain/use_cases/change_password_usecase.dart';
 import 'package:e_commerce_app/domain/use_cases/get_banners_usecase.dart';
 import 'package:e_commerce_app/domain/use_cases/get_carts_usecase.dart';
@@ -15,6 +16,7 @@ class ServiceLocator {
     sl.registerLazySingleton(
         () => PostRegisterDataUseCase(baseRepository: sl()));
     sl.registerLazySingleton(() => ChangePasswordUsecase(baseRepository: sl()));
+    sl.registerLazySingleton(() => AddToCartUsecase(baseRepository: sl()));
     sl.registerLazySingleton(() => GetCartUsecase(baseRepository: sl()));
     sl.registerLazySingleton(() => GetBannersUseCase(sl()));
     sl.registerLazySingleton(() => LogoutUseCase(baseRepository: sl()));

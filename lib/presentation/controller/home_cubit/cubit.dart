@@ -3,10 +3,12 @@ import 'package:e_commerce_app/core/failure/failure.dart';
 import 'package:e_commerce_app/core/service_locator/service_locator.dart';
 import 'package:e_commerce_app/data/models/category_model.dart';
 import 'package:e_commerce_app/domain/Entity/add&delete_favourites_entity.dart';
+import 'package:e_commerce_app/domain/Entity/add_to_cart.dart';
 import 'package:e_commerce_app/domain/Entity/banners_entity.dart';
 import 'package:e_commerce_app/domain/Entity/category_entity.dart';
 import 'package:e_commerce_app/domain/Entity/get_favourites_entity.dart';
 import 'package:e_commerce_app/domain/Entity/home_entity.dart';
+import 'package:e_commerce_app/domain/use_cases/add_to_car_usecase.dart';
 import 'package:e_commerce_app/domain/use_cases/get_banners_usecase.dart';
 import 'package:e_commerce_app/domain/use_cases/get_categories_use_case.dart';
 import 'package:e_commerce_app/domain/use_cases/get_favourites_usecase.dart';
@@ -18,7 +20,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../components/flutter_toast.dart';
 
 class HomeCubit extends Cubit<HomeStates> {
-  HomeCubit({required this.getBannersUseCase}) : super(HomeInitialState());
+  HomeCubit({
+    required this.getBannersUseCase,
+    required this.addToCartUsecase,
+  }) : super(HomeInitialState());
   static HomeCubit get(context) => BlocProvider.of(context);
 
   late List<BannersEntity> bannersModel = [];
@@ -112,6 +117,28 @@ class HomeCubit extends Cubit<HomeStates> {
     ).catchError(
       (error) {
         emit(GetFavouriteErrorState());
+      },
+    );
+  }
+
+  AddToCartUsecase addToCartUsecase;
+  AddToCartEntity? addToCartEntity;
+  void addToCart(int productId) async {
+    emit(AddToCartLoadingState());
+    var res = await addToCartUsecase.call(
+      AddToCartParameters(
+        productId: productId,
+      ),
+    );
+    res.fold(
+      (l) {
+        emit(
+          AddToCartErrorState(message: l.message),
+        );
+      },
+      (r) {
+        addToCartEntity = r;
+        emit(AddToCartSuccessState());
       },
     );
   }

@@ -6,6 +6,7 @@ import 'package:e_commerce_app/core/network_call/network_call.dart';
 import 'package:e_commerce_app/core/token_util/token_utile.dart';
 import 'package:e_commerce_app/core/utils/app_constances/app_constances.dart';
 import 'package:e_commerce_app/data/models/AddOrDeleteFavourites_model.dart';
+import 'package:e_commerce_app/data/models/add_to_cart_model.dart';
 import 'package:e_commerce_app/data/models/banners_model.dart';
 import 'package:e_commerce_app/data/models/category_model.dart';
 import 'package:e_commerce_app/data/models/change_password_model.dart';
@@ -32,6 +33,7 @@ abstract class BaseRemoteDataSource {
     String currentPasword,
     String newPassword,
   );
+  Future<AddToCartModel> postAddToCart(int productId);
   Future<RegisterModel> postRegisterData(
     String name,
     String phone,
@@ -133,10 +135,10 @@ class RemoteDataSource extends BaseRemoteDataSource {
       );
     }
   }
+
   @override
   Future<GetCartsModel> getCarts() async {
-    final response =
-        await NetworkCall().get(path: AppConstances.getCartPath);
+    final response = await NetworkCall().get(path: AppConstances.getCartPath);
 
     if (response?.statusCode == 200) {
       return GetCartsModel.fromjson(response?.data);
@@ -151,12 +153,6 @@ class RemoteDataSource extends BaseRemoteDataSource {
   Future<SearchModel> postSearch(String text) async {
     final response = await NetworkCall().post(
       AppConstances.postSearchPath,
-      // options: Options(
-      //   // headers: {
-      //   //   'Authorization': token,
-      //   // },
-      //   receiveDataWhenStatusError: true,
-      // ),
       body: FormData.fromMap({
         'text': text,
       }),
@@ -190,6 +186,30 @@ class RemoteDataSource extends BaseRemoteDataSource {
 
     if (response?.statusCode == 200) {
       return LogoutModel.fromjson(response?.data);
+    } else {
+      throw ServerException(
+        ErrorMessageModel.fromJson(response?.data),
+      );
+    }
+  }
+
+  @override
+  Future<AddToCartModel> postAddToCart(int productId) async {
+    final response = await NetworkCall().post(
+      AppConstances.getCartPath,
+      // withHeader: false,
+      // headers: {
+      //   AppEnum.Authorization.name: TokenUtil.getTokenFromMemory(),
+      // },
+      body: FormData.fromMap(
+        {
+          "product_id": productId,
+        },
+      ),
+    );
+
+    if (response?.statusCode == 200) {
+      return AddToCartModel.fromjson(response?.data);
     } else {
       throw ServerException(
         ErrorMessageModel.fromJson(response?.data),
