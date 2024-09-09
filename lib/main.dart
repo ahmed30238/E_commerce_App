@@ -21,7 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:quick_log/quick_log.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -137,7 +136,7 @@ class MyApp extends StatelessWidget {
 // todo convert navigation to the new way + add animation
 // todo resize product card
 // todo use Map<String,dynamic> as argument
-// todo add lottie nimation
+// todo add lottie animation
 
 Route pageAnimator(Widget widget) {
   return PageRouteBuilder(
